@@ -1,2 +1,2 @@
 # projector
-RS SCHool React course final task
+RS SChool React course final task
