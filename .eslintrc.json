@@ -29,7 +29,8 @@
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/no-var-reqiures": "off",
     "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "no-console": "warn"
     // "react/jsx-max-props-per-line": [1, { "maximum": 2 }]
   },
   "settings": {
