@@ -1,23 +1,23 @@
-import logo from './logo.svg';
 import './App.css';
 import './app.scss';
 
+import SignIn from '../SignIn/SignIn';
+import SignUp from '../SignUp/SignUp';
+
 function App() {
+  // let user = signIn({
+  //   "login": "raya",
+  //   "password": "raya"
+  // })
+
+  // console.log(user)
+
+  
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <SignIn/>
+        <SignUp/>
       </header>
     </div>
   );

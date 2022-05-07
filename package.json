@@ -14,6 +14,7 @@
     "@types/react": "^18.0.8",
     "@types/react-dom": "^18.0.3",
     "axios": "^0.27.2",
+    "formik": "^2.2.9",
     "gh-pages": "^3.2.3",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
@@ -22,7 +23,8 @@
     "react-scripts": "5.0.1",
     "sass": "^1.51.0",
     "typescript": "^4.6.4",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",
