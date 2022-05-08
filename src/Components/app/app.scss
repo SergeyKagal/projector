@@ -1,3 +1,7 @@
+.app {
+  height: 100%;
+}
+
 .login {
   width: 360px;
   padding: 8% 0 0;
@@ -8,7 +12,7 @@
 .form {
   position: relative;
   z-index: 1;
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 10px;
   max-width: 360px;
   margin: 0 auto 100px;
@@ -42,7 +46,7 @@
   border: 0;
   border-radius: 5px;
   padding: 15px;
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 14px;
   -webkit-transition: all 0.3 ease;
   transition: all 0.3 ease;

@@ -1,4 +1,5 @@
 import theme from '../../constants/theme';
+import './Welcome.scss';
 import { SIGN_IN, SIGN_UP } from '../../constants/paths';
 import AppBar from '@mui/material/AppBar';
 import { ThemeProvider } from '@mui/material/styles';
@@ -8,12 +9,16 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Footer from '../Footer/Footer';
+import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
 
 const Welcome = () => {
   return (
     <ThemeProvider theme={theme}>
       <div className="welcome">
-        <AppBar position="relative">
+        <AppBar position="relative" sx={{ display: { justifyContent: 'flex-end' } }}>
           <Toolbar>
             <Button color="inherit" href={SIGN_IN}>
               Sign in
@@ -23,11 +28,12 @@ const Welcome = () => {
             </Button>
           </Toolbar>
         </AppBar>
-        <main>
+
+        <main className="main">
           <Box
             sx={{
               // bgcolor: 'background.paper',
-              pt: 8,
+              pt: 6,
               pb: 6,
             }}
           >
@@ -45,6 +51,148 @@ const Welcome = () => {
                 создан помогать эффективно справляться <br></br>с поставленными задачами как
                 командам,<br></br> так и индивидуальным пользователям
               </Typography>
+            </Container>
+          </Box>
+
+          <Box
+            sx={{
+              width: '80%',
+              // bgcolor: 'background.paper',
+              // pt: 8,
+              // pb: 6,
+            }}
+          >
+            <Container sx={{ py: 4 }}>
+              <Typography variant="h4" align="center" color="text.secondary" paragraph>
+                {`Our team:`}
+              </Typography>
+              <div className="cards-container">
+                <Card
+                  sx={{
+                    p: '10px',
+                    height: '100%',
+                    width: '20%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    textAlign: 'center',
+                    justifyContent: 'space-between',
+                    margin: '0 20px',
+                  }}
+                >
+                  <CardMedia
+                    component="img"
+                    sx={{
+                      width: 100,
+                      height: 100,
+                      borderRadius: '50%',
+                      // pt: '56.25%',
+                    }}
+                    image="./avatar_sergey.png"
+                    alt="avatar sergey"
+                  />
+                  <CardContent sx={{ flexGrow: 1, p: '10px' }}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Sergey
+                    </Typography>
+                    <Typography>Project build. CI/CD.</Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      size="small"
+                      href="https://github.com/SergeyKagal"
+                      target="_blank"
+                      sx={{ p: 0 }}
+                    >
+                      View Github
+                    </Button>
+                  </CardActions>
+                </Card>
+
+                <Card
+                  sx={{
+                    p: '10px',
+                    height: '100%',
+                    width: '20%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    textAlign: 'center',
+                    justifyContent: 'space-between',
+                    margin: '0 20px',
+                  }}
+                >
+                  <CardMedia
+                    component="img"
+                    sx={{
+                      width: 100,
+                      height: 100,
+                      borderRadius: '50%',
+                      // pt: '56.25%',
+                    }}
+                    image="./avatar_raya.png"
+                    alt="avatar raya"
+                  />
+                  <CardContent sx={{ flexGrow: 1, p: '10px' }}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Ravganiyat
+                    </Typography>
+                    <Typography>Authorization. </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      size="small"
+                      href="https://github.com/ravgusha"
+                      target="_blank"
+                      sx={{ p: 0 }}
+                    >
+                      View Github
+                    </Button>
+                  </CardActions>
+                </Card>
+
+                <Card
+                  sx={{
+                    p: '10px',
+                    height: '100%',
+                    width: '20%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    textAlign: 'center',
+                    justifyContent: 'space-between',
+                    margin: '0 20px',
+                  }}
+                >
+                  <CardMedia
+                    component="img"
+                    sx={{
+                      width: 100,
+                      height: 100,
+                      borderRadius: '50%',
+                      // pt: '56.25%',
+                    }}
+                    image="./avatar_elena.png"
+                    alt="avatar elena"
+                  />
+                  <CardContent sx={{ flexGrow: 1, p: '10px' }}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Elena
+                    </Typography>
+                    <Typography>Welcome page </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      size="small"
+                      href="https://github.com/elvehnn"
+                      target="_blank"
+                      sx={{ p: 0 }}
+                    >
+                      View Github
+                    </Button>
+                  </CardActions>
+                </Card>
+              </div>
             </Container>
           </Box>
         </main>

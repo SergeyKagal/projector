@@ -8,7 +8,7 @@ import Welcome from '../Welcome/Welcome';
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <Routes>
         <Route path="/" element={<Welcome />} />
         <Route path="/signin" element={<SignIn />} />
