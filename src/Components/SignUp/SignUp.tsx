@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
 import { signUp } from '../../api/api';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
@@ -51,7 +52,7 @@ const SignUp = () => {
     });
 
     signUp(username, email, password).then(
-      (response) => {
+      (response: any) => {
         setState({ ...state, message: response.data.message, successful: true });
       },
       (error) => {
@@ -66,66 +67,49 @@ const SignUp = () => {
 
   return (
     <div className="col-md-12">
-    <div className="card card-container">
-      <Formik
-        initialValues={initialState}
-        validationSchema={validationSchema}
-        onSubmit={handleRegister}
-      >
-        <Form>
-        
+      <div className="card card-container">
+        <Formik
+          initialValues={initialState}
+          validationSchema={validationSchema}
+          onSubmit={handleRegister}
+        >
+          <Form>
             <div>
               <div className="form-group">
                 <label htmlFor="username"> Username </label>
                 <Field name="username" type="text" className="form-control" />
-                <ErrorMessage
-                  name="username"
-                  component="div"
-                  className="alert alert-danger"
-                />
+                <ErrorMessage name="username" component="div" className="alert alert-danger" />
               </div>
               <div className="form-group">
                 <label htmlFor="email"> Email </label>
                 <Field name="email" type="email" className="form-control" />
-                <ErrorMessage
-                  name="email"
-                  component="div"
-                  className="alert alert-danger"
-                />
+                <ErrorMessage name="email" component="div" className="alert alert-danger" />
               </div>
               <div className="form-group">
                 <label htmlFor="password"> Password </label>
-                <Field
-                  name="password"
-                  type="password"
-                  className="form-control"
-                />
-                <ErrorMessage
-                  name="password"
-                  component="div"
-                  className="alert alert-danger"
-                />
+                <Field name="password" type="password" className="form-control" />
+                <ErrorMessage name="password" component="div" className="alert alert-danger" />
               </div>
               <div className="form-group">
-                <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
+                <button type="submit" className="btn btn-primary btn-block">
+                  Sign Up
+                </button>
               </div>
             </div>
-          {state.message && (
-            <div className="form-group">
-              <div
-                className={
-                  state.successful ? "alert alert-success" : "alert alert-danger"
-                }
-                role="alert"
-              >
-                {state.message}
+            {state.message && (
+              <div className="form-group">
+                <div
+                  className={state.successful ? 'alert alert-success' : 'alert alert-danger'}
+                  role="alert"
+                >
+                  {state.message}
+                </div>
               </div>
-            </div>
-          )}
-        </Form>
-      </Formik>
+            )}
+          </Form>
+        </Formik>
+      </div>
     </div>
-  </div>
   );
 };
 
