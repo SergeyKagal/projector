@@ -18,8 +18,8 @@ const Welcome = () => {
   return (
     <ThemeProvider theme={theme}>
       <div className="welcome">
-        <AppBar position="relative" sx={{ display: { justifyContent: 'flex-end' } }}>
-          <Toolbar>
+        <AppBar position="relative">
+          <Toolbar sx={{ display: { justifyContent: 'flex-end' } }}>
             <Button color="inherit" href={SIGN_IN}>
               Sign in
             </Button>
@@ -32,7 +32,6 @@ const Welcome = () => {
         <main className="main">
           <Box
             sx={{
-              // bgcolor: 'background.paper',
               pt: 6,
               pb: 6,
             }}
@@ -48,8 +47,8 @@ const Welcome = () => {
                 Projector
               </Typography>
               <Typography variant="h5" align="center" color="text.secondary" paragraph>
-                создан помогать эффективно справляться <br></br>с поставленными задачами как
-                командам,<br></br> так и индивидуальным пользователям
+                создан помогать эффективному выполнению <br></br>поставленных задач командам
+                <br></br> и индивидуальным пользователям
               </Typography>
             </Container>
           </Box>
@@ -71,7 +70,7 @@ const Welcome = () => {
                   sx={{
                     p: '10px',
                     height: '100%',
-                    width: '20%',
+                    width: '180px',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -86,7 +85,6 @@ const Welcome = () => {
                       width: 100,
                       height: 100,
                       borderRadius: '50%',
-                      // pt: '56.25%',
                     }}
                     image="./avatar_sergey.png"
                     alt="avatar sergey"
@@ -113,7 +111,7 @@ const Welcome = () => {
                   sx={{
                     p: '10px',
                     height: '100%',
-                    width: '20%',
+                    width: '180px',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -128,7 +126,6 @@ const Welcome = () => {
                       width: 100,
                       height: 100,
                       borderRadius: '50%',
-                      // pt: '56.25%',
                     }}
                     image="./avatar_raya.png"
                     alt="avatar raya"
@@ -155,7 +152,7 @@ const Welcome = () => {
                   sx={{
                     p: '10px',
                     height: '100%',
-                    width: '20%',
+                    width: '180px',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -170,7 +167,6 @@ const Welcome = () => {
                       width: 100,
                       height: 100,
                       borderRadius: '50%',
-                      // pt: '56.25%',
                     }}
                     image="./avatar_elena.png"
                     alt="avatar elena"
