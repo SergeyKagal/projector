@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/projector_deploy/static/css/main.950d9d2c.css",
+    "main.js": "/projector_deploy/static/js/main.a0d8f5c2.js",
+    "index.html": "/projector_deploy/index.html",
+    "main.950d9d2c.css.map": "/projector_deploy/static/css/main.950d9d2c.css.map",
+    "main.a0d8f5c2.js.map": "/projector_deploy/static/js/main.a0d8f5c2.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.950d9d2c.css",
+    "static/js/main.a0d8f5c2.js"
+  ]
+}
