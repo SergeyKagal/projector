@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { resolve } from './resolve.js';
+import { resolve } from './resolve';
 
 const API_URL = 'https://cors-anywhere.herokuapp.com/172.105.75.240:4000';
 
-export async function signUp(username: string, login: string, password: string) {
+export const signUp = async (username: string, login: string, password: string) => {
   return await resolve(
     axios
       .post(`${API_URL}/signup`, {
@@ -13,9 +13,9 @@ export async function signUp(username: string, login: string, password: string) 
       })
       .then((res) => res.data)
   );
-}
+};
 
-export async function signIn(login: string, password: string) {
+export const signIn = async (login: string, password: string) => {
   return await resolve(
     axios
       .post(`${API_URL}/signin`, {
@@ -29,25 +29,25 @@ export async function signIn(login: string, password: string) {
         return res.data;
       })
   );
-}
+};
 
-export async function signOut() {
+export const signOut = async () => {
   localStorage.removeItem('user');
-}
+};
 
-export async function getCurrentUser() {
+export const getCurrentUser = async () => {
   const userStr = localStorage.getItem('user');
   if (userStr) return JSON.parse(userStr);
   return null;
-}
+};
 
-export default function authHeader() {
+export const authHeader = async () => {
   const userStr = localStorage.getItem('user');
   let user = null;
   if (userStr) user = JSON.parse(userStr);
   if (user && user.accessToken) {
-    return { 'x-access-token': user.accessToken }
+    return { 'x-access-token': user.accessToken };
   } else {
     return {};
   }
-}
+};

@@ -1,23 +1,19 @@
+import { Routes, Route } from 'react-router-dom';
+
+import AuthPage from '../../pages/AuthPage';
+import HomePage from '../../pages/HomePage';
+
 import './App.css';
 import './app.scss';
 
-import SignIn from '../SignIn/SignIn';
-import SignUp from '../SignUp/SignUp';
-
 function App() {
-  // let user = signIn({
-  //   "login": "raya",
-  //   "password": "raya"
-  // })
-
-  // console.log(user)
-
-  
   return (
     <div className="App">
       <header className="App-header">
-        <SignIn/>
-        <SignUp/>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/auth" element={<AuthPage />} />
+        </Routes>
       </header>
     </div>
   );
