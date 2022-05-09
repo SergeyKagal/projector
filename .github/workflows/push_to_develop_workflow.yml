@@ -1,21 +1,19 @@
 name: Push(merge) to develop branch CI
 
 on:
-  push:
-    branches: [ develop ]
   pull_request:
-    branches: [ develop ]
+    branches:  develop
 
 jobs:
-  build:
-
+  PR_develop:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-   
     - uses: actions/setup-node@v3
       with:
         node-version: 16.x
         cache: 'npm'
     - run: npm ci
     - run: npm run lint
+    - run: npm run test
+    - run: npm run build
