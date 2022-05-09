@@ -2,8 +2,15 @@
 //   token: string;
 // }
 
+import { Header } from '../header/header';
+
 const Main = () => {
-  return <div className="main">This is a main route</div>;
+  return (
+    <>
+      <Header></Header>
+      <div className="main">This is a main route</div>;
+    </>
+  );
 };
 
 export default Main;

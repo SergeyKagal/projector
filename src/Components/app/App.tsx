@@ -1,11 +1,10 @@
-import './App.css';
 import './app.scss';
 
-import SignIn from '../SignIn/SignIn';
-import SignUp from '../SignUp/SignUp';
+import SignIn from '../signin/SignIn';
+import SignUp from '../signup/SignUp';
 import { Route, Routes } from 'react-router-dom';
-import Welcome from '../Welcome/Welcome';
-import Main from '../Main/Main';
+import Welcome from '../welcome/Welcome';
+import Main from '../main/Main';
 import { BASE_URL, MAIN_ROUTE, SIGN_IN, SIGN_UP } from '../../constants/paths';
 
 function App() {

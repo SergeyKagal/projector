@@ -15,9 +15,9 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 
 const Welcome = () => {
-  const token = window.localStorage.getItem('token') || '';
+  // const token = window.localStorage.getItem('token') || '';
 
-  // const token = true;
+  const token = true;
 
   return (
     <ThemeProvider theme={theme}>

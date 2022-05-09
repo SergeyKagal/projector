@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom';
+import * as paths from '../../constants/paths';
 
 export const Header = () => {
   return (
@@ -14,26 +14,18 @@ export const Header = () => {
           <AppBar position="static">
             <Toolbar>
               {' '}
-              <Link to="/">
-                <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>
-                  Projector
-                </Typography>
-              </Link>
-              <Link to="/">
-                <Button color="inherit">welcome</Button>
-              </Link>
-              <Link to="/main">
-                <Button color="inherit">main</Button>
-              </Link>
-              <Link to="/">
-                <Button color="inherit">board</Button>
-              </Link>
-              <Link to="/">
-                <Button color="inherit">Sign In</Button>
-              </Link>
-              <Link to="/">
-                <Button color="inherit">Sign Up</Button>
-              </Link>
+              <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>
+                Projector
+              </Typography>
+              <Button color="inherit" href={paths.BASE_URL}>
+                welcome
+              </Button>
+              <Button color="inherit" href={paths.BOARD}>
+                board
+              </Button>
+              <Button color="inherit" href={paths.LOGOUT}>
+                Log out
+              </Button>
             </Toolbar>
           </AppBar>
         </Box>
