@@ -1,7 +1,9 @@
-export const SignUp: React.FC = () => {
+const SignUp = () => {
   return (
-    <>
-      <h3>SignUp</h3>
-    </>
+    <div>
+      <div className="card card-container"></div>
+    </div>
   );
 };
+
+export default SignUp;
