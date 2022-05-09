@@ -1,3 +1,10 @@
+import { Header } from '../header/header';
+
 export const Welcome = () => {
-  return <h3>Welcome</h3>;
+  return (
+    <>
+      <Header></Header>
+      <h3>Welcome</h3>;
+    </>
+  );
 };
