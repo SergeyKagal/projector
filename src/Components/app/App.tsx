@@ -3,22 +3,20 @@ import './app.scss';
 
 import SignIn from '../SignIn/SignIn';
 import SignUp from '../SignUp/SignUp';
+import { Route, Routes } from 'react-router-dom';
+import Welcome from '../Welcome/Welcome';
+import Main from '../Main/Main';
+import { BASE_URL, MAIN_ROUTE, SIGN_IN, SIGN_UP } from '../../constants/paths';
 
 function App() {
-  // let user = signIn({
-  //   "login": "raya",
-  //   "password": "raya"
-  // })
-
-  // console.log(user)
-
-  
   return (
-    <div className="App">
-      <header className="App-header">
-        <SignIn/>
-        <SignUp/>
-      </header>
+    <div className="app">
+      <Routes>
+        <Route path={BASE_URL} element={<Welcome />} />
+        <Route path={MAIN_ROUTE} element={<Main />} />
+        <Route path={SIGN_IN} element={<SignIn />} />
+        <Route path={SIGN_UP} element={<SignUp />} />
+      </Routes>
     </div>
   );
 }
