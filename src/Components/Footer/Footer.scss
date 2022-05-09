@@ -1,8 +1,24 @@
-.footer__side {
-  width: 45%;
+.footer {
+  background-color: #f0f0f1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  &__container {
+    width: 100%;
+    max-width: 1400px;
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__side {
+    width: 50%;
+  }
 }
 
-.rs-logo {
+.footer .rs-logo {
   height: 20px;
   margin-right: 10px;
 }

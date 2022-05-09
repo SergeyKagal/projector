@@ -1,9 +1,9 @@
-interface MainProps {
-  token: string;
-}
+// interface MainProps {
+//   token: string;
+// }
 
-const Main = ({ token }: MainProps) => {
-  return <div className="main">This is a main route for {token}</div>;
+const Main = () => {
+  return <div className="main">This is a main route</div>;
 };
 
 export default Main;

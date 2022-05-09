@@ -1,6 +1,6 @@
 import theme from '../../constants/theme';
 import './Welcome.scss';
-import { SIGN_IN, SIGN_UP } from '../../constants/paths';
+import { MAIN_ROUTE, SIGN_IN, SIGN_UP } from '../../constants/paths';
 import AppBar from '@mui/material/AppBar';
 import { ThemeProvider } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,18 +15,30 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 
 const Welcome = () => {
+  const token = window.localStorage.getItem('token') || '';
+
+  // const token = true;
+
   return (
     <ThemeProvider theme={theme}>
       <div className="welcome">
         <AppBar position="relative">
-          <Toolbar sx={{ display: { justifyContent: 'flex-end' } }}>
-            <Button color="inherit" href={SIGN_IN}>
-              Sign in
-            </Button>
-            <Button color="inherit" href={SIGN_UP}>
-              Sign up
-            </Button>
-          </Toolbar>
+          {token ? (
+            <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="Toolbar">
+              <Button color="inherit" href={MAIN_ROUTE}>
+                Go to Main Page
+              </Button>
+            </Toolbar>
+          ) : (
+            <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="Toolbar">
+              <Button color="inherit" href={SIGN_IN}>
+                Sign in
+              </Button>
+              <Button color="inherit" href={SIGN_UP}>
+                Sign up
+              </Button>
+            </Toolbar>
+          )}
         </AppBar>
 
         <main className="main">
@@ -56,9 +68,7 @@ const Welcome = () => {
           <Box
             sx={{
               width: '80%',
-              // bgcolor: 'background.paper',
-              // pt: 8,
-              // pb: 6,
+              maxWidth: '1200px',
             }}
           >
             <Container sx={{ py: 4 }}>
@@ -197,4 +207,5 @@ const Welcome = () => {
     </ThemeProvider>
   );
 };
+
 export default Welcome;
