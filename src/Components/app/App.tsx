@@ -6,6 +6,7 @@ import SignUp from '../SignUp/SignUp';
 import { Route, Routes } from 'react-router-dom';
 import Welcome from '../Welcome/Welcome';
 import Main from '../Main/Main';
+
 import { BASE_URL, MAIN_ROUTE, SIGN_IN, SIGN_UP } from '../../constants/paths';
 
 function App() {
