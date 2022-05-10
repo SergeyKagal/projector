@@ -1,13 +1,14 @@
 import './app.scss';
 import SignIn from '../Signin/SignIn';
 import SignUp from '../Signup/SignUp';
-import { Route, Routes } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Welcome from '../Welcome/Welcome';
 import Main from '../Main/Main';
 
-import { BASE_URL, MAIN_ROUTE, SIGN_IN, SIGN_UP } from '../../constants/paths';
+import { BASE_URL, ERROR_PAGE, MAIN_ROUTE, SIGN_IN, SIGN_UP } from '../../constants/paths';
 import { GlobalContext } from '../../provider/provider';
 import { useState } from 'react';
+import { NotFoundPage } from '../NotFoundPage/NotFoundPage';
 
 function App() {
   const [isUserSignIn, setUserState] = useState(true);
@@ -15,12 +16,15 @@ function App() {
   return (
     <div className="app">
       <GlobalContext.Provider value={{ isUserSignIn, setUserState }}>
-        <Routes>
-          <Route path={BASE_URL} element={<Welcome />} />
-          <Route path={MAIN_ROUTE} element={<Main />} />
-          <Route path={SIGN_IN} element={<SignIn />} />
-          <Route path={SIGN_UP} element={<SignUp />} />
-        </Routes>
+        <Router>
+          <Routes>
+            <Route path={BASE_URL} element={<Welcome />} />
+            <Route path={MAIN_ROUTE} element={<Main />} />
+            <Route path={SIGN_IN} element={<SignIn />} />
+            <Route path={SIGN_UP} element={<SignUp />} />
+            <Route path={ERROR_PAGE} element={<NotFoundPage />} />
+          </Routes>
+        </Router>
       </GlobalContext.Provider>
     </div>
   );
