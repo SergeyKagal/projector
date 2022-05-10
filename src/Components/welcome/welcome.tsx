@@ -1,6 +1,6 @@
 import theme from '../../constants/theme';
 import './Welcome.scss';
-import { MAIN_ROUTE, SIGN_IN, SIGN_UP } from '../../constants/paths';
+import { API_URL, MAIN_ROUTE, SIGN_IN, SIGN_UP } from '../../constants/paths';
 import AppBar from '@mui/material/AppBar';
 import { ThemeProvider } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,12 +15,30 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import { useContext } from 'react';
 import { GlobalContext } from '../../provider/provider';
+import axios from 'axios';
+import { token } from '../../constants/mockValues';
 
 const Welcome = () => {
-  // const token = window.localStorage.getItem('token') || '';
-  const { isUserSignIn, setUserState } = useContext(GlobalContext);
-  // const token = true;
+  const { isUserSignIn, setUserState, boardsArray, setBoardsArray } = useContext(GlobalContext);
+  // setUserState(window.localStorage.getItem('token') || '');
   setUserState(true);
+
+  if (isUserSignIn) {
+    const getBoards = async () => {
+      const response = await axios.get(`${API_URL}/boards`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: `application/json`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      setBoardsArray(response.data);
+    };
+
+    getBoards();
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <div className="welcome">

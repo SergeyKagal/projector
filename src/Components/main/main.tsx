@@ -1,63 +1,55 @@
-// interface MainProps {
-//   token: string;
-// }
-
+import './Main.scss';
+import theme from '../../constants/theme';
 import { Header } from '../header/Header';
-import { API_URL } from '../../constants/paths';
-import axios from 'axios';
-
-interface BoardsType {
-  id: string;
-  title: string;
-}
+import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { ThemeProvider } from '@mui/material/styles';
+import { Board } from '../../constants/interfaces';
+import { useContext } from 'react';
+import { GlobalContext } from '../../provider/provider';
+import { boardsArray } from '../../constants/mockValues';
 
 const Main = () => {
-  // const token =
-  //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1NjVjNzZkYi1jOGIyLTQ0MTEtYjM3ZC1hMDVlMjdiYWRkYzQiLCJsb2dpbiI6ImxlbmEiLCJpYXQiOjE2NTIxOTE4Mzd9.ehPRep4STIG99CZbZnxbbzFf2DWCIk7BU5UbOpxD8Lw';
+  // const { boardsArray } = useContext(GlobalContext);
+  const boardsToShow = boardsArray.map((board) => {
+    return (
+      <Card
+        key={board.id}
+        sx={{
+          p: '10px',
+          height: '50px',
+          width: '20%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          margin: '10px',
+          backgroundColor: '#6a93e8',
+        }}
+      >
+        <CardContent sx={{ flexGrow: 1, p: '10px' }}>
+          <Typography variant="h6" component="h2" sx={{ color: '#fff' }}>
+            {board.title}
+          </Typography>
+        </CardContent>
 
-  // let boardsArray: BoardsType[] = [];
-
-  // const getBoards = async () => {
-  //   const response = await axios.get(`${API_URL}/boards`, {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //       Accept: `application/json`,
-  //       'Content-Type': 'application/json',
-  //     },
-  //   });
-
-  //   boardsArray = response.data;
-  // };
-
-  // getBoards();
-  const boardsArray = [
-    {
-      id: '9a111e19-24ec-43e1-b8c4-13776842b8d5',
-      title: 'Homework tasks',
-    },
-    {
-      id: '9a111e19-24ec-43e1-b8c4-13776842b8d6',
-      title: 'Homework tasks',
-    },
-    {
-      id: '9a111e19-24ec-43e1-b8c4-13776842b8d7',
-      title: 'Homework tasks',
-    },
-    {
-      id: '9a111e19-24ec-43e1-b8c4-13776842b8d8',
-      title: 'Homework tasks',
-    },
-  ];
-
-  const boards = boardsArray.map((board) => {
-    return <div key={board.id}>{board.title}</div>;
+        <Button sx={{ color: '#fff' }}>{<DeleteIcon />}</Button>
+      </Card>
+    );
   });
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <Header></Header>
-      <div className="main">{boards}</div>;
-    </>
+      <div className="boards">
+        <Typography variant="h4" align="center" color="text.secondary" paragraph>
+          {`Your boards:`}
+        </Typography>
+        <div className="boards__container">{boardsToShow}</div>
+      </div>
+    </ThemeProvider>
   );
 };
 
