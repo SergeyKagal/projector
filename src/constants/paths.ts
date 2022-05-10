@@ -1,3 +1,4 @@
+export const API_URL = 'https://cors-anywhere.herokuapp.com/172.105.75.240:4000';
 export const BASE_URL = '/';
 export const SIGN_IN = '/signin';
 export const SIGN_UP = '/signup';
