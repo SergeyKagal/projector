@@ -1,10 +1,6 @@
-// interface MainProps {
-//   token: string;
-// }
-
-import { Header } from '../header/header';
-import { API_URL } from '../../constants/paths';
 import axios from 'axios';
+import { Header } from '../Header/Header';
+import { API_URL } from '../../constants/paths';
 
 const Main = () => {
   const getBoards = async () => {
