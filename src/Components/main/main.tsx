@@ -2,7 +2,7 @@
 //   token: string;
 // }
 
-import { Header } from '../header/header';
+import { Header } from '../header/Header';
 import { API_URL } from '../../constants/paths';
 import axios from 'axios';
 

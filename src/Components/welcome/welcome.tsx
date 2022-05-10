@@ -13,17 +13,19 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
+import { useContext } from 'react';
+import { GlobalContext } from '../../provider/provider';
 
 const Welcome = () => {
   // const token = window.localStorage.getItem('token') || '';
-
-  const token = true;
-
+  const { isUserSignIn, setUserState } = useContext(GlobalContext);
+  // const token = true;
+  setUserState(true);
   return (
     <ThemeProvider theme={theme}>
       <div className="welcome">
         <AppBar position="relative">
-          {token ? (
+          {isUserSignIn ? (
             <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="Toolbar">
               <Button color="inherit" href={MAIN_ROUTE}>
                 Go to Main Page
