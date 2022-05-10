@@ -7,13 +7,35 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ThemeProvider } from '@mui/material/styles';
-import { Board } from '../../constants/interfaces';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { GlobalContext } from '../../provider/provider';
-import { boardsArray } from '../../constants/mockValues';
+import { API_URL } from '../../constants/paths';
+import axios from 'axios';
+import { token } from '../../constants/mockValues';
+import { getBoards } from '../../api/api';
 
 const Main = () => {
-  // const { boardsArray } = useContext(GlobalContext);
+  const { boardsArray } = useContext(GlobalContext);
+  const { setBoardsArray } = useContext(GlobalContext);
+
+  // const deleteBoard = (boardId: string) => {
+  // const deleteBoardFromApi = async () => {
+  //       const response = await axios.post(`${API_URL}/boards`, {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           Accept: `application/json`,
+  //           'Content-Type': 'application/json',
+  //         },
+  //       });
+  //     };
+  // setBoardsArray(response.data);
+  // };
+
+  const deleteBoard = (boardId: string) => {
+    // const newBoardsArray = boardsArray.filter((board) => board.id !== boardId);
+    // setBoardsArray(newBoardsArray);
+  };
+
   const boardsToShow = boardsArray.map((board) => {
     return (
       <Card
@@ -35,7 +57,9 @@ const Main = () => {
           </Typography>
         </CardContent>
 
-        <Button sx={{ color: '#fff' }}>{<DeleteIcon />}</Button>
+        <Button sx={{ color: '#fff' }} onClick={() => deleteBoard(board.id)}>
+          {<DeleteIcon />}
+        </Button>
       </Card>
     );
   });

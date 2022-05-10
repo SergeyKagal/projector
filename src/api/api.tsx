@@ -46,8 +46,22 @@ export default function authHeader() {
   let user = null;
   if (userStr) user = JSON.parse(userStr);
   if (user && user.accessToken) {
-    return { 'x-access-token': user.accessToken }
+    return { 'x-access-token': user.accessToken };
   } else {
     return {};
   }
 }
+
+export const getBoards = async (token: string) => {
+  return await resolve(
+    axios
+      .get(`${API_URL}/boards`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: `application/json`,
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((res) => res)
+  );
+};

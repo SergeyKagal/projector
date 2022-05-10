@@ -1,4 +1,4 @@
-export const boardsArray = [
+export const boards = [
   {
     id: '9a111e19-24ec-43e1-b8c4-13776842b8d5',
     title: 'Homework tasks',

@@ -5,7 +5,7 @@ interface IGlobalState {
   isUserSignIn: boolean;
   setUserState: (isSignIn: boolean) => void;
   boardsArray: Board[];
-  setBoardsArray: (array: Board[]) => void;
+  setBoardsArray: (boards: Board[]) => void;
 }
 
 export const defaultGlobalState: IGlobalState = {

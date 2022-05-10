@@ -13,31 +13,22 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { GlobalContext } from '../../provider/provider';
 import axios from 'axios';
-import { token } from '../../constants/mockValues';
+import { boards, token } from '../../constants/mockValues';
+import { getBoards } from '../../api/api';
 
 const Welcome = () => {
-  const { isUserSignIn, setUserState, boardsArray, setBoardsArray } = useContext(GlobalContext);
-  // setUserState(window.localStorage.getItem('token') || '');
-  setUserState(true);
+  const { isUserSignIn, boardsArray, setBoardsArray } = useContext(GlobalContext);
+  console.log(boardsArray);
 
-  if (isUserSignIn) {
-    const getBoards = async () => {
-      const response = await axios.get(`${API_URL}/boards`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: `application/json`,
-          'Content-Type': 'application/json',
-        },
-      });
-
-      setBoardsArray(response.data);
-    };
-
-    getBoards();
-  }
+  //для апи
+  // useEffect(() => {
+  //   getBoards(token).then((response) => {
+  //     if (response.data) setBoardsArray(response.data);
+  //   });
+  // }, [boardsArray, setBoardsArray]);
 
   return (
     <ThemeProvider theme={theme}>
