@@ -1,39 +1,40 @@
 import './Main.scss';
 import theme from '../../constants/theme';
-import { Header } from '../header/Header';
+import { Header } from '../Header/Header';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ThemeProvider } from '@mui/material/styles';
-import { useContext, useEffect } from 'react';
-import { GlobalContext } from '../../provider/provider';
+import { useEffect, useState } from 'react';
 import { API_URL } from '../../constants/paths';
 import axios from 'axios';
 import { token } from '../../constants/mockValues';
 import { getBoards } from '../../api/api';
+import { Board } from '../../constants/interfaces';
 
 const Main = () => {
-  const { boardsArray } = useContext(GlobalContext);
-  const { setBoardsArray } = useContext(GlobalContext);
+  const [boardsArray, setBoardsArray] = useState<Board[]>([]);
 
-  // const deleteBoard = (boardId: string) => {
-  // const deleteBoardFromApi = async () => {
-  //       const response = await axios.post(`${API_URL}/boards`, {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //           Accept: `application/json`,
-  //           'Content-Type': 'application/json',
-  //         },
-  //       });
-  //     };
-  // setBoardsArray(response.data);
-  // };
+  // для апи
+  useEffect(() => {
+    getBoards(token).then((response) => {
+      if (response) setBoardsArray(response);
+    });
+  }, []);
 
-  const deleteBoard = (boardId: string) => {
-    // const newBoardsArray = boardsArray.filter((board) => board.id !== boardId);
-    // setBoardsArray(newBoardsArray);
+  const deleteBoard = async (boardId: string) => {
+    axios.delete(`${API_URL}/boards/${boardId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: `application/json`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const newBoardsArray = boardsArray.filter((board) => board.id !== boardId);
+    setBoardsArray(newBoardsArray);
   };
 
   const boardsToShow = boardsArray.map((board) => {

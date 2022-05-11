@@ -1,6 +1,6 @@
 import theme from '../../constants/theme';
 import './Welcome.scss';
-import { API_URL, MAIN_ROUTE, SIGN_IN, SIGN_UP } from '../../constants/paths';
+import { MAIN_ROUTE, SIGN_IN, SIGN_UP } from '../../constants/paths';
 import AppBar from '@mui/material/AppBar';
 import { ThemeProvider } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,22 +13,11 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { GlobalContext } from '../../provider/provider';
-import axios from 'axios';
-import { boards, token } from '../../constants/mockValues';
-import { getBoards } from '../../api/api';
 
 const Welcome = () => {
-  const { isUserSignIn, boardsArray, setBoardsArray } = useContext(GlobalContext);
-  console.log(boardsArray);
-
-  //для апи
-  // useEffect(() => {
-  //   getBoards(token).then((response) => {
-  //     if (response.data) setBoardsArray(response.data);
-  //   });
-  // }, [boardsArray, setBoardsArray]);
+  const { isUserSignIn } = useContext(GlobalContext);
 
   return (
     <ThemeProvider theme={theme}>

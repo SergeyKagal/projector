@@ -22,4 +22,4 @@ export const boards = [
 ];
 
 export const token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1NjVjNzZkYi1jOGIyLTQ0MTEtYjM3ZC1hMDVlMjdiYWRkYzQiLCJsb2dpbiI6ImxlbmEiLCJpYXQiOjE2NTIxOTE4Mzd9.ehPRep4STIG99CZbZnxbbzFf2DWCIk7BU5UbOpxD8Lw';
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1NjVjNzZkYi1jOGIyLTQ0MTEtYjM3ZC1hMDVlMjdiYWRkYzQiLCJsb2dpbiI6ImxlbmEiLCJpYXQiOjE2NTIyNzc4Mjh9.Knjc-12MBc07fnEEN5XTthBg3wdcyMfgFwAm5u6IioQ';

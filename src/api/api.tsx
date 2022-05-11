@@ -53,15 +53,13 @@ export default function authHeader() {
 }
 
 export const getBoards = async (token: string) => {
-  return await resolve(
-    axios
-      .get(`${API_URL}/boards`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: `application/json`,
-          'Content-Type': 'application/json',
-        },
-      })
-      .then((res) => res)
-  );
+  return await axios
+    .get(`${API_URL}/boards`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: `application/json`,
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((res) => res.data);
 };
