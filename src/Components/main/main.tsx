@@ -13,9 +13,11 @@ import axios from 'axios';
 import { token } from '../../constants/mockValues';
 import { getBoards } from '../../api/api';
 import { Board } from '../../constants/interfaces';
+import { useNavigate } from 'react-router-dom';
 
 const Main = () => {
   const [boardsArray, setBoardsArray] = useState<Board[]>([]);
+  const navigate = useNavigate();
 
   // для апи
   useEffect(() => {
@@ -37,6 +39,10 @@ const Main = () => {
     setBoardsArray(newBoardsArray);
   };
 
+  const onPreviewBoardClickHandler = (board: Board) => {
+    navigate(`board/${board.title}`);
+  };
+
   const boardsToShow = boardsArray.map((board) => {
     return (
       <Card
@@ -51,6 +57,8 @@ const Main = () => {
           margin: '10px',
           backgroundColor: '#6a93e8',
         }}
+        className="boards__card"
+        onClick={() => onPreviewBoardClickHandler(board)}
       >
         <CardContent sx={{ flexGrow: 1, p: '10px' }}>
           <Typography variant="h6" component="h2" sx={{ color: '#fff' }}>
