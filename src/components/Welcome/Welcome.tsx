@@ -22,15 +22,15 @@ const Welcome = () => {
   return (
     <ThemeProvider theme={theme}>
       <div className="welcome">
-        <AppBar position="relative">
+        <AppBar position="relative" className="appBar">
           {isUserSignIn ? (
-            <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="Toolbar">
+            <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="toolbar">
               <Button color="inherit" href={MAIN_ROUTE}>
                 Go to Main Page
               </Button>
             </Toolbar>
           ) : (
-            <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="Toolbar">
+            <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="toolbar">
               <Button color="inherit" href={SIGN_IN}>
                 Sign in
               </Button>
