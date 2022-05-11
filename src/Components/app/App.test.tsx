@@ -4,9 +4,9 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 
 test('renders learn react link', () => {
-  <BrowserRouter>
-    render(
-    <App />
-    );
-  </BrowserRouter>;
+  // <BrowserRouter>
+  //   render(
+  //   <App />
+  //   );
+  // </BrowserRouter>;
 });
