@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import { createBrowserHistory } from 'history';
 
-import './not-found-page.scss';
+import './NotFoundPage.scss';
 
 export const NotFoundPage = () => {
   const history = createBrowserHistory();
