@@ -1,6 +1,6 @@
 import './app.scss';
-import SignIn from '../Signin/SignIn';
-import SignUp from '../Signup/SignUp';
+import SignIn from '../SignIn/SignIn';
+import SignUp from '../SignUp/SignUp';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Welcome from '../Welcome/Welcome';
 import Main from '../Main/Main';
