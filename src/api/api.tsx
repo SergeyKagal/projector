@@ -1,22 +1,19 @@
 import axios from 'axios';
-import { resolve } from './resolve';
 
 const API_URL = 'https://cors-anywhere.herokuapp.com/172.105.75.240:4000';
 
 export const signUp = async (username: string, login: string, password: string) => {
-  return await resolve(
-    axios
-      .post(`${API_URL}/signup`, {
-        name: username,
-        login: login,
-        password: password,
-      })
-      .then((res) => res.data)
-  );
+  return await axios
+    .post(`${API_URL}/signup`, {
+      name: username,
+      login: login,
+      password: password,
+    })
+    .then((res) => res.data);
 };
 
 export const signIn = async (login: string, password: string) => {
-  return await resolve(
+  return await (
     axios
       .post(`${API_URL}/signin`, {
         login: login,
@@ -27,8 +24,7 @@ export const signIn = async (login: string, password: string) => {
           localStorage.setItem('user', JSON.stringify(res.data));
         }
         return res.data;
-      })
-  );
+      }))
 };
 
 export const signOut = async () => {

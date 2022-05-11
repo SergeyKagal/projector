@@ -23,7 +23,6 @@ const SignUp = () => {
     email: string;
     password: string;
     successful: boolean;
-    message: string;
   }
 
   const initialState = {
@@ -31,50 +30,45 @@ const SignUp = () => {
     email: '',
     password: '',
     successful: false,
-    message: '',
   };
 
   const [state, setState] = useState<IState>(initialState);
 
-  function validationSchema() {
-    return Yup.object().shape({
-      username: Yup.string()
-        .test(
-          'len',
-          'The username must be between 3 and 20 characters.',
-          (val: any) => val && val.toString().length >= 3 && val.toString().length <= 20
-        )
-        .required('This field is required!'),
-      email: Yup.string().email('This is not a valid email.').required('This field is required!'),
+  const validationSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(3, 'The username must be between 3 and 20 characters.')
+      .max(20, 'The username must be between 3 and 20 characters.')
+      .required('This field is required!'),
       password: Yup.string()
-        .test(
-          'len',
-          'The password must be between 6 and 40 characters.',
-          (val: any) => val && val.toString().length >= 6 && val.toString().length <= 40
-        )
-        .required('This field is required!'),
-    });
-  }
+      .min(6, 'The password must be between 6 and 40 characters.')
+      .max(10, 'The password must be between 6 and 40 characters.')
+      .required('This field is required!'),
+    email: Yup.string().email('This is not a valid email.').required('This field is required!'),
+  });
 
   function handleRegister(formValue: { username: string; email: string; password: string }) {
     const { username, email, password } = formValue;
     setState({
       ...state,
-      message: '',
       successful: false,
     });
 
-    signUp(username, email, password).then((response) => {
-      if (!response.error) {
+    signUp(username, email, password).then(
+      () => {
         setState({
           ...state,
           successful: true,
-        }), notify('Success registration');
-      } else {
-        const resMessage = response.error?.response?.data.message;
-        setState({ ...state, successful: false, message: resMessage }), notify(resMessage);
+        }),
+          notify('Success registration');
+      },
+      (error) => {
+        const resMessage =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString();
+        setState({ ...state, successful: false }), notify(resMessage);
       }
-    });
+    );
   }
 
   return (
@@ -108,16 +102,6 @@ const SignUp = () => {
                 </button>
               </div>
             </div>
-            {state.message && (
-              <div className="form-group">
-                <div
-                  className={state.successful ? 'alert alert-success' : 'alert alert-danger'}
-                  role="alert"
-                >
-                  {state.message}
-                </div>
-              </div>
-            )}
           </Form>
         </Formik>
       </div>

@@ -1,4 +1,4 @@
-import {  useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { ToastContainer, toast } from 'react-toastify';
@@ -47,22 +47,26 @@ const SignIn = () => {
     const { username, password } = formValue;
     setState({ ...state, loading: true });
 
-    signIn(username, password).then((response) => {
-      if (!response.error) {
+    signIn(username, password).then(
+      () => {
         setState({
           ...state,
           loading: false,
         }),
-        navigate('/');
-      } else {
-        const resMessage = response.error?.response?.data.message;
+          navigate('/');
+      },
+      (error) => {
+        const resMessage =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString();
         setState({
           ...state,
           loading: false,
         }),
           notify(resMessage);
       }
-    });
+    );
   }
 
   return (
