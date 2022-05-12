@@ -5,6 +5,9 @@ const themeOptions = {
     type: 'light',
     primary: {
       main: '#6a93e8',
+      light: '#87A8EC',
+      dark: 'rgb(74, 102, 162)',
+      contrastText: '#fff',
     },
     secondary: {
       main: '#ffa000',
@@ -17,10 +20,14 @@ const themeOptions = {
       paper: '#f0f0f1',
     },
     error: {
-      main: '#ff1744',
+      main: '#ff5fa2',
+      light: '#f5a5c6',
+      contrastText: 'rgba(255,255,255,0.87)',
     },
     warning: {
-      main: '#ad1457',
+      main: '#ff5fa2',
+      light: '#f5a5c6',
+      contrastText: 'rgba(255,255,255,0.87)',
     },
     success: {
       main: '#28ceaa',
