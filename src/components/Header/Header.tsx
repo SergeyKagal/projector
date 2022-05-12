@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import * as paths from '../../constants/paths';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { LangToggler } from './LangToggler/LangToggler';
 
 export const Header = () => {
   return (
@@ -27,6 +28,7 @@ export const Header = () => {
               <Button color="inherit" href={paths.LOGOUT}>
                 {<LogoutIcon />}
               </Button>
+              <LangToggler></LangToggler>
             </Toolbar>
           </AppBar>
         </Box>

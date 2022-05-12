@@ -6,16 +6,17 @@ import Welcome from '../Welcome/Welcome';
 import Main from '../Main/Main';
 
 import { BASE_URL, ERROR_PAGE, MAIN_ROUTE, SIGN_IN, SIGN_UP } from '../../constants/paths';
-import { GlobalContext } from '../../provider/provider';
+import { GlobalContext, Localization } from '../../provider/provider';
 import { useState } from 'react';
 import { NotFoundPage } from '../NotFoundPage/NotFoundPage';
 
 function App() {
   const [isUserSignIn, setUserState] = useState(true);
+  const [Localize, setLocal] = useState(Localization.ru);
 
   return (
     <div className="app">
-      <GlobalContext.Provider value={{ isUserSignIn, setUserState }}>
+      <GlobalContext.Provider value={{ isUserSignIn, setUserState, Localize, setLocal }}>
         <Router>
           <Routes>
             <Route path={BASE_URL} element={<Welcome />} />
