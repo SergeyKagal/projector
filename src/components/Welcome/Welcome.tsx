@@ -21,6 +21,10 @@ const Welcome = () => {
   const { isUserSignIn, setUserState } = useContext(GlobalContext);
   // const token = true;
   setUserState(true);
+
+  // eslint-disable-next-line no-console
+  console.log('test');
+
   return (
     <ThemeProvider theme={theme}>
       <div className="welcome">
