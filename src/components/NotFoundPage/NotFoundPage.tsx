@@ -11,11 +11,11 @@ export const NotFoundPage = () => {
       <h3>Whoops!</h3>
       <h4>Page Not Found</h4>
       <Button
-        className="btn"
         onClick={() => {
           history.back();
         }}
-        variant="outlined"
+        variant="contained"
+        color="primary"
       >
         Go BACK
       </Button>

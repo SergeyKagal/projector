@@ -6,6 +6,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
+  gap: 40px;
   flex-direction: column;
   align-items: center;
   h2,
@@ -24,8 +25,5 @@
   }
   h4 {
     font-size: 32px;
-  }
-  .btn {
-    margin-top: 40px;
   }
 }
