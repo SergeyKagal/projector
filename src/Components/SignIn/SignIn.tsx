@@ -35,13 +35,13 @@ const notify = (text: string) => {
 const SignIn = () => {
   const navigate = useNavigate();
   interface IState {
-    username: string;
+    email: string;
     password: string;
     loading: boolean;
   }
 
   const initialState = {
-    username: '',
+    email: '',
     password: '',
     loading: false,
   };
@@ -49,15 +49,15 @@ const SignIn = () => {
   const [state, setState] = useState<IState>(initialState);
 
   const validationSchema = Yup.object({
-    username: Yup.string().required('This field is required!'),
+    email: Yup.string().required('This field is required!'),
     password: Yup.string().required('This field is required!'),
   });
 
-  function handleLogin(formValue: { username: string; password: string }) {
-    const { username, password } = formValue;
+  function handleLogin(formValue: { email: string; password: string }) {
+    const { email, password } = formValue;
     setState({ ...state, loading: true });
 
-    signIn(username, password).then(
+    signIn(email, password).then(
       () => {
         setState({
           ...state,
@@ -87,9 +87,6 @@ const SignIn = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Button onClick={() => navigate('/')}>
-        <KeyboardBackspaceIcon sx={{ fontSize: '66px' }} />
-      </Button>
       <Container
         maxWidth="xs"
         sx={{
@@ -97,8 +94,12 @@ const SignIn = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContext: 'center',
+          minHeight: '100vh',
         }}
       >
+        <Button sx={{ position: 'absolute', top: '0', left: '0' }} onClick={() => navigate('/')}>
+          <KeyboardBackspaceIcon sx={{ fontSize: '66px' }} />
+        </Button>
         <form onSubmit={formik.handleSubmit}>
           <Box
             sx={{
@@ -118,14 +119,14 @@ const SignIn = () => {
               <TextField
                 sx={{ mt: 2 }}
                 fullWidth
-                id="username"
-                name="username"
-                label="Username"
-                type="username"
-                value={formik.values.username}
+                id="email"
+                name="email"
+                label="Email"
+                type="email"
+                value={formik.values.email}
                 onChange={formik.handleChange}
-                error={formik.touched.username && Boolean(formik.errors.username)}
-                helperText={formik.touched.username && formik.errors.username}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
               />
               <TextField
                 sx={{ mt: 2 }}
