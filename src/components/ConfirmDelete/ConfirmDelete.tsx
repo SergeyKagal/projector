@@ -24,7 +24,7 @@ const ConfirmDelete = (props: IConfirm) => {
       <Dialog open={props.isOpen}>
         <DialogTitle color="error">Delete Confirmation</DialogTitle>
         <DialogContent>
-          <DialogContentText>Are you sure ?</DialogContentText>
+          <DialogContentText>Are you sure?</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button variant="outlined" onClick={cancelHandler}>
