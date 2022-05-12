@@ -1,8 +1,12 @@
 import { useState } from 'react';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
+import { Formik, Field, Form } from 'formik';
 import { toast } from 'react-toastify';
+import { Avatar, Box, Button, Container, ThemeProvider, Typography } from '@mui/material';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import { TextField } from 'formik-mui';
 import * as Yup from 'yup';
 
+import theme from '../../constants/theme';
 import { signUp } from '../../api/api';
 
 const notify = (text: string) => {
@@ -39,7 +43,7 @@ const SignUp = () => {
       .min(3, 'The username must be between 3 and 20 characters.')
       .max(20, 'The username must be between 3 and 20 characters.')
       .required('This field is required!'),
-      password: Yup.string()
+    password: Yup.string()
       .min(6, 'The password must be between 6 and 40 characters.')
       .max(10, 'The password must be between 6 and 40 characters.')
       .required('This field is required!'),
@@ -72,40 +76,75 @@ const SignUp = () => {
   }
 
   return (
-    <div className="col-md-12">
-      <div className="card card-container">
+    <ThemeProvider theme={theme}>
+      <Container
+        maxWidth="xs"
+        sx={{
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContext: 'center',
+        }}
+      >
         <Formik
           initialValues={initialState}
           validationSchema={validationSchema}
           onSubmit={handleRegister}
         >
           <Form>
-            <div>
-              <div className="form-group">
-                <label htmlFor="username"> Username </label>
-                <Field name="username" type="text" className="form-control" />
-                <ErrorMessage name="username" component="div" className="alert alert-danger" />
-              </div>
-              <div className="form-group">
-                <label htmlFor="email"> Email </label>
-                <Field name="email" type="email" className="form-control" />
-                <ErrorMessage name="email" component="div" className="alert alert-danger" />
-              </div>
-              <div className="form-group">
-                <label htmlFor="password"> Password </label>
-                <Field name="password" type="password" className="form-control" />
-                <ErrorMessage name="password" component="div" className="alert alert-danger" />
-              </div>
-              <div className="form-group">
-                <button type="submit" className="btn btn-primary btn-block">
-                  Sign Up
-                </button>
-              </div>
-            </div>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContext: 'space-between',
+              }}
+            >
+              <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+                <AccountBoxIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                Sign up
+              </Typography>
+              <Box sx={{ px: 0, py: 2 }}>
+                <Field
+                  sx={{ mt: 2 }}
+                  label="Username"
+                  variant="outlined"
+                  fullWidth
+                  name="username"
+                  component={TextField}
+                />
+                <Field
+                  sx={{ mt: 2 }}
+                  label="Email"
+                  variant="outlined"
+                  fullWidth
+                  name="email"
+                  component={TextField}
+                />
+                <Field
+                  sx={{ mt: 2 }}
+                  label="Password"
+                  variant="outlined"
+                  fullWidth
+                  name="password"
+                  component={TextField}
+                />
+              </Box>
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign up
+              </Button>
+            </Box>
           </Form>
         </Formik>
-      </div>
-    </div>
+      </Container>
+    </ThemeProvider>
   );
 };
 
