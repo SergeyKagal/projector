@@ -10,13 +10,15 @@ import {
 
 interface IConfirm {
   isOpen: boolean;
-  closeConfirmModal: (isNotOpen: boolean) => void;
-  onDelete?: () => void;
+  toShowPopUp: (isShow: boolean) => void;
+  onConfirm?: () => void;
+  child?: JSX.Element;
+  description: string;
 }
 
-const ConfirmDelete = (props: IConfirm) => {
-  const cancelHandler = () => {
-    props.closeConfirmModal(false);
+const ConfirmPopUp = (props: IConfirm) => {
+  const cancelClickHandler = () => {
+    props.toShowPopUp(false);
   };
 
   return (
@@ -24,14 +26,14 @@ const ConfirmDelete = (props: IConfirm) => {
       <Dialog open={props.isOpen}>
         <DialogTitle color="error">Delete Confirmation</DialogTitle>
         <DialogContent>
-          <DialogContentText>Are you sure?</DialogContentText>
+          {props.child}
+          <DialogContentText>{props.description}</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button variant="outlined" onClick={cancelHandler}>
+          <Button variant="outlined" onClick={cancelClickHandler}>
             Cancel
           </Button>
-
-          <Button color="error" variant="contained" onClick={props.onDelete}>
+          <Button color="error" variant="contained" onClick={props.onConfirm}>
             delete
           </Button>
         </DialogActions>
@@ -40,4 +42,4 @@ const ConfirmDelete = (props: IConfirm) => {
   );
 };
 
-export default ConfirmDelete;
+export default ConfirmPopUp;

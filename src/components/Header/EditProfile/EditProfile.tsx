@@ -8,11 +8,11 @@ import {
   DialogContentText,
   DialogActions,
 } from '@mui/material';
-import ConfirmDelete from '../../ConfirmDelete/ConfirmDelete';
+import ConfirmPopUp from '../../ConfirmPopUp/ConfirmPopUp';
 
 export const EditProfile = () => {
   const [open, setOpen] = useState(false);
-  const [isShowDeleteConfirm, showDeleteConfirm] = useState(false);
+  const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
 
   const handleClose = () => setOpen(false);
   return (
@@ -36,7 +36,7 @@ export const EditProfile = () => {
         </DialogContent>
         <DialogActions>
           <Button variant="outlined" onClick={handleClose}>
-            Cancel
+            cancel
           </Button>
           <Button variant="contained" onClick={() => {}}>
             submit
@@ -45,14 +45,25 @@ export const EditProfile = () => {
             color="error"
             variant="contained"
             onClick={() => {
-              showDeleteConfirm(true);
+              setShowConfirmPopUp(true);
             }}
           >
             delete user
           </Button>
         </DialogActions>
       </Dialog>
-      {<ConfirmDelete isOpen={isShowDeleteConfirm} closeConfirmModal={showDeleteConfirm} />}
+      {
+        <ConfirmPopUp
+          child={<ManageAccountsIcon />}
+          description="Are you sure to delete user?"
+          isOpen={isShowConfirmPopUp}
+          toShowPopUp={setShowConfirmPopUp}
+          onConfirm={() => {
+            console.log('...DELETING');
+            setShowConfirmPopUp(false);
+          }}
+        />
+      }
     </>
   );
 };
