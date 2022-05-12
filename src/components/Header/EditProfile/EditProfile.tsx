@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import React, { useState } from 'react';
 import {
   Dialog,
@@ -8,7 +8,7 @@ import {
   DialogContentText,
   DialogActions,
 } from '@mui/material';
-import ConfirmDeleteUser from './ConfirmDeleteUser';
+import ConfirmDelete from '../../ConfirmDelete/ConfirmDelete';
 
 export const EditProfile = () => {
   const [open, setOpen] = useState(false);
@@ -25,7 +25,7 @@ export const EditProfile = () => {
           setOpen(true);
         }}
       >
-        {<EditIcon></EditIcon>}
+        {<ManageAccountsIcon></ManageAccountsIcon>}
       </Button>
       <Dialog open={open}>
         <DialogTitle>Edit Profile</DialogTitle>
@@ -52,7 +52,7 @@ export const EditProfile = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      {<ConfirmDeleteUser open={deletePopUp} cancel={setDelete} />}
+      {<ConfirmDelete open={deletePopUp} cancel={setDelete} />}
     </>
   );
 };

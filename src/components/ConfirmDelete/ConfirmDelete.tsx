@@ -11,16 +11,14 @@ import {
 interface IConfirm {
   open: boolean;
   cancel: (arg0: boolean) => void;
+  delete?: () => void;
 }
 
-const ConfirmDeleteUser = (props: IConfirm) => {
+const ConfirmDelete = (props: IConfirm) => {
   const cancelHandler = () => {
     props.cancel(false);
   };
 
-  const deleteUser = () => {
-    // user deletiong actions.....
-  };
   return (
     <>
       <Dialog open={props.open}>
@@ -33,8 +31,8 @@ const ConfirmDeleteUser = (props: IConfirm) => {
             Cancel
           </Button>
 
-          <Button color="error" variant="contained" onClick={deleteUser}>
-            delete user
+          <Button color="error" variant="contained" onClick={props.delete}>
+            delete
           </Button>
         </DialogActions>
       </Dialog>
@@ -42,4 +40,4 @@ const ConfirmDeleteUser = (props: IConfirm) => {
   );
 };
 
-export default ConfirmDeleteUser;
+export default ConfirmDelete;
