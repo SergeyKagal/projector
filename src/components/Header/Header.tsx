@@ -9,6 +9,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { LangToggler } from './LangToggler/LangToggler';
 import { CreateNewBoard } from './CreateNewBoard/CreateNewBoard';
 import { EditProfile } from './EditProfile/EditProfile';
+import { Link as RouterLink } from 'react-router-dom';
+
 export const Header = () => {
   return (
     <>
@@ -20,12 +22,18 @@ export const Header = () => {
                 Projector
               </Typography>
               <nav className="headerNav">
-                <Button className="btn" color="inherit" href={PATH.BASE_URL}>
+                <Button className="btn" color="inherit" component={RouterLink} to={PATH.BASE_URL}>
                   welcome
                 </Button>
                 <CreateNewBoard />
                 <EditProfile />
-                <Button className="btn" color="inherit" href={PATH.LOGOUT} title="Log out">
+                <Button
+                  className="btn"
+                  color="inherit"
+                  component={RouterLink}
+                  to={PATH.LOGOUT}
+                  title="Log out"
+                >
                   {<LogoutIcon />}
                 </Button>
                 <LangToggler />

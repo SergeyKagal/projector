@@ -15,6 +15,7 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import { useContext } from 'react';
 import { GlobalContext } from '../../provider/provider';
+import { Link as RouterLink } from 'react-router-dom';
 
 const Welcome = () => {
   // const token = window.localStorage.getItem('token') || '';
@@ -27,16 +28,19 @@ const Welcome = () => {
         <AppBar position="relative">
           {isUserSignIn ? (
             <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="Toolbar">
-              <Button color="inherit" href={PATH.MAIN_ROUTE}>
+              <Button color="inherit" component={RouterLink} to={PATH.MAIN_ROUTE}>
                 Go to Main Page
               </Button>
             </Toolbar>
           ) : (
             <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="Toolbar">
-              <Button color="inherit" href={PATH.SIGN_IN}>
-                Sign in
-              </Button>
-              <Button color="inherit" href={PATH.SIGN_UP}>
+              {
+                <Button color="inherit" component={RouterLink} to={PATH.SIGN_IN}>
+                  Sign in
+                </Button>
+              }
+
+              <Button color="inherit" component={RouterLink} to={PATH.SIGN_UP}>
                 Sign up
               </Button>
             </Toolbar>
