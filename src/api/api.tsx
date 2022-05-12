@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://cors-anywhere.herokuapp.com/172.105.75.240:4000';
+const API_URL = 'http://172.105.75.240:8080/http://172.105.75.240:4000';
 
 export const signUp = async (username: string, login: string, password: string) => {
   return await axios
@@ -13,18 +13,17 @@ export const signUp = async (username: string, login: string, password: string) 
 };
 
 export const signIn = async (login: string, password: string) => {
-  return await (
-    axios
-      .post(`${API_URL}/signin`, {
-        login: login,
-        password: password,
-      })
-      .then((res) => {
-        if (res.data.token) {
-          localStorage.setItem('user', JSON.stringify(res.data));
-        }
-        return res.data;
-      }))
+  return await axios
+    .post(`${API_URL}/signin`, {
+      login: login,
+      password: password,
+    })
+    .then((res) => {
+      if (res.data.token) {
+        localStorage.setItem('user', JSON.stringify(res.data));
+      }
+      return res.data;
+    });
 };
 
 export const signOut = async () => {

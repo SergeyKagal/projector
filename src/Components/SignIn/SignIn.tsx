@@ -1,9 +1,17 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Formik, Field, Form } from 'formik';
+import { useFormik } from 'formik';
 import { ToastContainer, toast } from 'react-toastify';
-import { Avatar, Box, Button, Container, ThemeProvider, Typography } from '@mui/material';
-import { TextField } from 'formik-mui';
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  TextField,
+  ThemeProvider,
+  Typography,
+} from '@mui/material';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import InputIcon from '@mui/icons-material/Input';
 import * as Yup from 'yup';
 
@@ -40,12 +48,10 @@ const SignIn = () => {
 
   const [state, setState] = useState<IState>(initialState);
 
-  function validationSchema() {
-    return Yup.object().shape({
-      username: Yup.string().required('This field is required!'),
-      password: Yup.string().required('This field is required!'),
-    });
-  }
+  const validationSchema = Yup.object({
+    username: Yup.string().required('This field is required!'),
+    password: Yup.string().required('This field is required!'),
+  });
 
   function handleLogin(formValue: { username: string; password: string }) {
     const { username, password } = formValue;
@@ -73,8 +79,17 @@ const SignIn = () => {
     );
   }
 
+  const formik = useFormik({
+    initialValues: initialState,
+    validationSchema: validationSchema,
+    onSubmit: handleLogin,
+  });
+
   return (
     <ThemeProvider theme={theme}>
+      <Button onClick={() => navigate('/')}>
+        <KeyboardBackspaceIcon sx={{ fontSize: '66px' }} />
+      </Button>
       <Container
         maxWidth="xs"
         sx={{
@@ -84,60 +99,62 @@ const SignIn = () => {
           justifyContext: 'center',
         }}
       >
-        <Formik
-          initialValues={initialState}
-          validationSchema={validationSchema}
-          onSubmit={handleLogin}
-        >
-          <Form>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContext: 'space-between',
-              }}
-            >
-              <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
-                <InputIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                Sign in
-              </Typography>
-              <Box sx={{ px: 0, py: 2 }}>
-                <Field
-                  sx={{ mt: 2 }}
-                  label="Username"
-                  variant="outlined"
-                  fullWidth
-                  name="username"
-                  component={TextField}
-                />
-                <Field
-                  sx={{ mt: 2 }}
-                  label="Password"
-                  variant="outlined"
-                  fullWidth
-                  name="password"
-                  component={TextField}
-                />
-              </Box>
-              <Button
-                type="submit"
-                variant="contained"
+        <form onSubmit={formik.handleSubmit}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContext: 'space-between',
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+              <InputIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign In
+            </Typography>
+            <Box sx={{ px: 0, py: 2 }}>
+              <TextField
+                sx={{ mt: 2 }}
                 fullWidth
-                sx={{ mt: 3, mb: 2 }}
-                disabled={state.loading}
-              >
-                Sign in
-              </Button>
-              <Link to="/signup" color="text.primary">
-                {"Don't have an account? Sign Up"}
-              </Link>
-              <ToastContainer />
+                id="username"
+                name="username"
+                label="Username"
+                type="username"
+                value={formik.values.username}
+                onChange={formik.handleChange}
+                error={formik.touched.username && Boolean(formik.errors.username)}
+                helperText={formik.touched.username && formik.errors.username}
+              />
+              <TextField
+                sx={{ mt: 2 }}
+                fullWidth
+                id="password"
+                name="password"
+                label="Password"
+                type="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                error={formik.touched.password && Boolean(formik.errors.password)}
+                helperText={formik.touched.password && formik.errors.password}
+              />
             </Box>
-          </Form>
-        </Formik>
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              sx={{ mt: 3, mb: 2 }}
+              disabled={state.loading}
+            >
+              Sign in
+            </Button>
+            <Link to="/signup" color="text.primary">
+              {"Don't have an account? Sign Up"}
+            </Link>
+            <ToastContainer />
+          </Box>
+        </form>
       </Container>
     </ThemeProvider>
   );

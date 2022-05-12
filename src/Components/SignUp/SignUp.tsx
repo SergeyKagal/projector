@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import { Formik, Field, Form } from 'formik';
+import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
-import { Avatar, Box, Button, Container, ThemeProvider, Typography } from '@mui/material';
+import { Avatar, Box, Button, Container, TextField, ThemeProvider, Typography } from '@mui/material';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import { TextField } from 'formik-mui';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import * as Yup from 'yup';
 
 import theme from '../../constants/theme';
 import { signUp } from '../../api/api';
+import { useNavigate } from 'react-router-dom';
 
 const notify = (text: string) => {
   toast.info(text, {
@@ -22,6 +23,8 @@ const notify = (text: string) => {
 };
 
 const SignUp = () => {
+  const navigate = useNavigate();
+
   interface IState {
     username: string;
     email: string;
@@ -38,16 +41,16 @@ const SignUp = () => {
 
   const [state, setState] = useState<IState>(initialState);
 
-  const validationSchema = Yup.object().shape({
+  const validationSchema = Yup.object({
     username: Yup.string()
       .min(3, 'The username must be between 3 and 20 characters.')
       .max(20, 'The username must be between 3 and 20 characters.')
       .required('This field is required!'),
     password: Yup.string()
-      .min(6, 'The password must be between 6 and 40 characters.')
-      .max(10, 'The password must be between 6 and 40 characters.')
+      .min(6, 'The password must be between 6 and 10 characters.')
+      .max(10, 'The password must be between 6 and 10 characters.')
       .required('This field is required!'),
-    email: Yup.string().email('This is not a valid email.').required('This field is required!'),
+      email: Yup.string().email('This is not a valid email.').required('This field is required!'),
   });
 
   function handleRegister(formValue: { username: string; email: string; password: string }) {
@@ -75,8 +78,17 @@ const SignUp = () => {
     );
   }
 
+  const formik = useFormik({
+    initialValues: initialState,
+    validationSchema: validationSchema,
+    onSubmit: handleRegister,
+  });
+
   return (
     <ThemeProvider theme={theme}>
+      <Button onClick={() => navigate(-1)}>
+        <KeyboardBackspaceIcon sx={{ fontSize: '66px' }} />
+      </Button>
       <Container
         maxWidth="xs"
         sx={{
@@ -86,12 +98,7 @@ const SignUp = () => {
           justifyContext: 'center',
         }}
       >
-        <Formik
-          initialValues={initialState}
-          validationSchema={validationSchema}
-          onSubmit={handleRegister}
-        >
-          <Form>
+          <form onSubmit={formik.handleSubmit}>
             <Box
               sx={{
                 display: 'flex',
@@ -107,42 +114,48 @@ const SignUp = () => {
                 Sign up
               </Typography>
               <Box sx={{ px: 0, py: 2 }}>
-                <Field
+              <TextField
+                sx={{ mt: 2 }}
+                fullWidth
+                id="username"
+                name="username"
+                label="Username"
+                type="username"
+                value={formik.values.username}
+                onChange={formik.handleChange}
+                error={formik.touched.username && Boolean(formik.errors.username)}
+                helperText={formik.touched.username && formik.errors.username}
+              />
+                <TextField
                   sx={{ mt: 2 }}
-                  label="Username"
-                  variant="outlined"
                   fullWidth
-                  name="username"
-                  component={TextField}
-                />
-                <Field
-                  sx={{ mt: 2 }}
-                  label="Email"
-                  variant="outlined"
-                  fullWidth
+                  id="email"
                   name="email"
-                  component={TextField}
+                  label="Email"
+                  type="email"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email && formik.errors.email}
                 />
-                <Field
-                  sx={{ mt: 2 }}
-                  label="Password"
-                  variant="outlined"
-                  fullWidth
-                  name="password"
-                  component={TextField}
+                <TextField
+                 sx={{ mt: 2 }}
+                 fullWidth
+                 id="password"
+                 name="password"
+                 label="Password"
+                 type="password"
+                 value={formik.values.password}
+                 onChange={formik.handleChange}
+                 error={formik.touched.email && Boolean(formik.errors.password)}
+                 helperText={formik.touched.password && formik.errors.password}
                 />
               </Box>
-              <Button
-                type="submit"
-                variant="contained"
-                fullWidth
-                sx={{ mt: 3, mb: 2 }}
-              >
+              <Button type="submit" variant="contained" fullWidth sx={{ mt: 3, mb: 2 }}>
                 Sign up
               </Button>
             </Box>
-          </Form>
-        </Formik>
+          </form>
       </Container>
     </ThemeProvider>
   );
