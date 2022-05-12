@@ -59,7 +59,7 @@ export const EditProfile = () => {
           isOpen={isShowConfirmPopUp}
           toShowPopUp={setShowConfirmPopUp}
           onConfirm={() => {
-            console.log('...DELETING');
+            // ......DELETING
             setShowConfirmPopUp(false);
           }}
         />
