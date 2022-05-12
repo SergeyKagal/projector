@@ -1,6 +1,6 @@
 import theme from '../../constants/theme';
 import './Welcome.scss';
-import { MAIN_ROUTE, SIGN_IN, SIGN_UP } from '../../constants/paths';
+import { PATH } from '../../constants/paths';
 import AppBar from '@mui/material/AppBar';
 import { ThemeProvider } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,28 +13,34 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
+import { useContext } from 'react';
+import { GlobalContext } from '../../provider/provider';
+import { Link as RouterLink } from 'react-router-dom';
 
 const Welcome = () => {
-  const token = window.localStorage.getItem('token') || '';
-
+  // const token = window.localStorage.getItem('token') || '';
+  const { isUserSignIn, setUserState } = useContext(GlobalContext);
   // const token = true;
-
+  setUserState(true);
   return (
     <ThemeProvider theme={theme}>
       <div className="welcome">
         <AppBar position="relative">
-          {token ? (
+          {isUserSignIn ? (
             <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="Toolbar">
-              <Button color="inherit" href={MAIN_ROUTE}>
+              <Button color="inherit" component={RouterLink} to={PATH.MAIN_ROUTE}>
                 Go to Main Page
               </Button>
             </Toolbar>
           ) : (
             <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="Toolbar">
-              <Button color="inherit" href={SIGN_IN}>
-                Sign in
-              </Button>
-              <Button color="inherit" href={SIGN_UP}>
+              {
+                <Button color="inherit" component={RouterLink} to={PATH.SIGN_IN}>
+                  Sign in
+                </Button>
+              }
+
+              <Button color="inherit" component={RouterLink} to={PATH.SIGN_UP}>
                 Sign up
               </Button>
             </Toolbar>
