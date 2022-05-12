@@ -59,7 +59,8 @@ export const EditProfile = () => {
           isOpen={isShowConfirmPopUp}
           toShowPopUp={setShowConfirmPopUp}
           onConfirm={() => {
-            // ......DELETING
+            // eslint-disable-next-line no-console
+            console.log('....DELETING');
             setShowConfirmPopUp(false);
           }}
         />
