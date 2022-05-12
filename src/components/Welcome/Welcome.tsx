@@ -1,6 +1,6 @@
 import theme from '../../constants/theme';
 import './Welcome.scss';
-import { MAIN_ROUTE, SIGN_IN, SIGN_UP } from '../../constants/paths';
+import { PATH } from '../../constants/paths';
 import AppBar from '@mui/material/AppBar';
 import { ThemeProvider } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
@@ -27,16 +27,16 @@ const Welcome = () => {
         <AppBar position="relative">
           {isUserSignIn ? (
             <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="Toolbar">
-              <Button color="inherit" href={MAIN_ROUTE}>
+              <Button color="inherit" href={PATH.MAIN_ROUTE}>
                 Go to Main Page
               </Button>
             </Toolbar>
           ) : (
             <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="Toolbar">
-              <Button color="inherit" href={SIGN_IN}>
+              <Button color="inherit" href={PATH.SIGN_IN}>
                 Sign in
               </Button>
-              <Button color="inherit" href={SIGN_UP}>
+              <Button color="inherit" href={PATH.SIGN_UP}>
                 Sign up
               </Button>
             </Toolbar>

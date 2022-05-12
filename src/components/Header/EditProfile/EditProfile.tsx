@@ -12,7 +12,7 @@ import ConfirmDelete from '../../ConfirmDelete/ConfirmDelete';
 
 export const EditProfile = () => {
   const [open, setOpen] = useState(false);
-  const [deletePopUp, setDelete] = useState(false);
+  const [isShowDeleteConfirm, showDeleteConfirm] = useState(false);
 
   const handleClose = () => setOpen(false);
   return (
@@ -45,14 +45,14 @@ export const EditProfile = () => {
             color="error"
             variant="contained"
             onClick={() => {
-              setDelete(true);
+              showDeleteConfirm(true);
             }}
           >
             delete user
           </Button>
         </DialogActions>
       </Dialog>
-      {<ConfirmDelete open={deletePopUp} cancel={setDelete} />}
+      {<ConfirmDelete isOpen={isShowDeleteConfirm} closeConfirmModal={showDeleteConfirm} />}
     </>
   );
 };

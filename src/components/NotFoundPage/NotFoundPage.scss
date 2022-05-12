@@ -1,7 +1,7 @@
 .error-page-wrapper {
   width: 100vw;
   height: 100vh;
-  background-image: url('./bgr-404.jpg');
+  background-image: url('../../assets/images/bgr-404.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -26,9 +26,6 @@
     font-size: 32px;
   }
   .btn {
-    border: #ffffff 1px solid;
-    color: #ffffff;
     margin-top: 40px;
-    box-shadow: 0px 0px 7px 3px rgba(255, 255, 255, 0.2);
   }
 }

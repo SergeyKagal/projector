@@ -15,6 +15,7 @@ export const NotFoundPage = () => {
         onClick={() => {
           history.back();
         }}
+        variant="outlined"
       >
         Go BACK
       </Button>

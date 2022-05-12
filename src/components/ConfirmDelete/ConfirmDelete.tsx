@@ -9,19 +9,19 @@ import {
 } from '@mui/material';
 
 interface IConfirm {
-  open: boolean;
-  cancel: (arg0: boolean) => void;
-  delete?: () => void;
+  isOpen: boolean;
+  closeConfirmModal: (isNotOpen: boolean) => void;
+  onDelete?: () => void;
 }
 
 const ConfirmDelete = (props: IConfirm) => {
   const cancelHandler = () => {
-    props.cancel(false);
+    props.closeConfirmModal(false);
   };
 
   return (
     <>
-      <Dialog open={props.open}>
+      <Dialog open={props.isOpen}>
         <DialogTitle color="error">Delete Confirmation</DialogTitle>
         <DialogContent>
           <DialogContentText>Are you shure ?</DialogContentText>
@@ -31,7 +31,7 @@ const ConfirmDelete = (props: IConfirm) => {
             Cancel
           </Button>
 
-          <Button color="error" variant="contained" onClick={props.delete}>
+          <Button color="error" variant="contained" onClick={props.onDelete}>
             delete
           </Button>
         </DialogActions>
