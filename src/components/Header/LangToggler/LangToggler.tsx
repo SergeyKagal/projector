@@ -9,7 +9,7 @@ export const LangToggler = () => {
   };
   return (
     <>
-      <Button color="inherit" onClick={localHandler}>
+      <Button className="btn" color="inherit" onClick={localHandler}>
         {Localize}
       </Button>
     </>
