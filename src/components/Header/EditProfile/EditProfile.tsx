@@ -18,7 +18,6 @@ export const EditProfile = () => {
   return (
     <>
       <Button
-        className="btn"
         color="inherit"
         title="Edit Profile"
         onClick={() => {

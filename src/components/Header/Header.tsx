@@ -22,18 +22,12 @@ export const Header = () => {
                 Projector
               </Typography>
               <nav className="headerNav">
-                <Button className="btn" color="inherit" component={RouterLink} to={PATH.BASE_URL}>
+                <Button color="inherit" component={RouterLink} to={PATH.BASE_URL}>
                   welcome
                 </Button>
                 <CreateNewBoard />
                 <EditProfile />
-                <Button
-                  className="btn"
-                  color="inherit"
-                  component={RouterLink}
-                  to={PATH.LOGOUT}
-                  title="Log out"
-                >
+                <Button color="inherit" component={RouterLink} to={PATH.LOGOUT} title="Log out">
                   {<LogoutIcon />}
                 </Button>
                 <LangToggler />

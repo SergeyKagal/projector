@@ -16,7 +16,6 @@ export const CreateNewBoard = () => {
   return (
     <>
       <Button
-        className="btn"
         color="inherit"
         onClick={() => {
           setOpen(true);
