@@ -3,15 +3,17 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useFormik } from 'formik';
-import { useContext } from 'react';
 import * as Yup from 'yup';
 import { addBoard, getBoards } from '../../api/api';
 import { Board } from '../../constants/interfaces';
-import { GlobalContext } from '../../provider/provider';
 import './AddNewBoardForm.scss';
 
-const AddNewBoardForm = (props: { setBoardsArray: (array: Board[]) => void }) => {
-  const { setIsAddBoardFormOpen } = useContext(GlobalContext);
+interface AddNewBoardFormProps {
+  setBoardsArray: (array: Board[]) => void;
+  setIsAddBoardFormOpen: (flag: boolean) => void;
+}
+
+const AddNewBoardForm = (props: AddNewBoardFormProps) => {
   const token = JSON.parse(localStorage.getItem('user') as string)?.token;
 
   interface IState {
@@ -36,7 +38,7 @@ const AddNewBoardForm = (props: { setBoardsArray: (array: Board[]) => void }) =>
 
     const newArray = await getBoards(token);
     props.setBoardsArray(newArray);
-    setIsAddBoardFormOpen(false);
+    props.setIsAddBoardFormOpen(false);
   };
 
   const formik = useFormik({
@@ -68,7 +70,7 @@ const AddNewBoardForm = (props: { setBoardsArray: (array: Board[]) => void }) =>
         <Box sx={{ width: '75%', px: 0, py: 2, display: 'flex', justifyContent: 'center' }}>
           <Button
             variant="outlined"
-            onClick={() => setIsAddBoardFormOpen(false)}
+            onClick={() => props.setIsAddBoardFormOpen(false)}
             sx={{ margin: '0 10px' }}
           >
             Cancel

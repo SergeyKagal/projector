@@ -1,16 +1,12 @@
 import { Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { useContext } from 'react';
-import { GlobalContext } from '../../../provider/provider';
 
-export const CreateNewBoard = () => {
-  const { setIsAddBoardFormOpen } = useContext(GlobalContext);
-
+export const CreateNewBoard = (props: { setIsAddBoardFormOpen: (flag: boolean) => void }) => {
   return (
     <Button
       color="inherit"
       onClick={() => {
-        setIsAddBoardFormOpen(true);
+        props.setIsAddBoardFormOpen(true);
       }}
     >
       <AddIcon />

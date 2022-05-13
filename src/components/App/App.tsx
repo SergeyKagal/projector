@@ -15,7 +15,6 @@ import { ThemeProvider } from '@mui/material/styles';
 function App() {
   const [userState, setUserState] = useState<IUser>(defaultGlobalState.userState);
   const [localization, setLocalization] = useState(Localization.ru);
-  const [isAddBoardFormOpen, setIsAddBoardFormOpen] = useState(false);
 
   return (
     <div className="app">
@@ -26,8 +25,6 @@ function App() {
             setUserState,
             localization,
             setLocalization,
-            isAddBoardFormOpen,
-            setIsAddBoardFormOpen,
           }}
         >
           <Router>

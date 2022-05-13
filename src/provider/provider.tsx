@@ -35,8 +35,6 @@ interface IGlobalState {
   localization: Localization;
   setUserState: (user: IUser) => void;
   setLocalization: (Localize: Localization) => void;
-  isAddBoardFormOpen: boolean;
-  setIsAddBoardFormOpen: (flag: boolean) => void;
 }
 
 export const defaultGlobalState: IGlobalState = {
@@ -44,10 +42,6 @@ export const defaultGlobalState: IGlobalState = {
   localization: Localization.en,
   setUserState: () => {},
   setLocalization: () => {},
-  isAddBoardFormOpen: false,
-  setIsAddBoardFormOpen: (flag: boolean) => {
-    !flag;
-  },
 };
 
 export const GlobalContext = React.createContext(defaultGlobalState);

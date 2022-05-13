@@ -11,7 +11,7 @@ import { EditProfile } from './EditProfile/EditProfile';
 import { Link as RouterLink } from 'react-router-dom';
 import SignOut from '../SignOut/SignOut';
 
-export const Header = () => {
+export const Header = (props: { setIsAddBoardFormOpen: (flag: boolean) => void }) => {
   return (
     <>
       <header style={{ position: 'sticky' }}>
@@ -25,7 +25,7 @@ export const Header = () => {
                 <Button color="inherit" component={RouterLink} to={PATH.BASE_URL}>
                   welcome
                 </Button>
-                <CreateNewBoard />
+                <CreateNewBoard setIsAddBoardFormOpen={props.setIsAddBoardFormOpen} />
                 <EditProfile />
                 <SignOut />
                 <LangToggler />

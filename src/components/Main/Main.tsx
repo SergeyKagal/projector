@@ -5,18 +5,17 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { deleteBoard, getBoards } from '../../api/api';
 import { Board } from '../../constants/interfaces';
 import { useNavigate } from 'react-router-dom';
-import { GlobalContext } from '../../provider/provider';
 import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
 
 const Main = () => {
-  const [boardsArray, setBoardsArray] = useState<Board[]>([]);
   const navigate = useNavigate();
-  const { isAddBoardFormOpen } = useContext(GlobalContext);
+  const [boardsArray, setBoardsArray] = useState<Board[]>([]);
+  const [isAddBoardFormOpen, setIsAddBoardFormOpen] = useState(false);
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
   const [boardId, setBoardId] = useState('');
   const token = JSON.parse(localStorage.getItem('user') as string)?.token;
@@ -80,7 +79,7 @@ const Main = () => {
 
   return (
     <>
-      <Header />
+      <Header setIsAddBoardFormOpen={setIsAddBoardFormOpen} />
 
       <div className="boards">
         <Typography variant="h4" align="center" color="text.secondary" paragraph>
@@ -101,7 +100,12 @@ const Main = () => {
         }
       </div>
 
-      {isAddBoardFormOpen && <AddNewBoardForm setBoardsArray={setBoardsArray} />}
+      {isAddBoardFormOpen && (
+        <AddNewBoardForm
+          setBoardsArray={setBoardsArray}
+          setIsAddBoardFormOpen={setIsAddBoardFormOpen}
+        />
+      )}
     </>
   );
 };
