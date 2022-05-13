@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useFormik } from 'formik';
 import Notification, { notify } from '../Notification/Notification';
 import {
@@ -16,10 +16,12 @@ import * as Yup from 'yup';
 
 import theme from '../../constants/theme';
 import { signIn, signUp } from '../../api/api';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { GlobalContext, getUserInformation } from '../../provider/provider';
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const { userState, setUserState} = useContext(GlobalContext);
 
   interface IState {
     username: string;
@@ -63,7 +65,8 @@ const SignUp = () => {
           ...state,
           successful: true,
         });
-        navigate('/');
+        setUserState(getUserInformation());
+        navigate('/main');
       },
       (error) => {
         const resMessage =
@@ -81,6 +84,10 @@ const SignUp = () => {
     validationSchema: validationSchema,
     onSubmit: handleRegister,
   });
+  
+  if (userState.isUserSignIn) {
+    return <Navigate to={'/main'} />;
+  } 
 
   return (
     <ThemeProvider theme={theme}>

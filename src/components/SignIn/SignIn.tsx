@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import Notification, { notify } from '../Notification/Notification';
 import {
@@ -21,7 +21,7 @@ import { getUserInformation, GlobalContext } from '../../provider/provider';
 
 const SignIn = () => {
   const navigate = useNavigate();
-  const { setUserState } = useContext(GlobalContext);
+  const { userState, setUserState } = useContext(GlobalContext);
 
   interface IState {
     email: string;
@@ -74,6 +74,10 @@ const SignIn = () => {
     validationSchema: validationSchema,
     onSubmit: handleLogin,
   });
+
+  if (userState.isUserSignIn) {
+    return <Navigate to={'/main'} />;
+  } 
 
   return (
     <ThemeProvider theme={theme}>
