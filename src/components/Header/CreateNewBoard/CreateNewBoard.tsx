@@ -1,43 +1,20 @@
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogContentText,
-  DialogActions,
-} from '@mui/material';
+import { Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import React, { useState } from 'react';
+import { useContext } from 'react';
+import { GlobalContext } from '../../../provider/provider';
 
 export const CreateNewBoard = () => {
-  const [open, setOpen] = useState(false);
+  const { setIsAddBoardFormOpen } = useContext(GlobalContext);
 
-  const handleClose = () => setOpen(false);
   return (
-    <>
-      <Button
-        color="inherit"
-        onClick={() => {
-          setOpen(true);
-        }}
-      >
-        <AddIcon />
-        Add new board
-      </Button>
-      <Dialog open={open}>
-        <DialogTitle>New Board</DialogTitle>
-        <DialogContent>
-          <DialogContentText>To create new board, please fill all form fields.</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button variant="outlined" onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button variant="contained" onClick={() => {}}>
-            submit
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </>
+    <Button
+      color="inherit"
+      onClick={() => {
+        setIsAddBoardFormOpen(true);
+      }}
+    >
+      <AddIcon />
+      Add new board
+    </Button>
   );
 };

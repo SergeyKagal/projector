@@ -63,3 +63,21 @@ export const getBoards = async (token: string) => {
     })
     .then((res) => res.data);
 };
+
+export const addBoard = async (token: string, title: string) => {
+  return await axios
+    .post(
+      `${API_URL}/boards`,
+      {
+        title: title,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: `application/json`,
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+    .then((res) => res.data);
+};
