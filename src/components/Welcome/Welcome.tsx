@@ -16,12 +16,12 @@ import { GlobalContext } from '../../provider/provider';
 import { Link as RouterLink } from 'react-router-dom';
 
 const Welcome = () => {
-  const { isUserSignIn } = useContext(GlobalContext);
+  const { userState } = useContext(GlobalContext);
 
   return (
     <div className="welcome">
       <AppBar position="relative" className="appBar">
-        {isUserSignIn ? (
+        {userState.isUserSignIn ? (
           <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="toolbar">
             <Button color="inherit" component={RouterLink} to={PATH.MAIN_ROUTE}>
               Go to Main Page
@@ -29,11 +29,9 @@ const Welcome = () => {
           </Toolbar>
         ) : (
           <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="toolbar">
-            {
-              <Button color="inherit" component={RouterLink} to={PATH.SIGN_IN}>
-                Sign in
-              </Button>
-            }
+            <Button color="inherit" component={RouterLink} to={PATH.SIGN_IN}>
+              Sign in
+            </Button>
 
             <Button color="inherit" component={RouterLink} to={PATH.SIGN_UP}>
               Sign up
