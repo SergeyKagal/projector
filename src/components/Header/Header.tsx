@@ -34,8 +34,6 @@ export const Header = () => {
           </AppBar>
         </Box>
       </header>
-
-      {/* <div style={{ backgroundColor: 'gray', height: '2000px', width: '100%' }}></div> */}
     </>
   );
 };

@@ -7,12 +7,12 @@ import { useContext } from 'react';
 import * as Yup from 'yup';
 import { addBoard, getBoards } from '../../api/api';
 import { Board } from '../../constants/interfaces';
-import { token } from '../../constants/mockValues';
 import { GlobalContext } from '../../provider/provider';
 import './AddNewBoardForm.scss';
 
 const AddNewBoardForm = (props: { setBoardsArray: (array: Board[]) => void }) => {
   const { setIsAddBoardFormOpen } = useContext(GlobalContext);
+  const token = JSON.parse(localStorage.getItem('user') as string)?.token;
 
   interface IState {
     title: string;
@@ -78,7 +78,6 @@ const AddNewBoardForm = (props: { setBoardsArray: (array: Board[]) => void }) =>
           </Button>
         </Box>
       </form>
-      {/* <Notification /> */}
     </div>
   );
 };

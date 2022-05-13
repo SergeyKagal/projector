@@ -6,10 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useContext, useEffect, useState } from 'react';
-import { API_URL } from '../../constants/paths';
-import axios from 'axios';
-import { token } from '../../constants/mockValues';
-import { getBoards } from '../../api/api';
+import { deleteBoard, getBoards } from '../../api/api';
 import { Board } from '../../constants/interfaces';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../provider/provider';
@@ -22,12 +19,15 @@ const Main = () => {
   const { isAddBoardFormOpen } = useContext(GlobalContext);
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
   const [boardId, setBoardId] = useState('');
+  const token = JSON.parse(localStorage.getItem('user') as string)?.token;
 
   useEffect(() => {
     getBoards(token).then((response) => {
-      if (response) setBoardsArray(response);
+      if (response) {
+        setBoardsArray(response);
+      }
     });
-  }, []);
+  }, [token]);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
     event.stopPropagation();
@@ -35,14 +35,10 @@ const Main = () => {
     setShowConfirmPopUp(true);
   };
 
-  const deleteBoard = async (boardId: string) => {
-    axios.delete(`${API_URL}/boards/${boardId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: `application/json`,
-        'Content-Type': 'application/json',
-      },
-    });
+  const handleDeleteBoard = async (boardId: string) => {
+    setShowConfirmPopUp(false);
+
+    await deleteBoard(boardId, token);
 
     const newBoardsArray = boardsArray.filter((board) => board.id !== boardId);
     setBoardsArray(newBoardsArray);
@@ -84,7 +80,7 @@ const Main = () => {
 
   return (
     <>
-      <Header></Header>
+      <Header />
 
       <div className="boards">
         <Typography variant="h4" align="center" color="text.secondary" paragraph>
@@ -99,8 +95,7 @@ const Main = () => {
             isOpen={isShowConfirmPopUp}
             toShowPopUp={setShowConfirmPopUp}
             onConfirm={() => {
-              deleteBoard(boardId);
-              setShowConfirmPopUp(false);
+              handleDeleteBoard(boardId);
             }}
           />
         }

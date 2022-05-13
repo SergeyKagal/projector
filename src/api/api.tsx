@@ -75,3 +75,13 @@ export const addBoard = async (token: string, title: string) => {
     )
     .then((res) => res.data);
 };
+
+export const deleteBoard = async (boardId: string, token: string) => {
+  return await axios.delete(`${API_URL}/boards/${boardId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: `application/json`,
+      'Content-Type': 'application/json',
+    },
+  });
+};
