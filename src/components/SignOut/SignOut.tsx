@@ -20,7 +20,7 @@ const SignOut = () => {
     <>
       <Button
         color="inherit"
-        title="Edit Profile"
+        title="Sign Out"
         onClick={() => {
           setOpen(true);
         }}
