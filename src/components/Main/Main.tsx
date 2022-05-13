@@ -14,11 +14,14 @@ import { Board } from '../../constants/interfaces';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../provider/provider';
 import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
+import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
 
 const Main = () => {
   const [boardsArray, setBoardsArray] = useState<Board[]>([]);
   const navigate = useNavigate();
   const { isAddBoardFormOpen } = useContext(GlobalContext);
+  const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
+  const [boardId, setBoardId] = useState('');
 
   useEffect(() => {
     getBoards(token).then((response) => {
@@ -26,11 +29,13 @@ const Main = () => {
     });
   }, []);
 
-  const deleteBoard = async (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    boardId: string
-  ) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
     event.stopPropagation();
+    setBoardId(id);
+    setShowConfirmPopUp(true);
+  };
+
+  const deleteBoard = async (boardId: string) => {
     axios.delete(`${API_URL}/boards/${boardId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -70,7 +75,7 @@ const Main = () => {
           </Typography>
         </CardContent>
 
-        <Button sx={{ color: '#fff' }} onClick={(event) => deleteBoard(event, board.id)}>
+        <Button sx={{ color: '#fff' }} onClick={(event) => handleClick(event, board.id)}>
           {<DeleteIcon />}
         </Button>
       </Card>
@@ -86,6 +91,19 @@ const Main = () => {
           {`Your boards:`}
         </Typography>
         <div className="boards__container">{boardsToShow}</div>
+        {
+          <ConfirmPopUp
+            description={`Are you sure to delete board "${
+              boardsArray.find((board) => board.id === boardId)?.title
+            }"?`}
+            isOpen={isShowConfirmPopUp}
+            toShowPopUp={setShowConfirmPopUp}
+            onConfirm={() => {
+              deleteBoard(boardId);
+              setShowConfirmPopUp(false);
+            }}
+          />
+        }
       </div>
 
       {isAddBoardFormOpen && <AddNewBoardForm setBoardsArray={setBoardsArray} />}
