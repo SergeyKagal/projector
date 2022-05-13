@@ -62,15 +62,16 @@ const SignUp = () => {
         setState({
           ...state,
           successful: true,
-        }),
-          navigate('/');
+        });
+        navigate('/');
       },
       (error) => {
         const resMessage =
           (error.response && error.response.data && error.response.data.message) ||
           error.message ||
           error.toString();
-        setState({ ...state, successful: false }), notify(resMessage);
+        setState({ ...state, successful: false });
+        notify(resMessage);
       }
     );
   }

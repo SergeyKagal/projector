@@ -48,8 +48,8 @@ const SignIn = () => {
         setState({
           ...state,
           loading: false,
-        }),
-          navigate('/');
+        });
+        navigate('/');
       },
       (error) => {
         const resMessage =
@@ -59,7 +59,7 @@ const SignIn = () => {
         setState({
           ...state,
           loading: false,
-        }),
+        });
           notify(resMessage);
       }
     );
