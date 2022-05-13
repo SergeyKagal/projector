@@ -26,7 +26,11 @@ const Main = () => {
     });
   }, []);
 
-  const deleteBoard = async (boardId: string) => {
+  const deleteBoard = async (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    boardId: string
+  ) => {
+    event.stopPropagation();
     axios.delete(`${API_URL}/boards/${boardId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -66,7 +70,7 @@ const Main = () => {
           </Typography>
         </CardContent>
 
-        <Button sx={{ color: '#fff' }} onClick={() => deleteBoard(board.id)}>
+        <Button sx={{ color: '#fff' }} onClick={(event) => deleteBoard(event, board.id)}>
           {<DeleteIcon />}
         </Button>
       </Card>
