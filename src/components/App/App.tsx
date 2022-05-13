@@ -1,5 +1,5 @@
 import './App.css';
-import './app.scss';
+import './App.scss';
 
 import SignIn from '../SignIn/SignIn';
 import SignUp from '../SignUp/SignUp';
