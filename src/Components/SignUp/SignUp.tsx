@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useFormik } from 'formik';
-import { toast, ToastContainer } from 'react-toastify';
+import Notification, { notify } from '../Notification/Notification';
 import {
   Avatar,
   Box,
@@ -17,18 +17,6 @@ import * as Yup from 'yup';
 import theme from '../../constants/theme';
 import { signIn, signUp } from '../../api/api';
 import { useNavigate } from 'react-router-dom';
-
-const notify = (text: string) => {
-  toast.info(text, {
-    position: 'top-left',
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-  });
-};
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -165,7 +153,7 @@ const SignUp = () => {
             </Button>
           </Box>
         </form>
-        <ToastContainer />
+        <Notification />
       </Container>
     </ThemeProvider>
   );
