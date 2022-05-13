@@ -5,11 +5,11 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { PATH } from '../../constants/paths';
-import LogoutIcon from '@mui/icons-material/Logout';
 import { LangToggler } from './LangToggler/LangToggler';
 import { CreateNewBoard } from './CreateNewBoard/CreateNewBoard';
 import { EditProfile } from './EditProfile/EditProfile';
 import { Link as RouterLink } from 'react-router-dom';
+import SignOut from '../SignOut/SignOut';
 
 export const Header = () => {
   return (
@@ -27,9 +27,7 @@ export const Header = () => {
                 </Button>
                 <CreateNewBoard />
                 <EditProfile />
-                <Button color="inherit" component={RouterLink} to={PATH.LOGOUT} title="Log out">
-                  {<LogoutIcon />}
-                </Button>
+                <SignOut />
                 <LangToggler />
               </nav>
             </Toolbar>
