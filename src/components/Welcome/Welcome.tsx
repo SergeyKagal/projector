@@ -18,15 +18,13 @@ import { GlobalContext } from '../../provider/provider';
 import { Link as RouterLink } from 'react-router-dom';
 
 const Welcome = () => {
-  // const token = window.localStorage.getItem('token') || '';
-  const { isUserSignIn, setUserState } = useContext(GlobalContext);
-  // const token = true;
-  setUserState(true);
+  const { userState } = useContext(GlobalContext);
+
   return (
     <ThemeProvider theme={theme}>
       <div className="welcome">
         <AppBar position="relative">
-          {isUserSignIn ? (
+          {userState.isUserSignIn ? (
             <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="Toolbar">
               <Button color="inherit" component={RouterLink} to={PATH.MAIN_ROUTE}>
                 Go to Main Page

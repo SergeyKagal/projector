@@ -3,14 +3,16 @@ import React, { useContext } from 'react';
 import { GlobalContext, Localization } from '../../../provider/provider';
 
 export const LangToggler = () => {
-  const { Localize, setLocal } = useContext(GlobalContext);
+  const { localization, setLocalization } = useContext(GlobalContext);
   const localHandler = () => {
-    Localize === Localization.en ? setLocal(Localization.ru) : setLocal(Localization.en);
+    localization === Localization.en
+      ? setLocalization(Localization.ru)
+      : setLocalization(Localization.en);
   };
   return (
     <>
       <Button color="inherit" onClick={localHandler}>
-        {Localize}
+        {localization}
       </Button>
     </>
   );

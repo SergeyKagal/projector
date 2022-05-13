@@ -6,20 +6,20 @@ import Welcome from '../Welcome/Welcome';
 import Main from '../Main/Main';
 
 import { PATH } from '../../constants/paths';
-import { GlobalContext, Localization } from '../../provider/provider';
+import { defaultGlobalState, GlobalContext, IUser, Localization } from '../../provider/provider';
 import { useState } from 'react';
 import { NotFoundPage } from '../NotFoundPage/NotFoundPage';
 import theme from '../../constants/theme';
 import { ThemeProvider } from '@mui/material/styles';
 
 function App() {
-  const [isUserSignIn, setUserState] = useState(true);
-  const [Localize, setLocal] = useState(Localization.ru);
+  const [userState, setUserState] = useState<IUser>(defaultGlobalState.userState);
+  const [localization, setLocalization] = useState(Localization.ru);
 
   return (
     <div className="app">
       <ThemeProvider theme={theme}>
-        <GlobalContext.Provider value={{ isUserSignIn, setUserState, Localize, setLocal }}>
+        <GlobalContext.Provider value={{ userState, setUserState, localization, setLocalization }}>
           <Router>
             <Routes>
               <Route path={PATH.BASE_URL} element={<Welcome />} />
