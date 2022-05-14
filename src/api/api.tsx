@@ -51,7 +51,7 @@ export const getBoards = async () => {
 };
 
 export const getBoardById = async (id: string) => {
-  return await axios.get(`${API_URL}/boards/${id}`).then((res) => console.log(res.data));
+  return await axios.get(`${API_URL}/boards/${id}`).then((res) => res.data);
 };
 
 export const addBoard = async (title: string) => {
@@ -64,4 +64,11 @@ export const addBoard = async (title: string) => {
 
 export const deleteBoard = async (boardId: string) => {
   return await axios.delete(`${API_URL}/boards/${boardId}`);
+};
+
+export const addColumn = async (boardId: string, columnTitle: string, columnOrder: number) => {
+  return await axios.post(`${API_URL}/boards/${boardId}/columns`, {
+    title: columnTitle,
+    order: columnOrder,
+  });
 };

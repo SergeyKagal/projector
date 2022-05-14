@@ -58,13 +58,6 @@ const Main = () => {
       <Card
         key={board.id}
         sx={{
-          p: '10px',
-          height: '50px',
-          width: '20%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-          margin: '10px',
           backgroundColor: '#6a93e8',
         }}
         className="boards__card"
@@ -93,6 +86,7 @@ const Main = () => {
           {`Your boards:`}
         </Typography>
         <div className="boards__container">{boardsToShow}</div>
+
         {boardToDelete && (
           <ConfirmPopUp
             description={`Are you sure to delete board "${boardToDelete.title}"?`}
