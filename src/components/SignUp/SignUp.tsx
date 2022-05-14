@@ -18,10 +18,11 @@ import theme from '../../constants/theme';
 import { signIn, signUp } from '../../api/api';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { GlobalContext, getUserInformation } from '../../provider/provider';
+import { PATH } from '../../constants/paths';
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const { userState, setUserState} = useContext(GlobalContext);
+  const { userState, setUserState } = useContext(GlobalContext);
 
   interface IState {
     username: string;
@@ -66,7 +67,7 @@ const SignUp = () => {
           successful: true,
         });
         setUserState(getUserInformation());
-        navigate('/main');
+        navigate(PATH.MAIN_ROUTE);
       },
       (error) => {
         const resMessage =
@@ -84,10 +85,10 @@ const SignUp = () => {
     validationSchema: validationSchema,
     onSubmit: handleRegister,
   });
-  
+
   if (userState.isUserSignIn) {
-    return <Navigate to={'/main'} />;
-  } 
+    return <Navigate to={PATH.MAIN_ROUTE} />;
+  }
 
   return (
     <ThemeProvider theme={theme}>

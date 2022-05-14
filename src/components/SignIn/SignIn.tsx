@@ -17,6 +17,7 @@ import * as Yup from 'yup';
 
 import { signIn } from '../../api/api';
 import theme from '../../constants/theme';
+import { PATH } from '../../constants/paths';
 import { getUserInformation, GlobalContext } from '../../provider/provider';
 
 const SignIn = () => {
@@ -53,7 +54,7 @@ const SignIn = () => {
           loading: false,
         });
         setUserState(getUserInformation());
-        navigate('/main');
+        navigate(PATH.MAIN_ROUTE);
       },
       (error) => {
         const resMessage =
@@ -76,7 +77,7 @@ const SignIn = () => {
   });
 
   if (userState.isUserSignIn) {
-    return <Navigate to={'/main'} />;
+    return <Navigate to={PATH.MAIN_ROUTE} />;
   } 
 
   return (
@@ -91,7 +92,7 @@ const SignIn = () => {
           minHeight: '100vh',
         }}
       >
-        <Button sx={{ position: 'absolute', top: '0', left: '0' }} onClick={() => navigate('/')}>
+        <Button sx={{ position: 'absolute', top: '0', left: '0' }} onClick={() => navigate(PATH.BASE_URL)}>
           <KeyboardBackspaceIcon sx={{ fontSize: '66px' }} />
         </Button>
         <form onSubmit={formik.handleSubmit}>

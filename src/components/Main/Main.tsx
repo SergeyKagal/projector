@@ -5,12 +5,14 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { deleteBoard, getBoards } from '../../api/api';
 import { Board } from '../../constants/interfaces';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
+import { PATH } from '../../constants/paths';
+import { GlobalContext } from '../../provider/provider';
 
 const Main = () => {
   const navigate = useNavigate();
@@ -18,6 +20,7 @@ const Main = () => {
   const [isAddBoardFormOpen, setIsAddBoardFormOpen] = useState(false);
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
   const [boardToDelete, setBoardToDelete] = useState<Board | null>(null);
+  const { userState } = useContext(GlobalContext);
 
   useEffect(() => {
     getBoards().then((response) => {
@@ -26,6 +29,10 @@ const Main = () => {
       }
     });
   }, []);
+
+  if (!userState.isUserSignIn) {
+    return <Navigate to={PATH.BASE_URL} />;
+  }
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, board: Board) => {
     event.stopPropagation();
