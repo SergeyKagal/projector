@@ -26,7 +26,9 @@ export const Header = (props: { setIsAddBoardFormOpen: (flag: boolean) => void }
                   welcome
                 </Button>
                 <CreateNewBoard setIsAddBoardFormOpen={props.setIsAddBoardFormOpen} />
-                <EditProfile />
+                <Button color="inherit" component={RouterLink} to={PATH.EDIT_PROFILE}>
+                  <ManageAccountsIcon />
+                </Button>
                 <SignOut />
                 <LangToggler />
               </nav>

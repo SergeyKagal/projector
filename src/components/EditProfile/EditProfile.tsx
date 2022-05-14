@@ -1,3 +1,7 @@
+import { useContext, useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import {
   Avatar,
   Box,
@@ -7,19 +11,21 @@ import {
   ThemeProvider,
   Typography,
 } from '@mui/material';
-import { useContext, useState } from 'react';
-import { PATH } from '../../constants/paths';
-import theme from '../../constants/theme';
-import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
-import { signIn, editProfile } from '../../api/api';
-import { getUserInformation, GlobalContext } from '../../provider/provider';
-import * as Yup from 'yup';
-import Notification, { notify } from '../Notification/Notification';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
+
+import { signIn, editProfile, deleteUser } from '../../api/api';
+import { getUserInformation, GlobalContext } from '../../provider/provider';
+import Notification, { notify } from '../Notification/Notification';
+import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
+import { signOut } from '../../api/api';
+import { PATH } from '../../constants/paths';
+import theme from '../../constants/theme';
+
 export const EditProfile = () => {
+  const navigate = useNavigate();
+
   interface IState {
     username: string;
     email: string;
@@ -34,10 +40,13 @@ export const EditProfile = () => {
     successful: false,
   };
 
-  const navigate = useNavigate();
   const { userState, setUserState } = useContext(GlobalContext);
   const [state, setState] = useState<IState>(initialState);
+  const [deletePopUp, setDelete] = useState(false);
+  // const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
+
   const id = userState.userId || '';
+
   const validationSchema = Yup.object({
     username: Yup.string()
       .min(3, 'The username must be between 3 and 20 characters.')
@@ -66,6 +75,7 @@ export const EditProfile = () => {
         });
         setUserState(getUserInformation());
         notify('Success');
+        formik.resetForm();
       },
       (error) => {
         const resMessage =
@@ -78,12 +88,25 @@ export const EditProfile = () => {
     );
   }
 
+  function handleDelete() {
+    deleteUser(id).then(()=>{
+      signOut();
+      setUserState(getUserInformation());
+      setDelete(false);
+    })
+  }
+
+
   const formik = useFormik({
     initialValues: initialState,
     validationSchema: validationSchema,
     onSubmit: handleEdit,
   });
 
+  if (!userState.isUserSignIn) {
+    return <Navigate to={PATH.BASE_URL} />;
+  }
+  
   return (
     <ThemeProvider theme={theme}>
       <Container
@@ -155,16 +178,34 @@ export const EditProfile = () => {
                 helperText={formik.touched.password && formik.errors.password}
               />
             </Box>
-            <Button
-              type="submit"
-              variant="contained"
-              fullWidth
-              sx={{ mt: 3, mb: 2 }}
-            >
+            <Button type="submit" variant="contained" fullWidth sx={{ mt: 3, mb: 2 }}>
               Edit profile
+            </Button>
+            <Button
+              type="button"
+              variant="outlined"
+              fullWidth
+              sx={{ mb: 2 }}
+              color="error"
+              onClick={() => {
+                setDelete(true);
+              }}
+            >
+              Delete account
             </Button>
           </Box>
         </form>
+        {
+          <ConfirmPopUp
+            description={`Are you sure to delete account?`}
+            isOpen={deletePopUp}
+            toShowPopUp={setDelete}
+            onConfirm={() => {
+              handleDelete();
+            }}
+
+          />
+        }
         <Notification />
       </Container>
     </ThemeProvider>
