@@ -17,7 +17,7 @@ const Main = () => {
   const [boardsArray, setBoardsArray] = useState<Board[]>([]);
   const [isAddBoardFormOpen, setIsAddBoardFormOpen] = useState(false);
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
-  const [boardId, setBoardId] = useState('');
+  const [boardToDelete, setBoardToDelete] = useState<Board | null>(null);
 
   useEffect(() => {
     getBoards().then((response) => {
@@ -27,18 +27,18 @@ const Main = () => {
     });
   }, []);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, board: Board) => {
     event.stopPropagation();
-    setBoardId(id);
+    setBoardToDelete(board);
     setShowConfirmPopUp(true);
   };
 
-  const handleDeleteBoard = async (boardId: string) => {
+  const handleDeleteBoard = async (boardToDelete: Board) => {
     setShowConfirmPopUp(false);
 
-    await deleteBoard(boardId);
+    await deleteBoard(boardToDelete.id);
 
-    const newBoardsArray = boardsArray.filter((board) => board.id !== boardId);
+    const newBoardsArray = await getBoards();
     setBoardsArray(newBoardsArray);
   };
 
@@ -69,7 +69,7 @@ const Main = () => {
           </Typography>
         </CardContent>
 
-        <Button sx={{ color: '#fff' }} onClick={(event) => handleClick(event, board.id)}>
+        <Button sx={{ color: '#fff' }} onClick={(event) => handleClick(event, board)}>
           {<DeleteIcon />}
         </Button>
       </Card>
@@ -85,18 +85,16 @@ const Main = () => {
           {`Your boards:`}
         </Typography>
         <div className="boards__container">{boardsToShow}</div>
-        {
+        {boardToDelete && (
           <ConfirmPopUp
-            description={`Are you sure to delete board "${
-              boardsArray.find((board) => board.id === boardId)?.title
-            }"?`}
+            description={`Are you sure to delete board "${boardToDelete.title}"?`}
             isOpen={isShowConfirmPopUp}
             toShowPopUp={setShowConfirmPopUp}
             onConfirm={() => {
-              handleDeleteBoard(boardId);
+              handleDeleteBoard(boardToDelete);
             }}
           />
-        }
+        )}
       </div>
 
       {isAddBoardFormOpen && (
