@@ -47,7 +47,11 @@ export const getCurrentUser = async () => {
 };
 
 export const getBoards = async () => {
-  return await axios.get(`${API_URL}/boards`, {}).then((res) => res.data);
+  return await axios.get(`${API_URL}/boards`).then((res) => res.data);
+};
+
+export const getBoardById = async (id: string) => {
+  return await axios.get(`${API_URL}/boards/${id}`).then((res) => console.log(res.data));
 };
 
 export const addBoard = async (title: string) => {

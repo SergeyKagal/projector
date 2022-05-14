@@ -1,9 +1,9 @@
-export interface Board {
+export interface IBoard {
   id: string;
   title: string;
 }
 
 export interface BoardActionTypes {
   type: string;
-  boardsArray: Board[];
+  boardsArray: IBoard[];
 }

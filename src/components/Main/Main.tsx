@@ -7,20 +7,23 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useContext, useEffect, useState } from 'react';
 import { deleteBoard, getBoards } from '../../api/api';
-import { Board } from '../../constants/interfaces';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { IBoard } from '../../constants/interfaces';
+import { Navigate } from 'react-router-dom';
 import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
 import { PATH } from '../../constants/paths';
 import { GlobalContext } from '../../provider/provider';
 import Footer from '../Footer/Footer';
 
+import { Link as RouterLink } from 'react-router-dom';
+
 const Main = () => {
-  const navigate = useNavigate();
-  const [boardsArray, setBoardsArray] = useState<Board[]>([]);
+  // const navigate = useNavigate();
+  const [boardsArray, setBoardsArray] = useState<IBoard[]>([]);
   const [isAddBoardFormOpen, setIsAddBoardFormOpen] = useState(false);
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
-  const [boardToDelete, setBoardToDelete] = useState<Board | null>(null);
+  const [boardToDelete, setBoardToDelete] = useState<IBoard | null>(null);
+
   const { userState } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -35,23 +38,19 @@ const Main = () => {
     return <Navigate to={PATH.BASE_URL} />;
   }
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, board: Board) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, board: IBoard) => {
     event.stopPropagation();
     setBoardToDelete(board);
     setShowConfirmPopUp(true);
   };
 
-  const handleDeleteBoard = async (boardToDelete: Board) => {
+  const handleDeleteBoard = async (boardToDelete: IBoard) => {
     setShowConfirmPopUp(false);
 
     await deleteBoard(boardToDelete.id);
 
     const newBoardsArray = await getBoards();
     setBoardsArray(newBoardsArray);
-  };
-
-  const onPreviewBoardClickHandler = (board: Board) => {
-    navigate(`board/${board.id}`);
   };
 
   const boardsToShow = boardsArray.map((board) => {
@@ -69,7 +68,8 @@ const Main = () => {
           backgroundColor: '#6a93e8',
         }}
         className="boards__card"
-        onClick={() => onPreviewBoardClickHandler(board)}
+        component={RouterLink}
+        to={`board/${board.id}`}
       >
         <CardContent sx={{ flexGrow: 1, p: '10px' }}>
           <Typography variant="h6" component="h2" sx={{ color: '#fff' }}>

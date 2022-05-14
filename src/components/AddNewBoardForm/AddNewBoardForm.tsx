@@ -5,11 +5,11 @@ import Typography from '@mui/material/Typography';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { addBoard, getBoards } from '../../api/api';
-import { Board } from '../../constants/interfaces';
+import { IBoard } from '../../constants/interfaces';
 import './AddNewBoardForm.scss';
 
 interface AddNewBoardFormProps {
-  setBoardsArray: (array: Board[]) => void;
+  setBoardsArray: (array: IBoard[]) => void;
   setIsAddBoardFormOpen: (flag: boolean) => void;
 }
 

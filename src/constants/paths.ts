@@ -5,6 +5,6 @@ export const PATH = {
   MAIN_ROUTE: '/main',
   BOARD: '/board',
   ERROR_PAGE: '*',
-  WELCOME: '/welcme',
+  WELCOME: '/welcome',
   LOGOUT: '/logout',
 };
