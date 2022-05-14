@@ -20,7 +20,7 @@ const SignOut = () => {
     <>
       <Button
         color="inherit"
-        title="Edit Profile"
+        title="Sign Out"
         onClick={() => {
           setOpen(true);
         }}
@@ -28,11 +28,11 @@ const SignOut = () => {
         {<LogoutIcon />}
       </Button>
       <Dialog open={open}>
-        <DialogTitle>Sign Out</DialogTitle>
+        <DialogTitle sx={{ textAlign: 'center' }}>Sign Out</DialogTitle>
         <DialogContent>
           <DialogContentText>Are you sure you want to sign out?</DialogContentText>
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
           <Button variant="outlined" onClick={handleClose}>
             cancel
           </Button>
@@ -48,19 +48,6 @@ const SignOut = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      {/* {
-        <ConfirmPopUp
-          child={<LogoutIcon />}
-          description="Are you sure you want to sign out?"
-          isOpen={isShowConfirmPopUp}
-          toShowPopUp={setShowConfirmPopUp}
-          onConfirm={() => {
-            signOut();
-            setUserState(getUserInformation());
-            setShowConfirmPopUp(false);
-          }}
-        />
-      } */}
     </>
   );
 };
