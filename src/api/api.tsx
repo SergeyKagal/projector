@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 
 const API_URL = 'http://172.105.75.240:8080/http://172.105.75.240:4000';
 
-const authHeader = async () => {
+export const authHeader = async () => {
   axios.interceptors.request.use(function (config: AxiosRequestConfig) {
     const token = JSON.parse(localStorage.getItem('user') as string)?.token || null;
 
@@ -49,12 +49,10 @@ export const getCurrentUser = async () => {
 };
 
 export const getBoards = async () => {
-  authHeader();
   return await axios.get(`${API_URL}/boards`, {}).then((res) => res.data);
 };
 
 export const addBoard = async (title: string) => {
-  authHeader();
   return await axios
     .post(`${API_URL}/boards`, {
       title: title,
@@ -63,6 +61,5 @@ export const addBoard = async (title: string) => {
 };
 
 export const deleteBoard = async (boardId: string) => {
-  authHeader();
   return await axios.delete(`${API_URL}/boards/${boardId}`);
 };

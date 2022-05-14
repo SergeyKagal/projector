@@ -11,8 +11,10 @@ import { useState } from 'react';
 import { NotFoundPage } from '../NotFoundPage/NotFoundPage';
 import theme from '../../constants/theme';
 import { ThemeProvider } from '@mui/material/styles';
+import { authHeader } from '../../api/api';
 
 function App() {
+  authHeader();
   const [userState, setUserState] = useState<IUser>(defaultGlobalState.userState);
   const [localization, setLocalization] = useState(Localization.ru);
 
