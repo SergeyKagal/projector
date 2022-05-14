@@ -36,13 +36,12 @@ export const getCurrentUser = async () => {
   return null;
 };
 
-export const authHeader = async () => {
-  const userStr = localStorage.getItem('user');
-  let user = null;
-  if (userStr) user = JSON.parse(userStr);
-  if (user && user.accessToken) {
-    return { 'x-access-token': user.accessToken };
-  } else {
-    return {};
-  }
-};
+export const editProfile = async(username: string, login: string, password: string, id: string) => {
+  return await axios
+    .put(`${API_URL}/users/${id}`, {
+      name: username,
+      login: login,
+      password: password,
+    })
+    .then((res) => res.data);
+}

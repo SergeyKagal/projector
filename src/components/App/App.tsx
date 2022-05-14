@@ -1,16 +1,18 @@
-import './App.scss';
+import { useState } from 'react';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { ThemeProvider } from '@mui/material/styles';
+
+import { defaultGlobalState, GlobalContext, IUser, Localization } from '../../provider/provider';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import EditProfile from '../EditProfile/EditProfile';
 import SignIn from '../SignIn/SignIn';
 import SignUp from '../SignUp/SignUp';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Welcome from '../Welcome/Welcome';
 import Main from '../Main/Main';
-
-import { PATH } from '../../constants/paths';
-import { defaultGlobalState, GlobalContext, IUser, Localization } from '../../provider/provider';
-import { useState } from 'react';
-import { NotFoundPage } from '../NotFoundPage/NotFoundPage';
 import theme from '../../constants/theme';
-import { ThemeProvider } from '@mui/material/styles';
+import { PATH } from '../../constants/paths';
+
+import './App.scss';
 
 function App() {
   const [userState, setUserState] = useState<IUser>(defaultGlobalState.userState);
@@ -27,6 +29,7 @@ function App() {
               <Route path={PATH.SIGN_IN} element={<SignIn />} />
               <Route path={PATH.SIGN_UP} element={<SignUp />} />
               <Route path={PATH.ERROR_PAGE} element={<NotFoundPage />} />
+              <Route path={PATH.EDIT_PROFILE} element={<EditProfile />} />
             </Routes>
           </Router>
         </GlobalContext.Provider>
