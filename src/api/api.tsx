@@ -1,6 +1,16 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
 const API_URL = 'http://172.105.75.240:8080/http://172.105.75.240:4000';
+
+axios.interceptors.request.use(function (config: AxiosRequestConfig) {
+  const token = JSON.parse(localStorage.getItem('user') as string)?.token || null;
+
+  config.headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  return config;
+});
 
 export const signUp = async (username: string, login: string, password: string) => {
   return await axios
@@ -45,3 +55,18 @@ export const editProfile = async(username: string, login: string, password: stri
     })
     .then((res) => res.data);
 }
+export const getBoards = async () => {
+  return await axios.get(`${API_URL}/boards`, {}).then((res) => res.data);
+};
+
+export const addBoard = async (title: string) => {
+  return await axios
+    .post(`${API_URL}/boards`, {
+      title: title,
+    })
+    .then((res) => res.data);
+};
+
+export const deleteBoard = async (boardId: string) => {
+  return await axios.delete(`${API_URL}/boards/${boardId}`);
+};

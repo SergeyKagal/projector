@@ -21,7 +21,14 @@ function App() {
   return (
     <div className="app">
       <ThemeProvider theme={theme}>
-        <GlobalContext.Provider value={{ userState, setUserState, localization, setLocalization }}>
+        <GlobalContext.Provider
+          value={{
+            userState,
+            setUserState,
+            localization,
+            setLocalization,
+          }}
+        >
           <Router>
             <Routes>
               <Route path={PATH.BASE_URL} element={<Welcome />} />
