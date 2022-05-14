@@ -14,8 +14,6 @@ interface AddNewBoardFormProps {
 }
 
 const AddNewBoardForm = (props: AddNewBoardFormProps) => {
-  const token = JSON.parse(localStorage.getItem('user') as string)?.token;
-
   interface IState {
     title: string;
   }
@@ -34,9 +32,9 @@ const AddNewBoardForm = (props: AddNewBoardFormProps) => {
   const addNewBoard = async (formValue: IState) => {
     const { title } = formValue;
 
-    await addBoard(token, title);
+    await addBoard(title);
 
-    const newArray = await getBoards(token);
+    const newArray = await getBoards();
     props.setBoardsArray(newArray);
     props.setIsAddBoardFormOpen(false);
   };

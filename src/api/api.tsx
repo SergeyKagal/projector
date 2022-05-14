@@ -1,6 +1,18 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
 const API_URL = 'http://172.105.75.240:8080/http://172.105.75.240:4000';
+
+const authHeader = async () => {
+  axios.interceptors.request.use(function (config: AxiosRequestConfig) {
+    const token = JSON.parse(localStorage.getItem('user') as string)?.token || null;
+
+    config.headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    return config;
+  });
+};
 
 export const signUp = async (username: string, login: string, password: string) => {
   return await axios
@@ -36,52 +48,21 @@ export const getCurrentUser = async () => {
   return null;
 };
 
-export const authHeader = async () => {
-  const userStr = localStorage.getItem('user');
-  let user = null;
-  if (userStr) user = JSON.parse(userStr);
-  if (user && user.accessToken) {
-    return { 'x-access-token': user.accessToken };
-  } else {
-    return {};
-  }
+export const getBoards = async () => {
+  authHeader();
+  return await axios.get(`${API_URL}/boards`, {}).then((res) => res.data);
 };
-export const getBoards = async (token: string) => {
+
+export const addBoard = async (title: string) => {
+  authHeader();
   return await axios
-    .get(`${API_URL}/boards`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: `application/json`,
-        'Content-Type': 'application/json',
-      },
+    .post(`${API_URL}/boards`, {
+      title: title,
     })
     .then((res) => res.data);
 };
 
-export const addBoard = async (token: string, title: string) => {
-  return await axios
-    .post(
-      `${API_URL}/boards`,
-      {
-        title: title,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: `application/json`,
-          'Content-Type': 'application/json',
-        },
-      }
-    )
-    .then((res) => res.data);
-};
-
-export const deleteBoard = async (boardId: string, token: string) => {
-  return await axios.delete(`${API_URL}/boards/${boardId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: `application/json`,
-      'Content-Type': 'application/json',
-    },
-  });
+export const deleteBoard = async (boardId: string) => {
+  authHeader();
+  return await axios.delete(`${API_URL}/boards/${boardId}`);
 };

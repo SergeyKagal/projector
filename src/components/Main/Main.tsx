@@ -18,15 +18,14 @@ const Main = () => {
   const [isAddBoardFormOpen, setIsAddBoardFormOpen] = useState(false);
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
   const [boardId, setBoardId] = useState('');
-  const token = JSON.parse(localStorage.getItem('user') as string)?.token;
 
   useEffect(() => {
-    getBoards(token).then((response) => {
+    getBoards().then((response) => {
       if (response) {
         setBoardsArray(response);
       }
     });
-  }, [token]);
+  }, []);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
     event.stopPropagation();
@@ -37,14 +36,14 @@ const Main = () => {
   const handleDeleteBoard = async (boardId: string) => {
     setShowConfirmPopUp(false);
 
-    await deleteBoard(boardId, token);
+    await deleteBoard(boardId);
 
     const newBoardsArray = boardsArray.filter((board) => board.id !== boardId);
     setBoardsArray(newBoardsArray);
   };
 
   const onPreviewBoardClickHandler = (board: Board) => {
-    navigate(`board/${board.title}`);
+    navigate(`board/${board.id}`);
   };
 
   const boardsToShow = boardsArray.map((board) => {
