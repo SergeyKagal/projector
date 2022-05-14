@@ -2,17 +2,15 @@ import axios, { AxiosRequestConfig } from 'axios';
 
 const API_URL = 'http://172.105.75.240:8080/http://172.105.75.240:4000';
 
-export const authHeader = async () => {
-  axios.interceptors.request.use(function (config: AxiosRequestConfig) {
-    const token = JSON.parse(localStorage.getItem('user') as string)?.token || null;
+axios.interceptors.request.use(function (config: AxiosRequestConfig) {
+  const token = JSON.parse(localStorage.getItem('user') as string)?.token || null;
 
-    config.headers = {
-      Authorization: `Bearer ${token}`,
-    };
+  config.headers = {
+    Authorization: `Bearer ${token}`,
+  };
 
-    return config;
-  });
-};
+  return config;
+});
 
 export const signUp = async (username: string, login: string, password: string) => {
   return await axios
