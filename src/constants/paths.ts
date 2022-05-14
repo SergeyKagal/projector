@@ -1,5 +1,3 @@
-export const API_URL = 'http://172.105.75.240:8080/http://172.105.75.240:4000';
-
 export const PATH = {
   BASE_URL: '/',
   SIGN_IN: '/signin',

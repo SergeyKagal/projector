@@ -1,0 +1,16 @@
+.boards {
+  padding-top: 89px;
+  width: 100%;
+
+  .boards__container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  &__card:hover {
+    cursor: pointer;
+    background-color: #315db5;
+  }
+}
