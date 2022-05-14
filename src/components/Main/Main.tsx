@@ -13,6 +13,7 @@ import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
 import { PATH } from '../../constants/paths';
 import { GlobalContext } from '../../provider/provider';
+import Footer from '../Footer/Footer';
 
 const Main = () => {
   const navigate = useNavigate();
@@ -103,6 +104,8 @@ const Main = () => {
           />
         )}
       </div>
+
+      <Footer />
 
       {isAddBoardFormOpen && (
         <AddNewBoardForm
