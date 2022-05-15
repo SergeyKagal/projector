@@ -10,11 +10,11 @@ import {
 import LogoutIcon from '@mui/icons-material/Logout';
 import { signOut } from '../../api/api';
 import { getUserInformation, GlobalContext } from '../../provider/provider';
+import { textContent } from '../../localization/types';
 
 const SignOut = () => {
-  const { setUserState, textContent } = useContext(GlobalContext);
+  const { setUserState } = useContext(GlobalContext);
   const [open, setOpen] = useState(false);
-
   const handleClose = () => setOpen(false);
   return (
     <>

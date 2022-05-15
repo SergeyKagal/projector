@@ -13,6 +13,7 @@ import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
 import { PATH } from '../../constants/paths';
 import { GlobalContext } from '../../provider/provider';
+import { textContent } from '../../localization/types';
 
 const Main = () => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const Main = () => {
   const [isAddBoardFormOpen, setIsAddBoardFormOpen] = useState(false);
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
   const [boardToDelete, setBoardToDelete] = useState<Board | null>(null);
-  const { userState, textContent } = useContext(GlobalContext);
+  const { userState } = useContext(GlobalContext);
 
   useEffect(() => {
     getBoards().then((response) => {

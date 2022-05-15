@@ -15,9 +15,10 @@ import { useContext } from 'react';
 import { GlobalContext } from '../../provider/provider';
 import { Link as RouterLink } from 'react-router-dom';
 import { LangToggler } from '../Header/LangToggler/LangToggler';
+import { textContent } from '../../localization/types';
 
 const Welcome = () => {
-  const { userState, textContent } = useContext(GlobalContext);
+  const { userState } = useContext(GlobalContext);
 
   return (
     <div className="welcome">
