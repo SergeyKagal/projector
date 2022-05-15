@@ -1,5 +1,5 @@
 export const en = {
-  about: 'designed to help the efficient execution assigned tasks to teams and individual users',
+  about: 'created to help teams and users effectively complete their tasks',
   team: 'Our team:',
   toMain: 'go to main page',
   signin: 'sign in',
