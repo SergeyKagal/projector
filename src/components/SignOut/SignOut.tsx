@@ -12,7 +12,7 @@ import { signOut } from '../../api/api';
 import { getUserInformation, GlobalContext } from '../../provider/provider';
 
 const SignOut = () => {
-  const { setUserState } = useContext(GlobalContext);
+  const { setUserState, textContent } = useContext(GlobalContext);
   const [open, setOpen] = useState(false);
 
   const handleClose = () => setOpen(false);
@@ -20,7 +20,7 @@ const SignOut = () => {
     <>
       <Button
         color="inherit"
-        title="Sign Out"
+        title={textContent.signOut}
         onClick={() => {
           setOpen(true);
         }}

@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -9,17 +9,19 @@ import {
   DialogActions,
 } from '@mui/material';
 import ConfirmPopUp from '../../ConfirmPopUp/ConfirmPopUp';
+import { GlobalContext } from '../../../provider/provider';
 
 export const EditProfile = () => {
   const [open, setOpen] = useState(false);
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
+  const { textContent } = useContext(GlobalContext);
 
   const handleClose = () => setOpen(false);
   return (
     <>
       <Button
         color="inherit"
-        title="Edit Profile"
+        title={textContent.editUser}
         onClick={() => {
           setOpen(true);
         }}

@@ -20,7 +20,7 @@ const Main = () => {
   const [isAddBoardFormOpen, setIsAddBoardFormOpen] = useState(false);
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
   const [boardToDelete, setBoardToDelete] = useState<Board | null>(null);
-  const { userState } = useContext(GlobalContext);
+  const { userState, textContent } = useContext(GlobalContext);
 
   useEffect(() => {
     getBoards().then((response) => {
@@ -89,7 +89,7 @@ const Main = () => {
 
       <div className="boards">
         <Typography variant="h4" align="center" color="text.secondary" paragraph>
-          {`Your boards:`}
+          {textContent.boardList}
         </Typography>
         <div className="boards__container">{boardsToShow}</div>
         {boardToDelete && (
