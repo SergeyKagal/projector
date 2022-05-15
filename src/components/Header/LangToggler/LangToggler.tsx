@@ -9,10 +9,10 @@ export const LangToggler = () => {
   const localHandler = () => {
     if (localization === Localization.en) {
       setLocalization(Localization.ru);
-      localizationContent.setLanguage('0');
+      localizationContent.setLanguage('en');
     } else {
       setLocalization(Localization.en);
-      localizationContent.setLanguage('1');
+      localizationContent.setLanguage('ru');
     }
   };
   return (

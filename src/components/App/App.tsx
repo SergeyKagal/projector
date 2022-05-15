@@ -4,17 +4,20 @@ import SignUp from '../SignUp/SignUp';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Welcome from '../Welcome/Welcome';
 import Main from '../Main/Main';
-
 import { PATH } from '../../constants/paths';
 import { defaultGlobalState, GlobalContext, IUser, Localization } from '../../provider/provider';
 import { useState } from 'react';
 import { NotFoundPage } from '../NotFoundPage/NotFoundPage';
 import theme from '../../constants/theme';
 import { ThemeProvider } from '@mui/material/styles';
+import { localizationContent } from '../../localization/types';
 
 function App() {
   const [userState, setUserState] = useState<IUser>(defaultGlobalState.userState);
-  const [localization, setLocalization] = useState(Localization.ru);
+  const defaultInterfaceLanguage = localizationContent.getLanguage();
+  const [localization, setLocalization] = useState(
+    defaultInterfaceLanguage === 'ru-RU' ? Localization.ru : Localization.en
+  );
 
   return (
     <div className="app">
