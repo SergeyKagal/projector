@@ -15,7 +15,7 @@ import { useContext } from 'react';
 import { GlobalContext } from '../../provider/provider';
 import { Link as RouterLink } from 'react-router-dom';
 import { LangToggler } from '../Header/LangToggler/LangToggler';
-import { textContent } from '../../localization/types';
+import { localizationContent } from '../../localization/types';
 
 const Welcome = () => {
   const { userState } = useContext(GlobalContext);
@@ -26,16 +26,16 @@ const Welcome = () => {
         <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="toolbar">
           {userState.isUserSignIn ? (
             <Button color="inherit" component={RouterLink} to={PATH.MAIN_ROUTE}>
-              {textContent.toMain}
+              {localizationContent.toMain}
             </Button>
           ) : (
             <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="toolbar">
               <Button color="inherit" component={RouterLink} to={PATH.SIGN_IN}>
-                {textContent.signin}
+                {localizationContent.signin}
               </Button>
 
               <Button color="inherit" component={RouterLink} to={PATH.SIGN_UP}>
-                {textContent.signup}
+                {localizationContent.signup}
               </Button>
             </Toolbar>
           )}
@@ -61,7 +61,7 @@ const Welcome = () => {
               Projector
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              {textContent.about}
+              {localizationContent.about}
             </Typography>
           </Container>
         </Box>
@@ -74,7 +74,7 @@ const Welcome = () => {
         >
           <Container sx={{ py: 4 }}>
             <Typography variant="h4" align="center" color="text.secondary" paragraph>
-              {textContent.team}
+              {localizationContent.team}
             </Typography>
             <div className="cards-container">
               <Card
@@ -102,9 +102,9 @@ const Welcome = () => {
                 />
                 <CardContent sx={{ flexGrow: 1, p: '10px' }}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    {textContent.names[0]}
+                    {localizationContent.names[0]}
                   </Typography>
-                  <Typography>{textContent.jobs[0]}</Typography>
+                  <Typography>{localizationContent.jobs[0]}</Typography>
                 </CardContent>
                 <CardActions>
                   <Button
@@ -113,7 +113,7 @@ const Welcome = () => {
                     target="_blank"
                     sx={{ p: 0 }}
                   >
-                    {textContent.gitHubLink}
+                    {localizationContent.gitHubLink}
                   </Button>
                 </CardActions>
               </Card>
@@ -143,9 +143,9 @@ const Welcome = () => {
                 />
                 <CardContent sx={{ flexGrow: 1, p: '10px' }}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    {textContent.names[1]}
+                    {localizationContent.names[1]}
                   </Typography>
-                  <Typography>{textContent.jobs[1]} </Typography>
+                  <Typography>{localizationContent.jobs[1]} </Typography>
                 </CardContent>
                 <CardActions>
                   <Button
@@ -154,7 +154,7 @@ const Welcome = () => {
                     target="_blank"
                     sx={{ p: 0 }}
                   >
-                    {textContent.gitHubLink}
+                    {localizationContent.gitHubLink}
                   </Button>
                 </CardActions>
               </Card>
@@ -184,9 +184,9 @@ const Welcome = () => {
                 />
                 <CardContent sx={{ flexGrow: 1, p: '10px' }}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    {textContent.names[2]}
+                    {localizationContent.names[2]}
                   </Typography>
-                  <Typography>{textContent.jobs[2]} </Typography>
+                  <Typography>{localizationContent.jobs[2]} </Typography>
                 </CardContent>
                 <CardActions>
                   <Button
@@ -195,7 +195,7 @@ const Welcome = () => {
                     target="_blank"
                     sx={{ p: 0 }}
                   >
-                    {textContent.gitHubLink}
+                    {localizationContent.gitHubLink}
                   </Button>
                 </CardActions>
               </Card>

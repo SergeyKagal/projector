@@ -10,7 +10,7 @@ import {
 import LogoutIcon from '@mui/icons-material/Logout';
 import { signOut } from '../../api/api';
 import { getUserInformation, GlobalContext } from '../../provider/provider';
-import { textContent } from '../../localization/types';
+import { localizationContent } from '../../localization/types';
 
 const SignOut = () => {
   const { setUserState } = useContext(GlobalContext);
@@ -20,7 +20,7 @@ const SignOut = () => {
     <>
       <Button
         color="inherit"
-        title={textContent.signOut}
+        title={localizationContent.signOut}
         onClick={() => {
           setOpen(true);
         }}

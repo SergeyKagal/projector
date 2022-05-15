@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { textContent } from '../../../localization/types';
+import { localizationContent } from '../../../localization/types';
 
 export const CreateNewBoard = (props: { setIsAddBoardFormOpen: (flag: boolean) => void }) => {
   return (
@@ -11,7 +11,7 @@ export const CreateNewBoard = (props: { setIsAddBoardFormOpen: (flag: boolean) =
       }}
     >
       <AddIcon />
-      {textContent.addBoard}
+      {localizationContent.addBoard}
     </Button>
   );
 };

@@ -9,7 +9,7 @@ import {
   DialogActions,
 } from '@mui/material';
 import ConfirmPopUp from '../../ConfirmPopUp/ConfirmPopUp';
-import { textContent } from '../../../localization/types';
+import { localizationContent } from '../../../localization/types';
 
 export const EditProfile = () => {
   const [open, setOpen] = useState(false);
@@ -20,7 +20,7 @@ export const EditProfile = () => {
     <>
       <Button
         color="inherit"
-        title={textContent.editUser}
+        title={localizationContent.editUser}
         onClick={() => {
           setOpen(true);
         }}
