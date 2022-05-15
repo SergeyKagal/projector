@@ -31,6 +31,8 @@ export const en = {
     signOut: 'sign out',
     signIn: 'sign in',
     signUp: 'sign up',
+    save: 'save changes',
+    delAcc: 'delete account',
   },
   deletePopup: {
     title: 'Delete Confirmation',
@@ -55,5 +57,10 @@ export const en = {
   },
   signUpDialog: {
     title: 'Sign Up',
+  },
+  accSettings: {
+    title: 'Account Settings',
+    discription: 'To Edit Profile, please change content of all form fields.',
+    succes: 'Success',
   },
 };
