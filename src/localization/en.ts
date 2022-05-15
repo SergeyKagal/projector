@@ -11,4 +11,16 @@ export const en = {
   editUser: 'Edit User profile',
   signOut: 'Sign Out',
   boardList: "Board's list",
+  addNewBoard: {
+    addTitle: 'Add title for new board',
+    title: 'title',
+    errors: {
+      titleLength: 'The title must be between 3 and 30 characters.',
+      required: 'This field is required!',
+    },
+  },
+  buttons: {
+    cancel: 'cancel',
+    add:'+ add'
+  },
 };
