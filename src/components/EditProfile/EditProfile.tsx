@@ -1,21 +1,22 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {
-  Avatar,
   Box,
   Button,
+  Card,
+  CardContent,
   Container,
+  Divider,
   TextField,
   ThemeProvider,
   Typography,
 } from '@mui/material';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
-
-import { signIn, editProfile, deleteUser } from '../../api/api';
+import { signIn, editProfile, deleteUser, getUserData } from '../../api/api';
 import { getUserInformation, GlobalContext } from '../../provider/provider';
 import Notification, { notify } from '../Notification/Notification';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
@@ -40,12 +41,23 @@ export const EditProfile = () => {
     successful: false,
   };
 
+  interface IUser {
+    id?: string;
+    name?: string;
+    password?: string;
+    login?: string;
+  }
+
   const { userState, setUserState } = useContext(GlobalContext);
   const [state, setState] = useState<IState>(initialState);
   const [deletePopUp, setDelete] = useState(false);
-  // const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
+  const [userData, setUserData] = useState<IUser>();
 
   const id = userState.userId || '';
+
+  useEffect(() => {
+    getUserData(id).then((response) => setUserData(response));
+  }, [id, state]);
 
   const validationSchema = Yup.object({
     username: Yup.string()
@@ -89,13 +101,12 @@ export const EditProfile = () => {
   }
 
   function handleDelete() {
-    deleteUser(id).then(()=>{
+    deleteUser(id).then(() => {
       signOut();
       setUserState(getUserInformation());
       setDelete(false);
-    })
+    });
   }
-
 
   const formik = useFormik({
     initialValues: initialState,
@@ -106,106 +117,142 @@ export const EditProfile = () => {
   if (!userState.isUserSignIn) {
     return <Navigate to={PATH.BASE_URL} />;
   }
-  
+
   return (
     <ThemeProvider theme={theme}>
       <Container
-        maxWidth="xs"
+        maxWidth="md"
         sx={{
-          height: '100%',
           display: 'flex',
-          alignItems: 'center',
-          justifyContext: 'center',
+          flexWrap: 'wrap',
           minHeight: '100vh',
+          height: '100%',
         }}
       >
         <Button sx={{ position: 'absolute', top: '0', left: '0' }} onClick={() => navigate(-1)}>
           <KeyboardBackspaceIcon sx={{ fontSize: '66px' }} />
         </Button>
-        <form onSubmit={formik.handleSubmit}>
-          <Box
+        <Typography
+          component="h1"
+          variant="h5"
+          sx={{ width: '100%', alignSelf: 'end', textAlign: 'center' }}
+        >
+          Accout Settings
+        </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Card
             sx={{
+              maxWidth: 545,
+              height: '377px',
               display: 'flex',
-              flexDirection: 'column',
               alignItems: 'center',
-              justifyContext: 'space-between',
+              flexDirection: 'column',
+              bgcolor: 'transparent',
+              mr: '15px',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
-              <AccountBoxIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Accout Settings
-            </Typography>
-            <Typography component="h3" variant="subtitle2" sx={{ pt: 1 }}>
-              To Edit Profile, please change content of all form fields.
-            </Typography>
-            <Box sx={{ px: 0, py: 2 }}>
-              <TextField
-                sx={{ mt: 2 }}
-                fullWidth
-                id="username"
-                name="username"
-                label="Username"
-                type="username"
-                value={formik.values.username}
-                onChange={formik.handleChange}
-                error={formik.touched.username && Boolean(formik.errors.username)}
-                helperText={formik.touched.username && formik.errors.username}
-              />
-              <TextField
-                sx={{ mt: 2 }}
-                fullWidth
-                id="email"
-                name="email"
-                label="Email"
-                type="email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
-              />
-              <TextField
-                sx={{ mt: 2 }}
-                fullWidth
-                id="password"
-                name="password"
-                label="Password"
-                type="password"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                error={formik.touched.password && Boolean(formik.errors.password)}
-                helperText={formik.touched.password && formik.errors.password}
-              />
-            </Box>
-            <Button type="submit" variant="contained" fullWidth sx={{ mt: 3, mb: 2 }}>
-              Edit profile
-            </Button>
-            <Button
-              type="button"
-              variant="outlined"
-              fullWidth
-              sx={{ mb: 2 }}
-              color="error"
-              onClick={() => {
-                setDelete(true);
-              }}
-            >
-              Delete account
-            </Button>
-          </Box>
-        </form>
-        {
-          <ConfirmPopUp
-            description={`Are you sure to delete account?`}
-            isOpen={deletePopUp}
-            toShowPopUp={setDelete}
-            onConfirm={() => {
-              handleDelete();
+            <AccountCircleIcon sx={{ color: 'primary.main', m: 1, fontSize: '154px' }} />
+            <CardContent sx={{ pt: '0', textAlign: 'center' }}>
+              <Typography variant="h4" color="primary.main">
+                {userData ? userData.name : null}
+              </Typography>
+              <Typography sx={{ pb: 3 }} variant="h6" color="primary.main">
+                {userData ? userData.login : null}
+              </Typography>
+              <Divider />
+              <Typography component="h3" variant="subtitle2" color="text.secondary" sx={{ pt: 3 }}>
+                To Edit Profile, please change content of all form fields.
+              </Typography>
+            </CardContent>
+          </Card>
+          <Card
+            sx={{
+              bgcolor: 'transparent',
+              px: '25px',
             }}
-
-          />
-        }
+          >
+            <form onSubmit={formik.handleSubmit}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContext: 'space-between',
+                }}
+              >
+                <Box sx={{ px: 0, py: 2 }}>
+                  <TextField
+                    sx={{ mt: 2 }}
+                    fullWidth
+                    id="username"
+                    name="username"
+                    label="Username"
+                    type="username"
+                    value={formik.values.username}
+                    onChange={formik.handleChange}
+                    error={formik.touched.username && Boolean(formik.errors.username)}
+                    helperText={formik.touched.username && formik.errors.username}
+                  />
+                  <TextField
+                    sx={{ mt: 2 }}
+                    fullWidth
+                    id="email"
+                    name="email"
+                    label="Email"
+                    type="email"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
+                  />
+                  <TextField
+                    sx={{ mt: 2 }}
+                    fullWidth
+                    id="password"
+                    name="password"
+                    label="Password"
+                    type="password"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    error={formik.touched.password && Boolean(formik.errors.password)}
+                    helperText={formik.touched.password && formik.errors.password}
+                  />
+                </Box>
+                <Button type="submit" variant="contained" fullWidth sx={{ mt: 3, mb: 2 }}>
+                  Edit profile
+                </Button>
+                <Button
+                  type="button"
+                  variant="outlined"
+                  fullWidth
+                  sx={{ mb: 2 }}
+                  color="error"
+                  onClick={() => {
+                    setDelete(true);
+                  }}
+                >
+                  Delete account
+                </Button>
+              </Box>
+            </form>
+            {
+              <ConfirmPopUp
+                description={`Are you sure to delete account?`}
+                isOpen={deletePopUp}
+                toShowPopUp={setDelete}
+                onConfirm={() => {
+                  handleDelete();
+                }}
+              />
+            }
+          </Card>
+        </Box>
         <Notification />
       </Container>
     </ThemeProvider>

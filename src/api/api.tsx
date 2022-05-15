@@ -46,6 +46,12 @@ export const getCurrentUser = async () => {
   return null;
 };
 
+export const getUserData = async (id: string) => {
+  return await axios.get(`${API_URL}/users/${id}`).then((res) => {
+    return res.data;
+  });
+};
+
 export const editProfile = async (
   username: string,
   login: string,
