@@ -46,6 +46,31 @@ export const getCurrentUser = async () => {
   return null;
 };
 
+export const getUserData = async (id: string) => {
+  return await axios.get(`${API_URL}/users/${id}`).then((res) => {
+    return res.data;
+  });
+};
+
+export const editProfile = async (
+  username: string,
+  login: string,
+  password: string,
+  id: string
+) => {
+  return await axios
+    .put(`${API_URL}/users/${id}`, {
+      name: username,
+      login: login,
+      password: password,
+    })
+    .then((res) => res.data);
+};
+
+export const deleteUser = async (id: string) => {
+  return await axios.delete(`${API_URL}/users/${id}`).then((res) => res.data);
+};
+
 export const getBoards = async () => {
   return await axios.get(`${API_URL}/boards`).then((res) => res.data);
 };
