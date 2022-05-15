@@ -17,6 +17,14 @@ div.column {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    position: relative;
+    &:hover {
+      cursor: pointer;
+    }
+
+    &_edit {
+      position: absolute;
+    }
   }
 
   .button-add-item {
