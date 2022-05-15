@@ -58,8 +58,7 @@ const Welcome = () => {
               Projector
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              создан помогать эффективному выполнению <br></br>поставленных задач командам
-              <br></br> и индивидуальным пользователям
+              created to help teams and users effectively complete their tasks
             </Typography>
           </Container>
         </Box>
