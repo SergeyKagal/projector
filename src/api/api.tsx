@@ -72,3 +72,7 @@ export const addColumn = async (boardId: string, columnTitle: string, columnOrde
     order: columnOrder,
   });
 };
+
+export const deleteColumn = async (boardId: string, columnId: string) => {
+  return await axios.delete(`${API_URL}/boards/${boardId}/columns/${columnId}`);
+};
