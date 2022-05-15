@@ -22,6 +22,17 @@ export const ru = {
   },
   buttons: {
     cancel: 'отмена',
-    add:'+ добавить'
+    add: '+ добавить',
+    delete: 'удалить',
+    deleteUser: 'удалить пользователя',
+    submit: 'отправить',
+  },
+  deletePopup: {
+    title: 'Подтверждение удаления',
+    description: 'Вы уверены, что хотите удалить пользователя?',
+  },
+  editProfilePopup: {
+    title: 'Редактирование профиля пользователя',
+    description: 'Заполните все поля формы.',
   },
 };

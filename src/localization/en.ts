@@ -21,6 +21,17 @@ export const en = {
   },
   buttons: {
     cancel: 'cancel',
-    add:'+ add'
+    add: '+ add',
+    delete: 'delete',
+    deleteUser: 'delete user',
+    submit: 'submit',
+  },
+  deletePopup: {
+    title: 'Delete Confirmation',
+    description: 'Are you sure to delete user?',
+  },
+  editProfilePopup: {
+    title: 'Edit Profile',
+    description: 'To Edit Profile, please change content of all form fields.',
   },
 };

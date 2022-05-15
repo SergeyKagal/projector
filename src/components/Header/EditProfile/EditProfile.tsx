@@ -28,18 +28,19 @@ export const EditProfile = () => {
         {<ManageAccountsIcon></ManageAccountsIcon>}
       </Button>
       <Dialog open={open}>
-        <DialogTitle>Edit Profile</DialogTitle>
+        <DialogTitle>{localizationContent.editProfilePopup.title}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To Edit Profile, please change content of all form fields.
+            <ManageAccountsIcon fontSize="large" />
+            {localizationContent.editProfilePopup.description}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button variant="outlined" onClick={handleClose}>
-            cancel
+            {localizationContent.buttons.cancel}
           </Button>
           <Button variant="contained" onClick={() => {}}>
-            submit
+            {localizationContent.buttons.submit}
           </Button>
           <Button
             color="error"
@@ -48,14 +49,14 @@ export const EditProfile = () => {
               setShowConfirmPopUp(true);
             }}
           >
-            delete user
+            {localizationContent.buttons.deleteUser}
           </Button>
         </DialogActions>
       </Dialog>
       {
         <ConfirmPopUp
           child={<ManageAccountsIcon />}
-          description="Are you sure to delete user?"
+          description={localizationContent.deletePopup.description}
           isOpen={isShowConfirmPopUp}
           toShowPopUp={setShowConfirmPopUp}
           onConfirm={() => {
