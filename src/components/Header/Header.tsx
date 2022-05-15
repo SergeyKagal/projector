@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import { PATH } from '../../constants/paths';
 import { LangToggler } from './LangToggler/LangToggler';
 import { CreateNewBoard } from './CreateNewBoard/CreateNewBoard';
-import { EditProfile } from './EditProfile/EditProfile';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { Link as RouterLink } from 'react-router-dom';
 import SignOut from '../SignOut/SignOut';
 
@@ -26,7 +26,9 @@ export const Header = (props: { setIsAddBoardFormOpen: (flag: boolean) => void }
               </Typography>
               <nav className="headerNav">
                 <CreateNewBoard setIsAddBoardFormOpen={props.setIsAddBoardFormOpen} />
-                <EditProfile />
+                <Button color="inherit" component={RouterLink} to={PATH.EDIT_PROFILE}>
+                  <ManageAccountsIcon />
+                </Button>
                 <SignOut />
                 <LangToggler />
               </nav>

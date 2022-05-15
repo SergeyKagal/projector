@@ -30,7 +30,7 @@ const ConfirmPopUp = (props: IConfirm) => {
           {props.child}
           <DialogContentText>{props.description}</DialogContentText>
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
           <Button variant="outlined" onClick={cancelClickHandler}>
             {localizationContent.buttons.cancel}
           </Button>

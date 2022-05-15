@@ -7,4 +7,5 @@ export const PATH = {
   ERROR_PAGE: '*',
   WELCOME: '/welcme',
   LOGOUT: '/logout',
+  EDIT_PROFILE: '/profile',
 };
