@@ -24,12 +24,12 @@ const ConfirmPopUp = (props: IConfirm) => {
   return (
     <>
       <Dialog open={props.isOpen}>
-        <DialogTitle color="error">Delete Confirmation</DialogTitle>
+        <DialogTitle             sx={{ textAlign: 'center' }}color="error">Delete Confirmation</DialogTitle>
         <DialogContent>
           {props.child}
           <DialogContentText>{props.description}</DialogContentText>
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
           <Button variant="outlined" onClick={cancelClickHandler}>
             Cancel
           </Button>
