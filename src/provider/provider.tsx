@@ -1,5 +1,7 @@
 import React from 'react';
 import jwtDecode from 'jwt-decode';
+import LocalizedStrings from 'react-localization';
+import { ILocal, textContentOptions } from '../localization/types';
 
 export const getUserInformation = (): IUser => {
   const token = JSON.parse(localStorage.getItem('user') as string)?.token;
@@ -35,6 +37,7 @@ interface IGlobalState {
   localization: Localization;
   setUserState: (user: IUser) => void;
   setLocalization: (Localize: Localization) => void;
+  textContent: ILocal;
 }
 
 export const defaultGlobalState: IGlobalState = {
@@ -42,6 +45,7 @@ export const defaultGlobalState: IGlobalState = {
   localization: Localization.en,
   setUserState: () => {},
   setLocalization: () => {},
+  textContent: new LocalizedStrings({ ...textContentOptions }),
 };
 
 export const GlobalContext = React.createContext(defaultGlobalState);

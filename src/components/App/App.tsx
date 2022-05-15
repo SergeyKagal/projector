@@ -7,7 +7,7 @@ import Main from '../Main/Main';
 
 import { PATH } from '../../constants/paths';
 import { defaultGlobalState, GlobalContext, IUser, Localization } from '../../provider/provider';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { NotFoundPage } from '../NotFoundPage/NotFoundPage';
 import theme from '../../constants/theme';
 import { ThemeProvider } from '@mui/material/styles';
@@ -15,6 +15,7 @@ import { ThemeProvider } from '@mui/material/styles';
 function App() {
   const [userState, setUserState] = useState<IUser>(defaultGlobalState.userState);
   const [localization, setLocalization] = useState(Localization.ru);
+  const { textContent } = useContext(GlobalContext);
 
   return (
     <div className="app">
@@ -25,6 +26,7 @@ function App() {
             setUserState,
             localization,
             setLocalization,
+            textContent,
           }}
         >
           <Router>

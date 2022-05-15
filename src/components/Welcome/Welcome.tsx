@@ -14,30 +14,32 @@ import CardActions from '@mui/material/CardActions';
 import { useContext } from 'react';
 import { GlobalContext } from '../../provider/provider';
 import { Link as RouterLink } from 'react-router-dom';
+import { LangToggler } from '../Header/LangToggler/LangToggler';
 
 const Welcome = () => {
-  const { userState } = useContext(GlobalContext);
+  const { userState, textContent } = useContext(GlobalContext);
 
   return (
     <div className="welcome">
       <AppBar position="relative" className="appBar">
-        {userState.isUserSignIn ? (
-          <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="toolbar">
+        <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="toolbar">
+          {userState.isUserSignIn ? (
             <Button color="inherit" component={RouterLink} to={PATH.MAIN_ROUTE}>
               Go to Main Page
             </Button>
-          </Toolbar>
-        ) : (
-          <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="toolbar">
-            <Button color="inherit" component={RouterLink} to={PATH.SIGN_IN}>
-              Sign in
-            </Button>
+          ) : (
+            <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="toolbar">
+              <Button color="inherit" component={RouterLink} to={PATH.SIGN_IN}>
+                Sign in
+              </Button>
 
-            <Button color="inherit" component={RouterLink} to={PATH.SIGN_UP}>
-              Sign up
-            </Button>
-          </Toolbar>
-        )}
+              <Button color="inherit" component={RouterLink} to={PATH.SIGN_UP}>
+                Sign up
+              </Button>
+            </Toolbar>
+          )}
+          <LangToggler></LangToggler>
+        </Toolbar>
       </AppBar>
 
       <main className="main">
@@ -58,8 +60,7 @@ const Welcome = () => {
               Projector
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              создан помогать эффективному выполнению <br></br>поставленных задач командам
-              <br></br> и индивидуальным пользователям
+              {textContent.about}
             </Typography>
           </Container>
         </Box>
