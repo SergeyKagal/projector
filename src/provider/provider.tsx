@@ -22,7 +22,7 @@ export const getUserInformation = (): IUser => {
 };
 
 export enum Localization {
-  ru = 'RUS',
+  ru = 'РУС',
   en = 'ENG',
 }
 

@@ -25,16 +25,16 @@ const Welcome = () => {
         <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="toolbar">
           {userState.isUserSignIn ? (
             <Button color="inherit" component={RouterLink} to={PATH.MAIN_ROUTE}>
-              Go to Main Page
+              {textContent.toMain}
             </Button>
           ) : (
             <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="toolbar">
               <Button color="inherit" component={RouterLink} to={PATH.SIGN_IN}>
-                Sign in
+                {textContent.signin}
               </Button>
 
               <Button color="inherit" component={RouterLink} to={PATH.SIGN_UP}>
-                Sign up
+                {textContent.signup}
               </Button>
             </Toolbar>
           )}
@@ -73,7 +73,7 @@ const Welcome = () => {
         >
           <Container sx={{ py: 4 }}>
             <Typography variant="h4" align="center" color="text.secondary" paragraph>
-              {`Our team:`}
+              {textContent.team}
             </Typography>
             <div className="cards-container">
               <Card
@@ -101,9 +101,9 @@ const Welcome = () => {
                 />
                 <CardContent sx={{ flexGrow: 1, p: '10px' }}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    Sergey
+                    {textContent.names[0]}
                   </Typography>
-                  <Typography>Project build. CI/CD.</Typography>
+                  <Typography>{textContent.jobs[0]}</Typography>
                 </CardContent>
                 <CardActions>
                   <Button
@@ -112,7 +112,7 @@ const Welcome = () => {
                     target="_blank"
                     sx={{ p: 0 }}
                   >
-                    View Github
+                    {textContent.gitHubLink}
                   </Button>
                 </CardActions>
               </Card>
@@ -142,9 +142,9 @@ const Welcome = () => {
                 />
                 <CardContent sx={{ flexGrow: 1, p: '10px' }}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    Ravganiyat
+                    {textContent.names[1]}
                   </Typography>
-                  <Typography>Authorization. </Typography>
+                  <Typography>{textContent.jobs[1]} </Typography>
                 </CardContent>
                 <CardActions>
                   <Button
@@ -153,7 +153,7 @@ const Welcome = () => {
                     target="_blank"
                     sx={{ p: 0 }}
                   >
-                    View Github
+                    {textContent.gitHubLink}
                   </Button>
                 </CardActions>
               </Card>
@@ -183,9 +183,9 @@ const Welcome = () => {
                 />
                 <CardContent sx={{ flexGrow: 1, p: '10px' }}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    Elena
+                    {textContent.names[2]}
                   </Typography>
-                  <Typography>Welcome page </Typography>
+                  <Typography>{textContent.jobs[2]} </Typography>
                 </CardContent>
                 <CardActions>
                   <Button
@@ -194,7 +194,7 @@ const Welcome = () => {
                     target="_blank"
                     sx={{ p: 0 }}
                   >
-                    View Github
+                    {textContent.gitHubLink}
                   </Button>
                 </CardActions>
               </Card>
