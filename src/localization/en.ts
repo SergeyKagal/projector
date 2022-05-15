@@ -14,10 +14,13 @@ export const en = {
   addNewBoard: {
     addTitle: 'Add title for new board',
     title: 'title',
-    errors: {
-      titleLength: 'The title must be between 3 and 30 characters.',
-      required: 'This field is required!',
-    },
+  },
+  errors: {
+    titleLength: 'The title must be between 3 and 30 characters.',
+    required: 'This field is required!',
+    userNameLength: 'The username must be between 3 and 20 characters.',
+    passwLength: 'The password must be between 6 and 10 characters.',
+    wrongEmail: 'This is not a valid email.',
   },
   buttons: {
     cancel: 'cancel',
@@ -25,6 +28,9 @@ export const en = {
     delete: 'delete',
     deleteUser: 'delete user',
     submit: 'submit',
+    signOut: 'sign out',
+    signIn: 'sign in',
+    signUp: 'sign up',
   },
   deletePopup: {
     title: 'Delete Confirmation',
@@ -33,5 +39,21 @@ export const en = {
   editProfilePopup: {
     title: 'Edit Profile',
     description: 'To Edit Profile, please change content of all form fields.',
+  },
+  signOutPopup: {
+    title: 'Sign Out',
+    description: 'Are you sure you want to sign out?',
+  },
+  signInDialog: {
+    title: 'Sign In',
+    havntAcc: "Don't have an account? Sign Up",
+  },
+  formFieldsLabels: {
+    email: 'Email',
+    passw: 'Password',
+    userName: 'Username',
+  },
+  signUpDialog: {
+    title: 'Sign Up',
   },
 };

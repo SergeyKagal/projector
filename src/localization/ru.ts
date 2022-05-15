@@ -15,10 +15,13 @@ export const ru = {
   addNewBoard: {
     addTitle: 'Добавьте название карточки',
     title: 'заголовок',
-    errors: {
-      titleLength: 'Заголовок должен содержать от 3-х до 30 символов.',
-      required: 'Это поле обязательно к заполнению!',
-    },
+  },
+  errors: {
+    titleLength: 'Заголовок должен содержать от 3-х до 30 символов.',
+    required: 'Это поле обязательно к заполнению!',
+    userNameLength: 'Имя пользователя должно содержать от 3 до 20 символов..',
+    passwLength: 'Пароль должен содержать от 6 до 10 символов.',
+    wrongEmail: 'Это недействительный адрес электронной почты.',
   },
   buttons: {
     cancel: 'отмена',
@@ -26,6 +29,9 @@ export const ru = {
     delete: 'удалить',
     deleteUser: 'удалить пользователя',
     submit: 'отправить',
+    signOut: 'выход',
+    signIn: 'вход',
+    signUp: 'зарегистрировать',
   },
   deletePopup: {
     title: 'Подтверждение удаления',
@@ -34,5 +40,21 @@ export const ru = {
   editProfilePopup: {
     title: 'Редактирование профиля пользователя',
     description: 'Заполните все поля формы.',
+  },
+  signOutPopup: {
+    title: 'Выход',
+    description: 'Вы уверены, что хотите выйти?',
+  },
+  signInDialog: {
+    title: 'Авторизация',
+    havntAcc: 'У вас нет аккаунта? Регистрация',
+  },
+  formFieldsLabels: {
+    email: 'Эл. почта',
+    passw: 'Пароль',
+    userName: 'Имя пользователя',
+  },
+  signUpDialog: {
+    title: 'Регистрация нового пользователя',
   },
 };

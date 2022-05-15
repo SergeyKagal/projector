@@ -25,9 +25,9 @@ const AddNewBoardForm = (props: AddNewBoardFormProps) => {
 
   const validationSchema = Yup.object({
     title: Yup.string()
-      .min(3, `${localizationContent.addNewBoard.errors.titleLength}`)
-      .max(30, `${localizationContent.addNewBoard.errors.titleLength}`)
-      .required(`${localizationContent.addNewBoard.errors.required}`),
+      .min(3, `${localizationContent.errors.titleLength}`)
+      .max(30, `${localizationContent.errors.titleLength}`)
+      .required(`${localizationContent.errors.required}`),
   });
 
   const addNewBoard = async (formValue: IState) => {
