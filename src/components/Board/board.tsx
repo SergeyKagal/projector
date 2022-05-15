@@ -52,17 +52,6 @@ export const Board = () => {
         setColumnToDelete={setColumnToDelete}
         setShowConfirmPopUp={setShowConfirmPopUp}
       />
-      // <Container key={column.id} className="column">
-      //   <div className="column__title">
-      //     {column.title}
-      //     <Button sx={{ p: '0px', minWidth: '' }} onClick={(event) => handleClick(event, column)}>
-      //       {<DeleteIcon />}
-      //     </Button>
-      //   </div>
-      //   <Button variant="text" className="button-add-item" startIcon={<AddIcon />}>
-      //     ADD TASK
-      //   </Button>
-      // </Container>
     );
   });
 
