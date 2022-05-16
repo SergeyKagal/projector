@@ -2,40 +2,50 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
-import { IColumn } from '../../constants/interfaces';
+import { IBoard, IColumn } from '../../constants/interfaces';
 import './Column.scss';
-import { useState } from 'react';
-import Typography from '@mui/material/Typography';
+import { FocusEvent, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import { getBoardById, updateColumn } from '../../api/api';
 
 interface IColumnProps {
+  board: IBoard;
   column: IColumn;
   setColumnToDelete: (column: IColumn) => void;
   setShowConfirmPopUp: (flag: boolean) => void;
+  setBoard: (board: IBoard) => void;
+}
+
+interface IState {
+  title: string;
 }
 
 const Column = (props: IColumnProps) => {
   const [editTitleMode, setEditTitleMode] = useState(false);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, column: IColumn) => {
-    event.stopPropagation();
-    props.setColumnToDelete(column);
+  const handleClick = () => {
+    props.setColumnToDelete(props.column);
     props.setShowConfirmPopUp(true);
   };
 
-  const handleTitleClick = () => {
-    setEditTitleMode(true);
-  };
+  const editColumnTitle = async (formValue: IState) => {
+    const { title } = formValue;
+    const updatedColumn = { ...props.column, title: title };
 
-  const editColumnTitle = () => {};
+    await updateColumn(props.board.id, updatedColumn);
+    props.setBoard(await getBoardById(props.board.id));
+    setEditTitleMode(false);
+  };
 
   const validationSchema = Yup.object({
     title: Yup.string()
-      .min(3, 'The title must be between 3 and 15 characters.')
-      .max(15, 'The title must be between 3 and 15 characters.')
+      .min(3, 'Min 3 char')
+      .max(15, 'Max 15 char')
       .required('This field is required!'),
   });
 
@@ -45,44 +55,67 @@ const Column = (props: IColumnProps) => {
     onSubmit: editColumnTitle,
   });
 
+  const handleTitleClick = () => {
+    setEditTitleMode(true);
+  };
+
+  const handleCancelEditTitle = () => {
+    formik.resetForm();
+    setEditTitleMode(false);
+  };
+
+  const handleBlur = (
+    event: FocusEvent<HTMLTextAreaElement | HTMLInputElement, Element>,
+    formikBlur: (e: FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>) => void
+  ) => {
+    setEditTitleMode(false);
+    formikBlur(event);
+  };
+
   return (
     <Container className="column">
-      <div className="column__title" onClick={handleTitleClick}>
-        {props.column.title}
-        <Button
-          sx={{ p: '0px', minWidth: '' }}
-          onClick={(event) => handleClick(event, props.column)}
-        >
+      <div className="title-container">
+        <div className="column__title" onClick={() => handleTitleClick()}>
+          {props.column.title}
+        </div>
+        <Button sx={{ p: '0px', minWidth: '' }} onClick={() => handleClick()}>
           {<DeleteIcon />}
         </Button>
 
         {editTitleMode && (
-          <div className="column__title_edit">
+          <div className="title-edit">
             <form onSubmit={formik.handleSubmit} className="title-edit__form">
-              <Box sx={{ width: '75%', px: 0, py: 2 }}>
+              <Box sx={{ p: 0, display: 'flex', justifyContent: 'center' }}>
                 <TextField
-                  sx={{ mt: 2 }}
                   fullWidth
+                  size="small"
                   id="title"
                   name="title"
                   value={formik.values.title}
+                  autoFocus
                   onChange={formik.handleChange}
+                  onBlur={(e) => handleBlur(e, formik.handleBlur)}
                   error={formik.touched.title && Boolean(formik.errors.title)}
                   helperText={formik.touched.title && formik.errors.title}
                 />
-              </Box>
-              {/* <Box sx={{ width: '75%', px: 0, py: 2, display: 'flex', justifyContent: 'center' }}>
                 <Button
-                  variant="outlined"
-                  onClick={() => props.setIsAddColumnFormOpen(false)}
-                  sx={{ margin: '0 10px' }}
+                  aria-label="submit"
+                  type="submit"
+                  variant="contained"
+                  sx={{ width: '32px', height: '32px', minWidth: 0, boxShadow: 'none' }}
                 >
-                  Cancel
+                  <CheckIcon />
                 </Button>
-                <Button type="submit" variant="contained" sx={{ margin: '0 10px' }}>
-                  Add column
+
+                <Button
+                  aria-label="delete"
+                  variant="outlined"
+                  sx={{ width: '32px', height: '32px', minWidth: 0, p: '6px 16px' }}
+                  onClick={handleCancelEditTitle}
+                >
+                  <CloseIcon />
                 </Button>
-              </Box> */}
+              </Box>
             </form>
           </div>
         )}

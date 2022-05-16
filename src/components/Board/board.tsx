@@ -48,7 +48,9 @@ export const Board = () => {
     return (
       <Column
         key={column.id}
+        board={board}
         column={column}
+        setBoard={setBoard}
         setColumnToDelete={setColumnToDelete}
         setShowConfirmPopUp={setShowConfirmPopUp}
       />

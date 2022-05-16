@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import { IColumn } from '../constants/interfaces';
 
 const API_URL = 'http://172.105.75.240:8080/http://172.105.75.240:4000';
 
@@ -100,4 +101,11 @@ export const addColumn = async (boardId: string, columnTitle: string, columnOrde
 
 export const deleteColumn = async (boardId: string, columnId: string) => {
   return await axios.delete(`${API_URL}/boards/${boardId}/columns/${columnId}`);
+};
+
+export const updateColumn = async (boardId: string, column: IColumn) => {
+  return await axios.put(`${API_URL}/boards/${boardId}/columns/${column.id}`, {
+    title: column.title,
+    order: column.order,
+  });
 };
