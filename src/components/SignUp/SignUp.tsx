@@ -19,6 +19,7 @@ import { signIn, signUp } from '../../api/api';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { GlobalContext, getUserInformation } from '../../provider/provider';
 import { PATH } from '../../constants/paths';
+import { localizationContent } from '../../localization/types';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -42,14 +43,16 @@ const SignUp = () => {
 
   const validationSchema = Yup.object({
     username: Yup.string()
-      .min(3, 'The username must be between 3 and 20 characters.')
-      .max(20, 'The username must be between 3 and 20 characters.')
-      .required('This field is required!'),
+      .min(3, localizationContent.errors.userNameLength)
+      .max(20, localizationContent.errors.userNameLength)
+      .required(localizationContent.errors.required),
     password: Yup.string()
-      .min(6, 'The password must be between 6 and 10 characters.')
-      .max(10, 'The password must be between 6 and 10 characters.')
-      .required('This field is required!'),
-    email: Yup.string().email('This is not a valid email.').required('This field is required!'),
+      .min(6, localizationContent.errors.passwLength)
+      .max(10, localizationContent.errors.passwLength)
+      .required(localizationContent.errors.required),
+    email: Yup.string()
+      .email(localizationContent.errors.wrongEmail)
+      .required(localizationContent.errors.required),
   });
 
   function handleRegister(formValue: { username: string; email: string; password: string }) {
@@ -117,7 +120,7 @@ const SignUp = () => {
               <AccountBoxIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign up
+              {localizationContent.signUpDialog.title}
             </Typography>
             <Box sx={{ px: 0, py: 2 }}>
               <TextField
@@ -125,7 +128,7 @@ const SignUp = () => {
                 fullWidth
                 id="username"
                 name="username"
-                label="Username"
+                label={localizationContent.formFieldsLabels.userName}
                 type="username"
                 value={formik.values.username}
                 onChange={formik.handleChange}
@@ -137,7 +140,7 @@ const SignUp = () => {
                 fullWidth
                 id="email"
                 name="email"
-                label="Email"
+                label={localizationContent.formFieldsLabels.email}
                 type="email"
                 value={formik.values.email}
                 onChange={formik.handleChange}
@@ -149,7 +152,7 @@ const SignUp = () => {
                 fullWidth
                 id="password"
                 name="password"
-                label="Password"
+                label={localizationContent.formFieldsLabels.passw}
                 type="password"
                 value={formik.values.password}
                 onChange={formik.handleChange}
@@ -158,7 +161,7 @@ const SignUp = () => {
               />
             </Box>
             <Button type="submit" variant="contained" fullWidth sx={{ mt: 3, mb: 2 }}>
-              Sign up
+              {localizationContent.buttons.signUp}
             </Button>
           </Box>
         </form>

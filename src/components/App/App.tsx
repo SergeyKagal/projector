@@ -10,12 +10,16 @@ import SignUp from '../SignUp/SignUp';
 import Welcome from '../Welcome/Welcome';
 import Main from '../Main/Main';
 import { PATH } from '../../constants/paths';
-import theme from '../../constants/theme';
-import { Board } from '../Board/board';
+
+import './App.scss';
+import { localizationContent } from '../../localization/types';
 
 function App() {
   const [userState, setUserState] = useState<IUser>(defaultGlobalState.userState);
-  const [localization, setLocalization] = useState(Localization.ru);
+  const defaultInterfaceLanguage = localizationContent.getLanguage();
+  const [localization, setLocalization] = useState(
+    defaultInterfaceLanguage === 'ru-RU' ? Localization.ru : Localization.en
+  );
 
   return (
     <div className="app">
