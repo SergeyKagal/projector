@@ -10,7 +10,7 @@ import AddNewColumnForm from '../AddNewColumnForm/AddNewColumnForm';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
 import Column from '../Column/Column';
-import setColumnsColor from '../SetColumnsColor/SetColumnsColor';
+import getColumnsColor from '../getColumnsColor/getColumnsColor';
 
 export const Board = () => {
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ export const Board = () => {
   };
 
   board?.columns.sort((a, b) => (a.order > b.order ? 1 : -1));
-  const colors = setColumnsColor(board);
+  const colors = getColumnsColor(board);
 
   const columns = board?.columns.map((column) => {
     return (

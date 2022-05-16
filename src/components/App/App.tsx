@@ -32,7 +32,7 @@ function App() {
             <Routes>
               <Route path={PATH.BASE_URL} element={<Welcome />} />
               <Route path={PATH.MAIN_ROUTE} element={<Main />} />
-              <Route path={`main/board/:id`} element={<Board />} />
+              <Route path={PATH.BOARD} element={<Board />} />
               <Route path={PATH.SIGN_IN} element={<SignIn />} />
               <Route path={PATH.SIGN_UP} element={<SignUp />} />
 

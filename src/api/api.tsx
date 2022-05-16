@@ -41,12 +41,6 @@ export const signOut = async () => {
   localStorage.removeItem('user');
 };
 
-export const getCurrentUser = async () => {
-  const userStr = localStorage.getItem('user');
-  if (userStr) return JSON.parse(userStr);
-  return null;
-};
-
 export const getUserData = async (id: string) => {
   return await axios.get(`${API_URL}/users/${id}`).then((res) => {
     return res.data;
