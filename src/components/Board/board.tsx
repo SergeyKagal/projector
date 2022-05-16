@@ -10,6 +10,7 @@ import AddNewColumnForm from '../AddNewColumnForm/AddNewColumnForm';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
 import Column from '../Column/Column';
+import setColumnsColor from '../SetColumnsColor/SetColumnsColor';
 
 export const Board = () => {
   const navigate = useNavigate();
@@ -43,12 +44,16 @@ export const Board = () => {
   };
 
   board?.columns.sort((a, b) => (a.order > b.order ? 1 : -1));
+  const colors = setColumnsColor(board);
 
   const columns = board?.columns.map((column) => {
     return (
       <Column
         key={column.id}
+        board={board}
+        setBoard={setBoard}
         column={column}
+        color={colors.get(column.id) || '#87A8EC'}
         setColumnToDelete={setColumnToDelete}
         setShowConfirmPopUp={setShowConfirmPopUp}
       />
