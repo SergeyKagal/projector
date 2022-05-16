@@ -23,6 +23,7 @@ const Main = () => {
   const [isAddBoardFormOpen, setIsAddBoardFormOpen] = useState(false);
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
   const [boardToDelete, setBoardToDelete] = useState<IBoard | null>(null);
+  const [currentBoard, setCurrentBoard] = useState<IBoard | null>(null);
 
   const { userState } = useContext(GlobalContext);
 
@@ -53,6 +54,52 @@ const Main = () => {
     setBoardsArray(newBoardsArray);
   };
 
+  function dragOverHandler(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    // const el = e.target as HTMLDivElement;
+    // if (el.classList.contains('boards__card')) {
+    //   el.style.boxShadow = '0 4px 3px red';
+    // }
+  }
+
+  function dragLeaveHandler(e: React.DragEvent<HTMLDivElement>) {
+    // const el = e.target as HTMLDivElement;
+    // // el.style.boxShadow = '';
+  }
+
+  function dragStartHandler(e: React.DragEvent<HTMLDivElement>, board: IBoard) {
+    setCurrentBoard(board);
+    // console.log(boardsArray);
+  }
+
+  function dragEndHandler(e: React.DragEvent<HTMLDivElement>) {
+    const el = e.target as HTMLDivElement;
+    // el.style.boxShadow = '';
+  }
+
+  function dropHandler(e: React.DragEvent<HTMLDivElement>, board: IBoard) {
+    e.preventDefault();
+    if (currentBoard) {
+      const currentIndex = boardsArray.indexOf(currentBoard);
+
+      const dropIndex = boardsArray.indexOf(board);
+      boardsArray.splice(currentIndex, 1);
+      boardsArray.splice(dropIndex, 0, currentBoard);
+      setBoardsArray(
+        boardsArray.map((board) => {
+          if (board.id === board.id) {
+            return board;
+          }
+          if (board.id === currentBoard.id) {
+            return currentBoard;
+          }
+          return board;
+        })
+      );
+      // console.log(boardsArray);
+    }
+  }
+
   const boardsToShow = boardsArray.map((board) => {
     return (
       <Card
@@ -63,6 +110,12 @@ const Main = () => {
         className="boards__card"
         component={RouterLink}
         to={`board/${board.id}`}
+        draggable="true"
+        onDragOver={(e) => dragOverHandler(e)}
+        onDragLeave={(e) => dragLeaveHandler(e)}
+        onDragStart={(e) => dragStartHandler(e, board)}
+        onDragEnd={(e) => dragEndHandler(e)}
+        onDrop={(e) => dropHandler(e, board)}
       >
         <CardContent sx={{ flexGrow: 1, p: '10px' }}>
           <Typography variant="h6" component="h2" sx={{ color: '#fff' }}>
