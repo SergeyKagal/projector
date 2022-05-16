@@ -50,6 +50,8 @@ export const Board = () => {
     return (
       <Column
         key={column.id}
+        board={board}
+        setBoard={setBoard}
         column={column}
         color={colors.get(column.id) || '#87A8EC'}
         setColumnToDelete={setColumnToDelete}
