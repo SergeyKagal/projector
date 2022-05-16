@@ -13,10 +13,14 @@ import theme from '../../constants/theme';
 import { PATH } from '../../constants/paths';
 
 import './App.scss';
+import { localizationContent } from '../../localization/types';
 
 function App() {
   const [userState, setUserState] = useState<IUser>(defaultGlobalState.userState);
-  const [localization, setLocalization] = useState(Localization.ru);
+  const defaultInterfaceLanguage = localizationContent.getLanguage();
+  const [localization, setLocalization] = useState(
+    defaultInterfaceLanguage === 'ru-RU' ? Localization.ru : Localization.en
+  );
 
   return (
     <div className="app">

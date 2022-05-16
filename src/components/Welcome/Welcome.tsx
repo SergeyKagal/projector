@@ -14,6 +14,8 @@ import CardActions from '@mui/material/CardActions';
 import { useContext } from 'react';
 import { GlobalContext } from '../../provider/provider';
 import { Link as RouterLink } from 'react-router-dom';
+import { LangToggler } from '../Header/LangToggler/LangToggler';
+import { localizationContent } from '../../localization/types';
 
 const Welcome = () => {
   const { userState } = useContext(GlobalContext);
@@ -21,23 +23,24 @@ const Welcome = () => {
   return (
     <div className="welcome">
       <AppBar position="relative" className="appBar">
-        {userState.isUserSignIn ? (
-          <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="toolbar">
+        <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="toolbar">
+          {userState.isUserSignIn ? (
             <Button color="inherit" component={RouterLink} to={PATH.MAIN_ROUTE}>
-              Go to Main Page
+              {localizationContent.toMain}
             </Button>
-          </Toolbar>
-        ) : (
-          <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="toolbar">
-            <Button color="inherit" component={RouterLink} to={PATH.SIGN_IN}>
-              Sign in
-            </Button>
+          ) : (
+            <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="toolbar">
+              <Button color="inherit" component={RouterLink} to={PATH.SIGN_IN}>
+                {localizationContent.signin}
+              </Button>
 
-            <Button color="inherit" component={RouterLink} to={PATH.SIGN_UP}>
-              Sign up
-            </Button>
-          </Toolbar>
-        )}
+              <Button color="inherit" component={RouterLink} to={PATH.SIGN_UP}>
+                {localizationContent.signup}
+              </Button>
+            </Toolbar>
+          )}
+          <LangToggler></LangToggler>
+        </Toolbar>
       </AppBar>
 
       <main className="main">
@@ -58,8 +61,7 @@ const Welcome = () => {
               Projector
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              создан помогать эффективному выполнению <br></br>поставленных задач командам
-              <br></br> и индивидуальным пользователям
+              {localizationContent.about}
             </Typography>
           </Container>
         </Box>
@@ -72,7 +74,7 @@ const Welcome = () => {
         >
           <Container sx={{ py: 4 }}>
             <Typography variant="h4" align="center" color="text.secondary" paragraph>
-              {`Our team:`}
+              {localizationContent.team}
             </Typography>
             <div className="cards-container">
               <Card
@@ -100,9 +102,9 @@ const Welcome = () => {
                 />
                 <CardContent sx={{ flexGrow: 1, p: '10px' }}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    Sergey
+                    {localizationContent.names[0]}
                   </Typography>
-                  <Typography>Project build. CI/CD.</Typography>
+                  <Typography>{localizationContent.jobs[0]}</Typography>
                 </CardContent>
                 <CardActions>
                   <Button
@@ -111,7 +113,7 @@ const Welcome = () => {
                     target="_blank"
                     sx={{ p: 0 }}
                   >
-                    View Github
+                    {localizationContent.gitHubLink}
                   </Button>
                 </CardActions>
               </Card>
@@ -141,9 +143,9 @@ const Welcome = () => {
                 />
                 <CardContent sx={{ flexGrow: 1, p: '10px' }}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    Ravganiyat
+                    {localizationContent.names[1]}
                   </Typography>
-                  <Typography>Authorization. </Typography>
+                  <Typography>{localizationContent.jobs[1]} </Typography>
                 </CardContent>
                 <CardActions>
                   <Button
@@ -152,7 +154,7 @@ const Welcome = () => {
                     target="_blank"
                     sx={{ p: 0 }}
                   >
-                    View Github
+                    {localizationContent.gitHubLink}
                   </Button>
                 </CardActions>
               </Card>
@@ -182,9 +184,9 @@ const Welcome = () => {
                 />
                 <CardContent sx={{ flexGrow: 1, p: '10px' }}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    Elena
+                    {localizationContent.names[2]}
                   </Typography>
-                  <Typography>Welcome page </Typography>
+                  <Typography>{localizationContent.jobs[2]} </Typography>
                 </CardContent>
                 <CardActions>
                   <Button
@@ -193,7 +195,7 @@ const Welcome = () => {
                     target="_blank"
                     sx={{ p: 0 }}
                   >
-                    View Github
+                    {localizationContent.gitHubLink}
                   </Button>
                 </CardActions>
               </Card>

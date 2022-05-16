@@ -13,6 +13,7 @@ import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
 import { PATH } from '../../constants/paths';
 import { GlobalContext } from '../../provider/provider';
+import { localizationContent } from '../../localization/types';
 import Footer from '../Footer/Footer';
 
 const Main = () => {
@@ -90,7 +91,7 @@ const Main = () => {
 
       <div className="boards">
         <Typography variant="h4" align="center" color="text.secondary" paragraph>
-          {`Your boards:`}
+          {localizationContent.boardList}
         </Typography>
         <div className="boards__container">{boardsToShow}</div>
         {boardToDelete && (

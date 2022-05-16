@@ -23,6 +23,7 @@ import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
 import { signOut } from '../../api/api';
 import { PATH } from '../../constants/paths';
 import theme from '../../constants/theme';
+import { localizationContent } from '../../localization/types';
 
 export const EditProfile = () => {
   const navigate = useNavigate();
@@ -61,14 +62,16 @@ export const EditProfile = () => {
 
   const validationSchema = Yup.object({
     username: Yup.string()
-      .min(3, 'The username must be between 3 and 20 characters.')
-      .max(20, 'The username must be between 3 and 20 characters.')
-      .required('This field is required!'),
+      .min(3, localizationContent.errors.userNameLength)
+      .max(20, localizationContent.errors.userNameLength)
+      .required(localizationContent.errors.required),
     password: Yup.string()
-      .min(6, 'The password must be between 6 and 10 characters.')
-      .max(10, 'The password must be between 6 and 10 characters.')
-      .required('This field is required!'),
-    email: Yup.string().email('This is not a valid email.').required('This field is required!'),
+      .min(6, localizationContent.errors.passwLength)
+      .max(10, localizationContent.errors.passwLength)
+      .required(localizationContent.errors.required),
+    email: Yup.string()
+      .email(localizationContent.errors.wrongEmail)
+      .required(localizationContent.errors.required),
   });
 
   function handleEdit(formValue: { username: string; email: string; password: string }) {
@@ -86,7 +89,7 @@ export const EditProfile = () => {
           successful: true,
         });
         setUserState(getUserInformation());
-        notify('Success');
+        notify(localizationContent.accSettings.succes);
         formik.resetForm();
       },
       (error) => {
@@ -137,7 +140,7 @@ export const EditProfile = () => {
           variant="h5"
           sx={{ width: '100%', alignSelf: 'end', textAlign: 'center' }}
         >
-          Accout Settings
+          {localizationContent.accSettings.title}
         </Typography>
         <Box
           sx={{
@@ -167,7 +170,7 @@ export const EditProfile = () => {
               </Typography>
               <Divider />
               <Typography component="h3" variant="subtitle2" color="text.secondary" sx={{ pt: 3 }}>
-                To Edit Profile, please change content of all form fields.
+                {localizationContent.accSettings.discription}
               </Typography>
             </CardContent>
           </Card>
@@ -192,7 +195,7 @@ export const EditProfile = () => {
                     fullWidth
                     id="username"
                     name="username"
-                    label="Username"
+                    label={localizationContent.formFieldsLabels.userName}
                     type="username"
                     value={formik.values.username}
                     onChange={formik.handleChange}
@@ -204,7 +207,7 @@ export const EditProfile = () => {
                     fullWidth
                     id="email"
                     name="email"
-                    label="Email"
+                    label={localizationContent.formFieldsLabels.email}
                     type="email"
                     value={formik.values.email}
                     onChange={formik.handleChange}
@@ -216,7 +219,7 @@ export const EditProfile = () => {
                     fullWidth
                     id="password"
                     name="password"
-                    label="Password"
+                    label={localizationContent.formFieldsLabels.passw}
                     type="password"
                     value={formik.values.password}
                     onChange={formik.handleChange}
@@ -225,7 +228,7 @@ export const EditProfile = () => {
                   />
                 </Box>
                 <Button type="submit" variant="contained" fullWidth sx={{ mt: 3, mb: 2 }}>
-                  Edit profile
+                  {localizationContent.buttons.save}
                 </Button>
                 <Button
                   type="button"
@@ -237,7 +240,7 @@ export const EditProfile = () => {
                     setDelete(true);
                   }}
                 >
-                  Delete account
+                  {localizationContent.buttons.delAcc}
                 </Button>
               </Box>
             </form>

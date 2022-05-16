@@ -19,6 +19,7 @@ import { signIn } from '../../api/api';
 import theme from '../../constants/theme';
 import { PATH } from '../../constants/paths';
 import { getUserInformation, GlobalContext } from '../../provider/provider';
+import { localizationContent } from '../../localization/types';
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -39,8 +40,8 @@ const SignIn = () => {
   const [state, setState] = useState<IState>(initialState);
 
   const validationSchema = Yup.object({
-    email: Yup.string().required('This field is required!'),
-    password: Yup.string().required('This field is required!'),
+    email: Yup.string().required(localizationContent.errors.required),
+    password: Yup.string().required(localizationContent.errors.required),
   });
 
   function handleLogin(formValue: { email: string; password: string }) {
@@ -78,7 +79,7 @@ const SignIn = () => {
 
   if (userState.isUserSignIn) {
     return <Navigate to={PATH.MAIN_ROUTE} />;
-  } 
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -92,7 +93,10 @@ const SignIn = () => {
           minHeight: '100vh',
         }}
       >
-        <Button sx={{ position: 'absolute', top: '0', left: '0' }} onClick={() => navigate(PATH.BASE_URL)}>
+        <Button
+          sx={{ position: 'absolute', top: '0', left: '0' }}
+          onClick={() => navigate(PATH.BASE_URL)}
+        >
           <KeyboardBackspaceIcon sx={{ fontSize: '66px' }} />
         </Button>
         <form onSubmit={formik.handleSubmit}>
@@ -108,7 +112,7 @@ const SignIn = () => {
               <InputIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign In
+              {localizationContent.signInDialog.title}
             </Typography>
             <Box sx={{ px: 0, py: 2 }}>
               <TextField
@@ -116,7 +120,7 @@ const SignIn = () => {
                 fullWidth
                 id="email"
                 name="email"
-                label="Email"
+                label={localizationContent.formFieldsLabels.email}
                 type="email"
                 value={formik.values.email}
                 onChange={formik.handleChange}
@@ -128,7 +132,7 @@ const SignIn = () => {
                 fullWidth
                 id="password"
                 name="password"
-                label="Password"
+                label={localizationContent.formFieldsLabels.passw}
                 type="password"
                 value={formik.values.password}
                 onChange={formik.handleChange}
@@ -143,10 +147,10 @@ const SignIn = () => {
               sx={{ mt: 3, mb: 2 }}
               disabled={state.loading}
             >
-              Sign in
+              {localizationContent.buttons.signIn}
             </Button>
             <Link to="/signup" color="text.primary">
-              {"Don't have an account? Sign Up"}
+              {localizationContent.signInDialog.havntAcc}
             </Link>
           </Box>
         </form>

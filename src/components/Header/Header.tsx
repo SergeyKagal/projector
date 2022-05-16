@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './Header.scss';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -19,12 +20,11 @@ export const Header = (props: { setIsAddBoardFormOpen: (flag: boolean) => void }
           <AppBar>
             <Toolbar>
               <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>
-                Projector
+                <Button className="logo" color="inherit" component={RouterLink} to={PATH.BASE_URL}>
+                  Projector
+                </Button>
               </Typography>
               <nav className="headerNav">
-                <Button color="inherit" component={RouterLink} to={PATH.BASE_URL}>
-                  welcome
-                </Button>
                 <CreateNewBoard setIsAddBoardFormOpen={props.setIsAddBoardFormOpen} />
                 <Button color="inherit" component={RouterLink} to={PATH.EDIT_PROFILE}>
                   <ManageAccountsIcon />
