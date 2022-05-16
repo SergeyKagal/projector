@@ -11,6 +11,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import EditIcon from '@mui/icons-material/Edit';
 import { getBoardById, updateColumn } from '../../api/api';
 interface IColumnProps {
   board: IBoard;
@@ -74,8 +75,9 @@ const Column = (props: IColumnProps) => {
       <div className="title-container">
         <div className="column__title" onClick={() => handleTitleClick()}>
           {props.column.title}
+          {<EditIcon className="column-edit" />}
         </div>
-        <Button sx={{ p: '0px', minWidth: '' }} onClick={() => handleClick()}>
+        <Button sx={{ p: '2px', minWidth: '' }} onClick={() => handleClick()}>
           {<DeleteIcon />}
         </Button>
 

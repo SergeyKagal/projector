@@ -14,7 +14,6 @@ div.column {
 
   &__header {
     position: absolute;
-    // background-color: #ffa000;
     width: 100%;
     height: 6px;
     top: 0px;
@@ -28,19 +27,33 @@ div.column {
     justify-content: space-between;
     align-items: flex-start;
     position: relative;
+    height: 50px;
   }
 
   &__title {
     width: 100%;
-    height: 50px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding-top: 5px;
-
+    padding: 5px;
+    border-radius: 5px;
     position: relative;
+
+    .column-edit {
+      display: none;
+    }
+
     &:hover {
       cursor: pointer;
+      background-color: rgba(0, 0, 0, 0.05);
+
+      .column-edit {
+        display: block;
+        color: rgba(0, 0, 0, 0.1);
+        position: absolute;
+        right: 5px;
+        top: 2px;
+      }
     }
   }
 
