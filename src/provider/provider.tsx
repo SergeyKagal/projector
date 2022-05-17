@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import jwtDecode from 'jwt-decode';
+import { IBoard } from '../constants/interfaces';
 
 export const getUserInformation = (): IUser => {
   const token = JSON.parse(localStorage.getItem('user') as string)?.token;
@@ -33,15 +34,23 @@ export interface IUser {
 interface IGlobalState {
   userState: IUser;
   localization: Localization;
+  isCreateNewBoardOpen: boolean;
   setUserState: (user: IUser) => void;
   setLocalization: (Localize: Localization) => void;
+  setIsCreateNewBoardOpen: Dispatch<SetStateAction<boolean>>;
+  boardsArray: IBoard[];
+  setBoardsArray: (boards: IBoard[]) => void;
 }
 
 export const defaultGlobalState: IGlobalState = {
   userState: getUserInformation(),
   localization: Localization.en,
+  isCreateNewBoardOpen: false,
   setUserState: () => {},
   setLocalization: () => {},
+  setIsCreateNewBoardOpen: () => {},
+  boardsArray: [],
+  setBoardsArray: () => {},
 };
 
 export const GlobalContext = React.createContext(defaultGlobalState);

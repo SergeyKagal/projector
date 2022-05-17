@@ -13,6 +13,7 @@ import { PATH } from '../../constants/paths';
 import theme from '../../constants/theme';
 import { Board } from '../Board/board';
 import { localizationContent } from '../../localization/types';
+import { IBoard } from '../../constants/interfaces';
 
 function App() {
   const [userState, setUserState] = useState<IUser>(defaultGlobalState.userState);
@@ -20,6 +21,8 @@ function App() {
   const [localization, setLocalization] = useState(
     defaultInterfaceLanguage === 'ru-RU' ? Localization.ru : Localization.en
   );
+  const [isCreateNewBoardOpen, setIsCreateNewBoardOpen] = useState(false);
+  const [boardsArray, setBoardsArray] = useState<IBoard[]>([]);
 
   return (
     <div className="app">
@@ -30,6 +33,10 @@ function App() {
             setUserState,
             localization,
             setLocalization,
+            isCreateNewBoardOpen,
+            setIsCreateNewBoardOpen,
+            boardsArray,
+            setBoardsArray,
           }}
         >
           <Router>
