@@ -12,10 +12,12 @@ import * as Yup from 'yup';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import { getBoardById, updateColumn } from '../../api/api';
+import { Draggable } from 'react-beautiful-dnd';
 interface IColumnProps {
   board: IBoard;
   column: IColumn;
   color: string;
+  index: number;
   setColumnToDelete: (column: IColumn) => void;
   setShowConfirmPopUp: (flag: boolean) => void;
   setBoard: (board: IBoard) => void;
@@ -69,58 +71,61 @@ const Column = (props: IColumnProps) => {
   };
 
   return (
-    <Container className="column">
-      <div className="column__header" style={styles}></div>
-      <div className="title-container">
-        <div className="column__title" onClick={() => handleTitleClick()}>
-          {props.column.title}
-        </div>
-        <Button sx={{ p: '0px', minWidth: '' }} onClick={() => handleClick()}>
-          {<DeleteIcon />}
-        </Button>
+    <Draggable draggableId={props.column.id} index={props.index}>
+      {(provided) => (
+        <Container className="column"  ref={provided.innerRef} {...provided.dragHandleProps}>
+          <div className="column__header" style={styles}></div>
+          <div className="title-container"  {...provided.draggableProps}>
+            <div className="column__title" onClick={() => handleTitleClick()}>
+              {props.column.title}
+            </div>
+            <Button sx={{ p: '0px', minWidth: '' }} onClick={() => handleClick()}>
+              {<DeleteIcon />}
+            </Button>
 
-        {editTitleMode && (
-          <div className="title-edit">
-            <form onSubmit={formik.handleSubmit} className="title-edit__form">
-              <Box sx={{ p: 0, display: 'flex', justifyContent: 'center' }}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="title"
-                  name="title"
-                  value={formik.values.title}
-                  autoFocus
-                  onChange={formik.handleChange}
-                  error={formik.touched.title && Boolean(formik.errors.title)}
-                  helperText={formik.touched.title && formik.errors.title}
-                />
-                <Button
-                  aria-label="submit"
-                  type="submit"
-                  variant="contained"
-                  sx={{ width: '32px', height: '32px', minWidth: 0, boxShadow: 'none' }}
-                >
-                  <CheckIcon />
-                </Button>
+            {editTitleMode && (
+              <div className="title-edit">
+                <form onSubmit={formik.handleSubmit} className="title-edit__form">
+                  <Box sx={{ p: 0, display: 'flex', justifyContent: 'center' }}>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      id="title"
+                      name="title"
+                      value={formik.values.title}
+                      autoFocus
+                      onChange={formik.handleChange}
+                      error={formik.touched.title && Boolean(formik.errors.title)}
+                      helperText={formik.touched.title && formik.errors.title}
+                    />
+                    <Button
+                      aria-label="submit"
+                      type="submit"
+                      variant="contained"
+                      sx={{ width: '32px', height: '32px', minWidth: 0, boxShadow: 'none' }}
+                    >
+                      <CheckIcon />
+                    </Button>
 
-                <Button
-                  aria-label="delete"
-                  variant="outlined"
-                  sx={{ width: '32px', height: '32px', minWidth: 0, p: '6px 16px' }}
-                  onClick={handleCancelEditTitle}
-                >
-                  <CloseIcon />
-                </Button>
-              </Box>
-            </form>
+                    <Button
+                      aria-label="delete"
+                      variant="outlined"
+                      sx={{ width: '32px', height: '32px', minWidth: 0, p: '6px 16px' }}
+                      onClick={handleCancelEditTitle}
+                    >
+                      <CloseIcon />
+                    </Button>
+                  </Box>
+                </form>
+              </div>
+            )}
           </div>
-        )}
-      </div>
-
-      <Button variant="text" className="button-add-item" startIcon={<AddIcon />}>
-        ADD TASK
-      </Button>
-    </Container>
+          <Button variant="text" className="button-add-item" startIcon={<AddIcon />}>
+            ADD TASK
+          </Button>
+        </Container>
+      )}
+    </Draggable>
   );
 };
 

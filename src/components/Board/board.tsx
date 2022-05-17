@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { deleteColumn, getBoardById } from '../../api/api';
+import { deleteColumn, getBoardById, updateColumn } from '../../api/api';
 import { IBoard, IColumn } from '../../constants/interfaces';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
@@ -11,6 +11,7 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
 import Column from '../Column/Column';
 import setColumnsColor from '../SetColumnsColor/SetColumnsColor';
+import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
 export const Board = () => {
   const navigate = useNavigate();
@@ -46,9 +47,10 @@ export const Board = () => {
   board?.columns.sort((a, b) => (a.order > b.order ? 1 : -1));
   const colors = setColumnsColor(board);
 
-  const columns = board?.columns.map((column) => {
+  const columns = board?.columns.map((column, index) => {
     return (
       <Column
+        index={index}
         key={column.id}
         board={board}
         setBoard={setBoard}
@@ -59,6 +61,38 @@ export const Board = () => {
       />
     );
   });
+
+  function handleDragEnd(result: DropResult): void {
+    const { destination, source, type } = result;
+
+    if (!destination) {
+      return;
+    }
+
+    const reorder = (list: IColumn[], startIndex: number, endIndex: number): IColumn[] => {
+      const result = Array.from(list);
+      const [removed] = result.splice(startIndex, 1);
+      result.splice(endIndex, 0, removed);
+      return result;
+    };
+
+    if (type === 'column') {
+      if (board) {
+        const ordered: IColumn[] = reorder(board.columns, source.index, destination.index);
+
+        ordered.forEach((column: IColumn, index: number) => {
+          updateColumn(board.id, column, index);
+        });
+      }
+
+      // getBoardById(params).then((response) => {
+      //   if (response) {
+      //     setBoard(response);
+      //   }
+      // });
+      return;
+    }
+  }
 
   return (
     <>
@@ -75,7 +109,16 @@ export const Board = () => {
         <h3>Board «{board?.title}»</h3>
 
         <div className="columns-container">
-          {columns}
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId="all-columns" direction="horizontal" type="column">
+              {(provided) => (
+                <div className="all-columns" ref={provided.innerRef} {...provided.droppableProps}>
+                  {columns}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
           <Button
             variant="outlined"
             className="button-add-item"

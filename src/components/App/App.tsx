@@ -13,6 +13,8 @@ import { PATH } from '../../constants/paths';
 
 import './App.scss';
 import { localizationContent } from '../../localization/types';
+import theme from '../../constants/theme';
+import { Board } from '../Board/board';
 
 function App() {
   const [userState, setUserState] = useState<IUser>(defaultGlobalState.userState);
