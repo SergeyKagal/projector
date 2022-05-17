@@ -36,9 +36,11 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
     await addColumn(props.board.id, title, props.board.columns.length + 1);
 
     const newBoard = await getBoardById(props.board.id);
+
     if (newBoard) {
       props.setBoard(newBoard);
     }
+
     props.setIsAddColumnFormOpen(false);
   };
 

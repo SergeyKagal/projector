@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { deleteColumn, getBoardById } from '../../api/api';
+import { deleteColumn, getBoardById, updateColumn } from '../../api/api';
 import { IBoard, IColumn } from '../../constants/interfaces';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
@@ -37,10 +37,25 @@ export const Board = () => {
   const handleDeleteColumn = async (columnToDelete: IColumn) => {
     setShowConfirmPopUp(false);
 
-    if (board) await deleteColumn(board.id, columnToDelete.id);
+    if (board) {
+      await deleteColumn(board.id, columnToDelete.id);
 
-    const newBoard = await getBoardById(params);
-    setBoard(newBoard);
+      const currentBoard = {
+        ...board,
+        columns: board.columns.filter((column) => column.id !== columnToDelete.id),
+      };
+
+      const requestsForUpdateColumns = currentBoard.columns.map((column, index) => {
+        const newColumn = { ...column, order: index + 1 };
+        return updateColumn(board.id, newColumn);
+      });
+
+      await Promise.all(requestsForUpdateColumns);
+
+      const newBoard = await getBoardById(params);
+
+      setBoard(newBoard);
+    }
   };
 
   board?.columns.sort((a, b) => (a.order > b.order ? 1 : -1));
