@@ -33,10 +33,15 @@ export const en = {
     signUp: 'sign up',
     save: 'save changes',
     delAcc: 'delete account',
+    redirect: 'go to',
   },
   deletePopup: {
     title: 'Delete Confirmation',
     description: 'Are you sure to delete user?',
+  },
+  redirectionPopup: {
+    title: 'Redirect Confirmation',
+    description: 'Do you want to go to the main page?',
   },
   editProfilePopup: {
     title: 'Edit Profile',

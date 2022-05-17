@@ -23,7 +23,7 @@ export const Board = () => {
   const [isAddColumnFormOpen, setIsAddColumnFormOpen] = useState(false);
   const [columnToDelete, setColumnToDelete] = useState<IColumn | null>(null);
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
-  const { isCreateNewBoardOpen, setBoardsArray } = useContext(GlobalContext);
+  const { isCreateNewBoardOpen } = useContext(GlobalContext);
 
   useEffect(() => {
     getBoardById(params).then((response) => {
@@ -120,7 +120,7 @@ export const Board = () => {
         />
       )}
 
-      {isCreateNewBoardOpen && <AddNewBoardForm setBoardsArray={setBoardsArray} />}
+      {isCreateNewBoardOpen && <AddNewBoardForm />}
     </>
   );
 };
