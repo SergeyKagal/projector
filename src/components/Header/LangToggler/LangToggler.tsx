@@ -1,13 +1,19 @@
 import { Button } from '@mui/material';
 import React, { useContext } from 'react';
+import { localizationContent } from '../../../localization/types';
 import { GlobalContext, Localization } from '../../../provider/provider';
 
 export const LangToggler = () => {
   const { localization, setLocalization } = useContext(GlobalContext);
+
   const localHandler = () => {
-    localization === Localization.en
-      ? setLocalization(Localization.ru)
-      : setLocalization(Localization.en);
+    if (localization === Localization.en) {
+      setLocalization(Localization.ru);
+      localizationContent.setLanguage('en');
+    } else {
+      setLocalization(Localization.en);
+      localizationContent.setLanguage('ru');
+    }
   };
   return (
     <>

@@ -10,17 +10,17 @@ import {
 import LogoutIcon from '@mui/icons-material/Logout';
 import { signOut } from '../../api/api';
 import { getUserInformation, GlobalContext } from '../../provider/provider';
+import { localizationContent } from '../../localization/types';
 
 const SignOut = () => {
   const { setUserState } = useContext(GlobalContext);
   const [open, setOpen] = useState(false);
-
   const handleClose = () => setOpen(false);
   return (
     <>
       <Button
         color="inherit"
-        title="Sign Out"
+        title={localizationContent.signOut}
         onClick={() => {
           setOpen(true);
         }}
@@ -28,13 +28,15 @@ const SignOut = () => {
         {<LogoutIcon />}
       </Button>
       <Dialog open={open}>
-        <DialogTitle sx={{ textAlign: 'center' }}>Sign Out</DialogTitle>
+        <DialogTitle sx={{ textAlign: 'center' }}>
+          {localizationContent.signOutPopup.title}
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText>Are you sure you want to sign out?</DialogContentText>
+          <DialogContentText>{localizationContent.signOutPopup.description}</DialogContentText>
         </DialogContent>
         <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
           <Button variant="outlined" onClick={handleClose}>
-            cancel
+            {localizationContent.buttons.cancel}
           </Button>
           <Button
             variant="contained"
@@ -44,7 +46,7 @@ const SignOut = () => {
               setUserState(getUserInformation());
             }}
           >
-            submit
+            {localizationContent.buttons.signOut}
           </Button>
         </DialogActions>
       </Dialog>

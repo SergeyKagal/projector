@@ -7,6 +7,7 @@ import {
   DialogContentText,
   DialogActions,
 } from '@mui/material';
+import { localizationContent } from '../../localization/types';
 
 interface IConfirm {
   isOpen: boolean;
@@ -24,17 +25,17 @@ const ConfirmPopUp = (props: IConfirm) => {
   return (
     <>
       <Dialog open={props.isOpen}>
-        <DialogTitle             sx={{ textAlign: 'center' }}color="error">Delete Confirmation</DialogTitle>
+        <DialogTitle color="error">{localizationContent.deletePopup.title}</DialogTitle>
         <DialogContent>
           {props.child}
           <DialogContentText>{props.description}</DialogContentText>
         </DialogContent>
         <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
           <Button variant="outlined" onClick={cancelClickHandler}>
-            Cancel
+            {localizationContent.buttons.cancel}
           </Button>
           <Button color="error" variant="contained" onClick={props.onConfirm}>
-            delete
+            {localizationContent.buttons.delete}
           </Button>
         </DialogActions>
       </Dialog>
