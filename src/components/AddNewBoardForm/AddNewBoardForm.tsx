@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import axios from 'axios';
 import { useFormik } from 'formik';
 import { useContext, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -11,6 +12,7 @@ import { PATH } from '../../constants/paths';
 import { localizationContent } from '../../localization/types';
 import { GlobalContext } from '../../provider/provider';
 import ConfirmRedirection from '../ConfirmRedirection/ConfirmRedirection';
+import { notify } from '../Notification/Notification';
 import './AddNewBoardForm.scss';
 
 const AddNewBoardForm = () => {
@@ -37,17 +39,24 @@ const AddNewBoardForm = () => {
   const addNewBoard = async (formValue: IState) => {
     const { title } = formValue;
 
-    await addBoard(title);
+    try {
+      await addBoard(title);
 
-    const newArray = await getBoards();
-    setBoardsArray(newArray);
+      const newArray = await getBoards();
+      setBoardsArray(newArray);
 
-    if (params) {
-      setShowConfirmPopUp(true);
-      return;
+      if (params) {
+        setShowConfirmPopUp(true);
+        return;
+      }
+
+      setIsCreateNewBoardOpen(false);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const resMessage = error.message || error.toString();
+        notify(resMessage);
+      }
     }
-
-    setIsCreateNewBoardOpen(false);
   };
 
   const formik = useFormik({
@@ -74,6 +83,7 @@ const AddNewBoardForm = () => {
             onChange={formik.handleChange}
             error={formik.touched.title && Boolean(formik.errors.title)}
             helperText={formik.touched.title && formik.errors.title}
+            autoFocus
           />
         </Box>
         <Box sx={{ width: '75%', px: 0, py: 2, display: 'flex', justifyContent: 'center' }}>

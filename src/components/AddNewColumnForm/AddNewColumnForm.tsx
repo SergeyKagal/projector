@@ -2,10 +2,12 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { addColumn, getBoardById } from '../../api/api';
 import { IBoard } from '../../constants/interfaces';
+import { notify } from '../Notification/Notification';
 import './AddNewColumnForm.scss';
 
 interface addNewColumnProps {
@@ -31,17 +33,24 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
   });
 
   const addNewColumn = async (formValue: IState) => {
-    const { title } = formValue;
+    try {
+      const { title } = formValue;
 
-    await addColumn(props.board.id, title, props.board.columns.length + 1);
+      await addColumn(props.board.id, title, props.board.columns.length + 1);
 
-    const newBoard = await getBoardById(props.board.id);
+      const newBoard = await getBoardById(props.board.id);
 
-    if (newBoard) {
-      props.setBoard(newBoard);
+      if (newBoard) {
+        props.setBoard(newBoard);
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const resMessage = error.message || error.toString();
+        notify(resMessage);
+      }
+    } finally {
+      props.setIsAddColumnFormOpen(false);
     }
-
-    props.setIsAddColumnFormOpen(false);
   };
 
   const formik = useFormik({
@@ -68,6 +77,7 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
             onChange={formik.handleChange}
             error={formik.touched.title && Boolean(formik.errors.title)}
             helperText={formik.touched.title && formik.errors.title}
+            autoFocus
           />
         </Box>
         <Box sx={{ width: '75%', px: 0, py: 2, display: 'flex', justifyContent: 'center' }}>

@@ -15,6 +15,8 @@ import { PATH } from '../../constants/paths';
 import { GlobalContext } from '../../provider/provider';
 import { localizationContent } from '../../localization/types';
 import Footer from '../Footer/Footer';
+import { notify } from '../Notification/Notification';
+import axios from 'axios';
 
 const Main = () => {
   const navigate = useNavigate();
@@ -25,11 +27,21 @@ const Main = () => {
   const [boardToDelete, setBoardToDelete] = useState<IBoard | null>(null);
 
   useEffect(() => {
-    getBoards().then((response) => {
-      if (response) {
-        setBoardsArray(response);
+    getBoards().then(
+      (response) => {
+        if (response) {
+          setBoardsArray(response);
+        }
+      },
+      (error) => {
+        const resMessage =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        notify(resMessage);
       }
-    });
+    );
   }, [setBoardsArray]);
 
   if (!userState.isUserSignIn) {
@@ -47,12 +59,19 @@ const Main = () => {
   };
 
   const handleDeleteBoard = async (boardToDelete: IBoard) => {
-    setShowConfirmPopUp(false);
+    try {
+      await deleteBoard(boardToDelete.id);
 
-    await deleteBoard(boardToDelete.id);
-
-    const newBoardsArray = await getBoards();
-    setBoardsArray(newBoardsArray);
+      const newBoardsArray = await getBoards();
+      setBoardsArray(newBoardsArray);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const resMessage = error.message || error.toString();
+        notify(resMessage);
+      }
+    } finally {
+      setShowConfirmPopUp(false);
+    }
   };
 
   const boardsToShow = boardsArray.map((board) => {
