@@ -3,9 +3,9 @@ export const PATH = {
   SIGN_IN: '/signin',
   SIGN_UP: '/signup',
   MAIN_ROUTE: '/main',
-  BOARD: '/board',
+  BOARD: 'main/board/:id',
   ERROR_PAGE: '*',
-  WELCOME: '/welcme',
+  WELCOME: '/welcome',
   LOGOUT: '/logout',
   EDIT_PROFILE: '/profile',
 };

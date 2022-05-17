@@ -1,0 +1,82 @@
+div.column {
+  width: 250px;
+  min-height: 100px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f0f0f1;
+  border-radius: 5px;
+  padding: 15px;
+  box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%);
+  margin: 0 8px;
+  position: relative;
+
+  &__header {
+    position: absolute;
+    width: 100%;
+    height: 6px;
+    top: 0px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+
+  .title-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    height: 50px;
+  }
+
+  &__title {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 5px;
+    border-radius: 5px;
+    position: relative;
+
+    .column-edit {
+      display: none;
+    }
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(0, 0, 0, 0.05);
+
+      .column-edit {
+        display: block;
+        color: rgba(0, 0, 0, 0.1);
+        position: absolute;
+        right: 5px;
+        top: 2px;
+      }
+    }
+  }
+
+  .title-edit {
+    position: absolute;
+    width: 100%;
+  }
+
+  .title-edit__form {
+    background-color: #f0f0f1;
+    height: 50px;
+  }
+
+  #title {
+    padding: 5px;
+  }
+
+  .button-add-item {
+    min-width: 250px;
+    width: 250px;
+    height: 40px;
+    margin: 0 8px;
+    justify-content: flex-start;
+    padding: 0 10px;
+  }
+}
