@@ -83,23 +83,29 @@ export const addBoard = async (title: string) => {
 };
 
 export const deleteBoard = async (boardId: string) => {
-  return await axios.delete(`${API_URL}/boards/${boardId}`);
+  return await axios.delete(`${API_URL}/boards/${boardId}`).then((res) => res.data);
 };
 
 export const addColumn = async (boardId: string, columnTitle: string, columnOrder: number) => {
-  return await axios.post(`${API_URL}/boards/${boardId}/columns`, {
-    title: columnTitle,
-    order: columnOrder,
-  });
+  return await axios
+    .post(`${API_URL}/boards/${boardId}/columns`, {
+      title: columnTitle,
+      order: columnOrder,
+    })
+    .then((res) => res.data);
 };
 
 export const deleteColumn = async (boardId: string, columnId: string) => {
-  return await axios.delete(`${API_URL}/boards/${boardId}/columns/${columnId}`);
+  return await axios
+    .delete(`${API_URL}/boards/${boardId}/columns/${columnId}`)
+    .then((res) => res.data);
 };
 
 export const updateColumn = async (boardId: string, column: IColumn) => {
-  return await axios.put(`${API_URL}/boards/${boardId}/columns/${column.id}`, {
-    title: column.title,
-    order: column.order,
-  });
+  return await axios
+    .put(`${API_URL}/boards/${boardId}/columns/${column.id}`, {
+      title: column.title,
+      order: column.order,
+    })
+    .then((res) => res.data);
 };

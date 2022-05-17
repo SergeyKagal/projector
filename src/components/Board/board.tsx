@@ -13,6 +13,8 @@ import Column from '../Column/Column';
 import getColumnsColor from '../getColumnsColor/getColumnsColor';
 import { GlobalContext } from '../../provider/provider';
 import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
+import { notify } from '../Notification/Notification';
+import axios from 'axios';
 
 export const Board = () => {
   const navigate = useNavigate();
@@ -26,17 +28,26 @@ export const Board = () => {
   const { isCreateNewBoardOpen } = useContext(GlobalContext);
 
   useEffect(() => {
-    getBoardById(params).then((response) => {
-      if (response) {
-        setBoard(response);
+    getBoardById(params).then(
+      (response) => {
+        if (response) {
+          setBoard(response);
+        }
+      },
+      (error) => {
+        const resMessage =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        notify(resMessage);
       }
-    });
+    );
   }, [params]);
 
   const handleDeleteColumn = async (columnToDelete: IColumn) => {
-    setShowConfirmPopUp(false);
-
-    if (board) {
+    if (!board) return;
+    try {
       await deleteColumn(board.id, columnToDelete.id);
 
       const currentBoard = {
@@ -54,6 +65,13 @@ export const Board = () => {
       const newBoard = await getBoardById(params);
 
       setBoard(newBoard);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const resMessage = error.message || error.toString();
+        notify(resMessage);
+      }
+    } finally {
+      setShowConfirmPopUp(false);
     }
   };
 
