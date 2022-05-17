@@ -12,7 +12,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { Link as RouterLink } from 'react-router-dom';
 import SignOut from '../SignOut/SignOut';
 
-export const Header = (props: { setIsAddBoardFormOpen: (flag: boolean) => void }) => {
+export const Header = () => {
   return (
     <>
       <header style={{ position: 'sticky' }}>
@@ -25,7 +25,7 @@ export const Header = (props: { setIsAddBoardFormOpen: (flag: boolean) => void }
                 </Button>
               </Typography>
               <nav className="headerNav">
-                <CreateNewBoard setIsAddBoardFormOpen={props.setIsAddBoardFormOpen} />
+                <CreateNewBoard />
                 <Button color="inherit" component={RouterLink} to={PATH.EDIT_PROFILE}>
                   <ManageAccountsIcon />
                 </Button>

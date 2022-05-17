@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { deleteColumn, getBoardById, updateColumn } from '../../api/api';
 import { IBoard, IColumn } from '../../constants/interfaces';
@@ -11,6 +11,8 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
 import Column from '../Column/Column';
 import getColumnsColor from '../getColumnsColor/getColumnsColor';
+import { GlobalContext } from '../../provider/provider';
+import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
 
 export const Board = () => {
   const navigate = useNavigate();
@@ -21,10 +23,7 @@ export const Board = () => {
   const [isAddColumnFormOpen, setIsAddColumnFormOpen] = useState(false);
   const [columnToDelete, setColumnToDelete] = useState<IColumn | null>(null);
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
-
-  const setIsAddBoardFormOpen = () => {
-    return false;
-  };
+  const { isCreateNewBoardOpen } = useContext(GlobalContext);
 
   useEffect(() => {
     getBoardById(params).then((response) => {
@@ -77,7 +76,7 @@ export const Board = () => {
 
   return (
     <>
-      <Header setIsAddBoardFormOpen={setIsAddBoardFormOpen} />
+      <Header />
 
       <div className="board">
         <Button
@@ -120,6 +119,8 @@ export const Board = () => {
           }}
         />
       )}
+
+      {isCreateNewBoardOpen && <AddNewBoardForm />}
     </>
   );
 };

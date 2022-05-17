@@ -3,18 +3,22 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useFormik } from 'formik';
+import { useContext, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 import { addBoard, getBoards } from '../../api/api';
-import { IBoard } from '../../constants/interfaces';
+import { PATH } from '../../constants/paths';
 import { localizationContent } from '../../localization/types';
+import { GlobalContext } from '../../provider/provider';
+import ConfirmRedirection from '../ConfirmRedirection/ConfirmRedirection';
 import './AddNewBoardForm.scss';
 
-interface AddNewBoardFormProps {
-  setBoardsArray: (array: IBoard[]) => void;
-  setIsAddBoardFormOpen: (flag: boolean) => void;
-}
+const AddNewBoardForm = () => {
+  const params = useParams<{ id: string }>().id || '';
+  const navigate = useNavigate();
+  const { setIsCreateNewBoardOpen, setBoardsArray } = useContext(GlobalContext);
+  const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
 
-const AddNewBoardForm = (props: AddNewBoardFormProps) => {
   interface IState {
     title: string;
   }
@@ -36,8 +40,14 @@ const AddNewBoardForm = (props: AddNewBoardFormProps) => {
     await addBoard(title);
 
     const newArray = await getBoards();
-    props.setBoardsArray(newArray);
-    props.setIsAddBoardFormOpen(false);
+    setBoardsArray(newArray);
+
+    if (params) {
+      setShowConfirmPopUp(true);
+      return;
+    }
+
+    setIsCreateNewBoardOpen(false);
   };
 
   const formik = useFormik({
@@ -69,7 +79,7 @@ const AddNewBoardForm = (props: AddNewBoardFormProps) => {
         <Box sx={{ width: '75%', px: 0, py: 2, display: 'flex', justifyContent: 'center' }}>
           <Button
             variant="outlined"
-            onClick={() => props.setIsAddBoardFormOpen(false)}
+            onClick={() => setIsCreateNewBoardOpen(false)}
             sx={{ margin: '0 10px' }}
           >
             {localizationContent.buttons.cancel}
@@ -79,6 +89,23 @@ const AddNewBoardForm = (props: AddNewBoardFormProps) => {
           </Button>
         </Box>
       </form>
+
+      {params && (
+        <ConfirmRedirection
+          description={`Do you want to go to the main page?`}
+          isOpen={isShowConfirmPopUp}
+          toShowPopUp={setShowConfirmPopUp}
+          onCancel={() => {
+            setIsCreateNewBoardOpen(false);
+            setShowConfirmPopUp(false);
+          }}
+          onConfirm={() => {
+            setIsCreateNewBoardOpen(false);
+            setShowConfirmPopUp(false);
+            navigate(PATH.MAIN_ROUTE);
+          }}
+        />
+      )}
     </div>
   );
 };

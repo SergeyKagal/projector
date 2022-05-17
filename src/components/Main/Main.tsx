@@ -8,7 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useContext, useEffect, useState } from 'react';
 import { deleteBoard, getBoards } from '../../api/api';
 import { IBoard } from '../../constants/interfaces';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
 import { PATH } from '../../constants/paths';
@@ -16,16 +16,13 @@ import { GlobalContext } from '../../provider/provider';
 import { localizationContent } from '../../localization/types';
 import Footer from '../Footer/Footer';
 
-import { Link as RouterLink } from 'react-router-dom';
-
 const Main = () => {
-  // const navigate = useNavigate();
-  const [boardsArray, setBoardsArray] = useState<IBoard[]>([]);
-  const [isAddBoardFormOpen, setIsAddBoardFormOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const { isCreateNewBoardOpen, boardsArray, setBoardsArray, userState } =
+    useContext(GlobalContext);
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
   const [boardToDelete, setBoardToDelete] = useState<IBoard | null>(null);
-
-  const { userState } = useContext(GlobalContext);
 
   useEffect(() => {
     getBoards().then((response) => {
@@ -33,11 +30,15 @@ const Main = () => {
         setBoardsArray(response);
       }
     });
-  }, []);
+  }, [setBoardsArray]);
 
   if (!userState.isUserSignIn) {
     return <Navigate to={PATH.BASE_URL} />;
   }
+
+  const handleCardClick = (board: IBoard) => {
+    navigate(`board/${board.id}`);
+  };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, board: IBoard) => {
     event.stopPropagation();
@@ -62,8 +63,7 @@ const Main = () => {
           backgroundColor: '#6a93e8',
         }}
         className="boards__card"
-        component={RouterLink}
-        to={`board/${board.id}`}
+        onClick={() => handleCardClick(board)}
       >
         <CardContent sx={{ flexGrow: 1, p: '10px' }}>
           <Typography variant="h6" component="h2" sx={{ color: '#fff' }}>
@@ -80,7 +80,7 @@ const Main = () => {
 
   return (
     <>
-      <Header setIsAddBoardFormOpen={setIsAddBoardFormOpen} />
+      <Header />
 
       <div className="boards">
         <Typography variant="h4" align="center" color="text.secondary" paragraph>
@@ -102,12 +102,7 @@ const Main = () => {
 
       <Footer />
 
-      {isAddBoardFormOpen && (
-        <AddNewBoardForm
-          setBoardsArray={setBoardsArray}
-          setIsAddBoardFormOpen={setIsAddBoardFormOpen}
-        />
-      )}
+      {isCreateNewBoardOpen && <AddNewBoardForm />}
     </>
   );
 };
