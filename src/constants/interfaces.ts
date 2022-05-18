@@ -12,14 +12,14 @@ export interface IBoard {
 }
 
 export interface ITask {
-  id: string;
+  id?: string;
   title: string;
   done: boolean;
   order: number;
   description: string;
   userId: string;
-  boardId: string;
-  columnId: string;
+  // boardId: string;
+  // columnId: string;
 }
 
 export interface BoardActionTypes {

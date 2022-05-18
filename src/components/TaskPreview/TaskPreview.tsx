@@ -1,3 +1,4 @@
+import './TaskPreview.scss';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -16,6 +17,7 @@ const TaskPreview = (props: { task: ITask }) => {
         justifyContent: 'space-between',
         margin: '5px 0',
         cursor: 'pointer',
+        backgroundColor: '#fff',
       }}
     >
       {/* <CardMedia
