@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { IColumn } from '../constants/interfaces';
+import { IColumn, ITask } from '../constants/interfaces';
 
-const API_URL = 'http://172.105.75.240:8080/http://172.105.75.240:4000';
+const API_URL = 'https://afternoon-hamlet-46054.herokuapp.com';
 
 axios.interceptors.request.use(function (config: AxiosRequestConfig) {
   const token = JSON.parse(localStorage.getItem('user') as string)?.token || null;
@@ -66,6 +66,10 @@ export const deleteUser = async (id: string) => {
   return await axios.delete(`${API_URL}/users/${id}`).then((res) => res.data);
 };
 
+export const getUsers = async () => {
+  return await axios.get(`${API_URL}/users`).then((res) => res.data);
+};
+
 export const getBoards = async () => {
   return await axios.get(`${API_URL}/boards`).then((res) => res.data);
 };
@@ -78,6 +82,7 @@ export const addBoard = async (title: string) => {
   return await axios
     .post(`${API_URL}/boards`, {
       title: title,
+      description: title,
     })
     .then((res) => res.data);
 };
@@ -107,5 +112,29 @@ export const updateColumn = async (boardId: string, column: IColumn) => {
       title: column.title,
       order: column.order,
     })
+    .then((res) => res.data);
+};
+
+export const getTasks = async (boardId: string, columnId: string) => {
+  return await axios
+    .get(`${API_URL}/boards/${boardId}/columns/${columnId}/tasks`)
+    .then((res) => res.data);
+};
+
+export const addTask = async (boardId: string, columnId: string, task: ITask) => {
+  return await axios
+    .post(`${API_URL}/boards/${boardId}/columns/${columnId}/tasks`, {
+      title: task.title,
+      done: task.done,
+      order: task.order,
+      description: task.description,
+      userId: task.userId,
+    })
+    .then((res) => res.data);
+};
+
+export const deleteTask = async (boardId: string, columnId: string, taskId: number) => {
+  return await axios
+    .delete(`${API_URL}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`)
     .then((res) => res.data);
 };

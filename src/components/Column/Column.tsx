@@ -13,6 +13,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import { getBoardById, updateColumn } from '../../api/api';
+import TaskPreview from '../TaskPreview/TaskPreview';
 interface IColumnProps {
   board: IBoard;
   column: IColumn;
@@ -20,6 +21,7 @@ interface IColumnProps {
   setColumnToDelete: (column: IColumn) => void;
   setShowConfirmPopUp: (flag: boolean) => void;
   setBoard: (board: IBoard) => void;
+  setAddNewTaskFormOpen: (flag: boolean) => void;
 }
 
 interface IState {
@@ -68,6 +70,8 @@ const Column = (props: IColumnProps) => {
   const styles = {
     backgroundColor: props.color,
   };
+
+  const tasks = props.column.tasks.map((task) => <TaskPreview key={task.id} task={task} />);
 
   return (
     <Container className="column">
@@ -119,7 +123,14 @@ const Column = (props: IColumnProps) => {
         )}
       </div>
 
-      <Button variant="text" className="button-add-item" startIcon={<AddIcon />}>
+      {tasks}
+
+      <Button
+        variant="text"
+        className="button-add-item"
+        startIcon={<AddIcon />}
+        onClick={() => props.setAddNewTaskFormOpen(true)}
+      >
         ADD TASK
       </Button>
     </Container>
