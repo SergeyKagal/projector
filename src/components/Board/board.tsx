@@ -62,35 +62,58 @@ export const Board = () => {
     );
   });
 
-  function handleDragEnd(result: DropResult): void {
+  // async function setNewColumnOrder(board.id, column, index) {
+  //   updateColumn(board.id, column, index);
+  // }
+
+  async function handleDragEnd(result: DropResult): Promise<void> {
     const { destination, source, type } = result;
 
     if (!destination) {
       return;
     }
 
+    let removed: IColumn;
+
     const reorder = (list: IColumn[], startIndex: number, endIndex: number): IColumn[] => {
       const result = Array.from(list);
-      const [removed] = result.splice(startIndex, 1);
+      [removed] = result.splice(startIndex, 1);
       result.splice(endIndex, 0, removed);
       return result;
     };
 
     if (type === 'column') {
       if (board) {
+        // Сортируем старый массив в новом порядке
         const ordered: IColumn[] = reorder(board.columns, source.index, destination.index);
+        console.log(ordered);
 
-        ordered.forEach((column: IColumn, index: number) => {
-          updateColumn(board.id, column, index);
-        });
+        let firstElNewPosition: number;
+
+        const sendNewOrder = async () => {
+          // Присваеваем 1 элементу из старого массива индекс -1
+          await updateColumn(board.id, board.columns[0], -1);
+          
+          // Пррогоняем через цикл новый массив ordered
+          for (let i = 0; i < ordered.length; i++) {
+            // Если попался 1 элемент старого массива(с индексом -1),
+            // пропускаем и запоминаем его новое место
+            if (ordered[i].id === board.columns[0].id) {
+              firstElNewPosition = i;
+              continue;
+            } else await updateColumn(board.id, ordered[i], i);
+          }
+          // Присваиваем 1му элементу старого массива новый индекс
+          await updateColumn(board.id, ordered[firstElNewPosition], firstElNewPosition);
+
+          // Обновляем список колонок
+          const newBoard = await getBoardById(params);
+          setBoard(newBoard);
+
+        };
+
+        sendNewOrder();
       }
-
-      // getBoardById(params).then((response) => {
-      //   if (response) {
-      //     setBoard(response);
-      //   }
-      // });
-      return;
     }
   }
 

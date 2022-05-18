@@ -73,9 +73,9 @@ const Column = (props: IColumnProps) => {
   return (
     <Draggable draggableId={props.column.id} index={props.index}>
       {(provided) => (
-        <Container className="column"  ref={provided.innerRef} {...provided.dragHandleProps}>
+        <Container className="column"  ref={provided.innerRef}  {...provided.draggableProps}   {...provided.dragHandleProps}>
           <div className="column__header" style={styles}></div>
-          <div className="title-container"  {...provided.draggableProps}>
+          <div className="title-container" >
             <div className="column__title" onClick={() => handleTitleClick()}>
               {props.column.title}
             </div>
