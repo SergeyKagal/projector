@@ -22,6 +22,7 @@ interface IColumnProps {
   setColumnToDelete: (column: IColumn) => void;
   setShowConfirmPopUp: (flag: boolean) => void;
   setBoard: (board: IBoard) => void;
+  setColumnToAddTask: (column: IColumn | null) => void;
 }
 
 interface IState {
@@ -30,7 +31,6 @@ interface IState {
 
 const Column = (props: IColumnProps) => {
   const [editTitleMode, setEditTitleMode] = useState(false);
-  const [isAddNewTaskFormOpen, setAddNewTaskFormOpen] = useState(false);
 
   const handleClick = () => {
     props.setColumnToDelete(props.column);
@@ -130,19 +130,10 @@ const Column = (props: IColumnProps) => {
         variant="text"
         className="button-add-item"
         startIcon={<AddIcon />}
-        onClick={() => setAddNewTaskFormOpen(true)}
+        onClick={() => props.setColumnToAddTask(props.column)}
       >
         ADD TASK
       </Button>
-
-      {isAddNewTaskFormOpen && (
-        <AddNewTaskForm
-          setAddNewTaskFormOpen={setAddNewTaskFormOpen}
-          setBoard={props.setBoard}
-          boardId={props.board.id}
-          column={props.column}
-        />
-      )}
     </Container>
   );
 };

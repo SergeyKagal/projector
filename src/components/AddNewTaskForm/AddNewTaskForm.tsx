@@ -18,7 +18,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 
 interface addNewTaskProps {
-  setAddNewTaskFormOpen: (flag: boolean) => void;
+  setColumnToAddTask: (column: IColumn | null) => void;
   setBoard: (board: IBoard) => void;
   boardId: string;
   column: IColumn;
@@ -81,6 +81,8 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
       userId: formValue.user,
     };
 
+    console.log(newTask);
+
     try {
       await addTask(props.boardId, props.column.id, newTask);
       const newBoard = await getBoardById(props.boardId);
@@ -93,7 +95,7 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
         notify(resMessage);
       }
     } finally {
-      props.setAddNewTaskFormOpen(false);
+      props.setColumnToAddTask(null);
     }
   };
 
@@ -157,7 +159,7 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
         <Box sx={{ width: '75%', px: 0, py: 2, display: 'flex', justifyContent: 'center' }}>
           <Button
             variant="outlined"
-            onClick={() => props.setAddNewTaskFormOpen(false)}
+            onClick={() => props.setColumnToAddTask(null)}
             sx={{ margin: '0 10px' }}
           >
             Cancel

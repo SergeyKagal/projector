@@ -5,10 +5,12 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { ITask } from '../../constants/interfaces';
 import { localizationContent } from '../../localization/types';
+import EditIcon from '@mui/icons-material/Edit';
 
 const TaskPreview = (props: { task: ITask }) => {
   return (
     <Card
+      className="task"
       sx={{
         p: '10px',
         width: '100%',
@@ -30,8 +32,10 @@ const TaskPreview = (props: { task: ITask }) => {
         image="./avatar_sergey.png"
         alt="avatar sergey"
       /> */}
-
-      <Typography variant="h5">{props.task.title}</Typography>
+      <div className="task__title">
+        <Typography variant="h5">{props.task.title}</Typography>
+        {<EditIcon className="task_edit" />}
+      </div>
     </Card>
   );
 };
