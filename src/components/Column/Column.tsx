@@ -14,6 +14,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import { getBoardById, updateColumn } from '../../api/api';
 import TaskPreview from '../TaskPreview/TaskPreview';
+import AddNewTaskForm from '../AddNewTaskForm/AddNewTaskForm';
 interface IColumnProps {
   board: IBoard;
   column: IColumn;
@@ -21,7 +22,6 @@ interface IColumnProps {
   setColumnToDelete: (column: IColumn) => void;
   setShowConfirmPopUp: (flag: boolean) => void;
   setBoard: (board: IBoard) => void;
-  setAddNewTaskFormOpen: (flag: boolean) => void;
 }
 
 interface IState {
@@ -30,6 +30,7 @@ interface IState {
 
 const Column = (props: IColumnProps) => {
   const [editTitleMode, setEditTitleMode] = useState(false);
+  const [isAddNewTaskFormOpen, setAddNewTaskFormOpen] = useState(false);
 
   const handleClick = () => {
     props.setColumnToDelete(props.column);
@@ -129,10 +130,19 @@ const Column = (props: IColumnProps) => {
         variant="text"
         className="button-add-item"
         startIcon={<AddIcon />}
-        onClick={() => props.setAddNewTaskFormOpen(true)}
+        onClick={() => setAddNewTaskFormOpen(true)}
       >
         ADD TASK
       </Button>
+
+      {isAddNewTaskFormOpen && (
+        <AddNewTaskForm
+          setAddNewTaskFormOpen={setAddNewTaskFormOpen}
+          setBoard={props.setBoard}
+          boardId={props.board.id}
+          column={props.column}
+        />
+      )}
     </Container>
   );
 };

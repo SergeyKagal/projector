@@ -15,18 +15,14 @@ import { GlobalContext } from '../../provider/provider';
 import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
 import { notify } from '../Notification/Notification';
 import axios from 'axios';
-import AddNewTaskForm from '../AddNewTaskForm/AddNewTaskForm';
 
 export const Board = () => {
   const navigate = useNavigate();
-
   const params = useParams<{ id: string }>().id || '';
-
   const [board, setBoard] = useState<IBoard | null>(null);
   const [isAddColumnFormOpen, setIsAddColumnFormOpen] = useState(false);
   const [columnToDelete, setColumnToDelete] = useState<IColumn | null>(null);
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
-  const [isAddNewTaskFormOpen, setAddNewTaskFormOpen] = useState(false);
   const { isCreateNewBoardOpen } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -79,7 +75,6 @@ export const Board = () => {
 
   board?.columns.sort((a, b) => (a.order > b.order ? 1 : -1));
   const colors = getColumnsColor(board);
-  // console.log(board?.columns);
 
   const columns = board?.columns.map((column) => {
     return (
@@ -91,7 +86,6 @@ export const Board = () => {
         color={colors.get(column.id) || '#87A8EC'}
         setColumnToDelete={setColumnToDelete}
         setShowConfirmPopUp={setShowConfirmPopUp}
-        setAddNewTaskFormOpen={setAddNewTaskFormOpen}
       />
     );
   });
@@ -143,7 +137,6 @@ export const Board = () => {
       )}
 
       {isCreateNewBoardOpen && <AddNewBoardForm />}
-      {isAddNewTaskFormOpen && <AddNewTaskForm setAddNewTaskFormOpen={setAddNewTaskFormOpen} />}
     </>
   );
 };

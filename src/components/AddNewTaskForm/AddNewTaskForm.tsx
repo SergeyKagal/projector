@@ -6,15 +6,49 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { addColumn, getBoardById } from '../../api/api';
-import { IBoard } from '../../constants/interfaces';
+import { addTask, getBoardById, getUsers } from '../../api/api';
+import { IBoard, IColumn } from '../../constants/interfaces';
 import { notify } from '../Notification/Notification';
+import { useEffect, useState } from 'react';
+
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+
+import FormControl from '@mui/material/FormControl';
 
 interface addNewTaskProps {
   setAddNewTaskFormOpen: (flag: boolean) => void;
+  setBoard: (board: IBoard) => void;
+  boardId: string;
+  column: IColumn;
+}
+
+interface User {
+  id: string;
+  name: string;
+  login: string;
 }
 
 const AddNewTaskForm = (props: addNewTaskProps) => {
+  const [users, setUsers] = useState<User[]>([]);
+
+  useEffect(() => {
+    getUsers().then(
+      (response) => {
+        setUsers(response);
+      },
+      (error) => {
+        const resMessage =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        notify(resMessage);
+      }
+    );
+  }, []);
+
   interface IState {
     title: string;
     description: string;
@@ -39,21 +73,28 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
   });
 
   const addNewTask = async (formValue: IState) => {
-    // try {
-    //   const { title } = formValue;
-    //   await addColumn(props.board.id, title, props.board.columns.length + 1);
-    //   const newBoard = await getBoardById(props.board.id);
-    //   if (newBoard) {
-    //     props.setBoard(newBoard);
-    //   }
-    // } catch (error) {
-    //   if (axios.isAxiosError(error)) {
-    //     const resMessage = error.message || error.toString();
-    //     notify(resMessage);
-    //   }
-    // } finally {
-    //   props.setIsAddColumnFormOpen(false);
-    // }
+    const newTask = {
+      title: formValue.title,
+      done: false,
+      order: props.column.tasks.length + 1,
+      description: formValue.description,
+      userId: formValue.user,
+    };
+
+    try {
+      await addTask(props.boardId, props.column.id, newTask);
+      const newBoard = await getBoardById(props.boardId);
+      if (newBoard) {
+        props.setBoard(newBoard);
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const resMessage = error.message || error.toString();
+        notify(resMessage);
+      }
+    } finally {
+      props.setAddNewTaskFormOpen(false);
+    }
   };
 
   const formik = useFormik({
@@ -66,7 +107,7 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
     <div className="addNewTask__container">
       <form onSubmit={formik.handleSubmit} className="addNewTask__form">
         <Typography component="h1" variant="h5">
-          Add title for new task
+          Add new task
         </Typography>
         <Box sx={{ width: '75%', px: 0, py: 2 }}>
           <TextField
@@ -94,7 +135,25 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
             error={formik.touched.description && Boolean(formik.errors.description)}
             helperText={formik.touched.description && formik.errors.description}
           />
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">User</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              name="user"
+              id="demo-simple-select"
+              value={formik.values.user}
+              label="User"
+              onChange={formik.handleChange}
+            >
+              {users.map((user) => (
+                <MenuItem key={user.id} value={user.id}>
+                  {user.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Box>
+
         <Box sx={{ width: '75%', px: 0, py: 2, display: 'flex', justifyContent: 'center' }}>
           <Button
             variant="outlined"
