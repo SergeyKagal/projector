@@ -138,3 +138,17 @@ export const deleteTask = async (boardId: string, columnId: string, taskId: numb
     .delete(`${API_URL}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`)
     .then((res) => res.data);
 };
+
+export const editTask = async (boardId: string, columnId: string, task: ITask) => {
+  return await axios
+    .put(`${API_URL}/boards/${boardId}/columns/${columnId}/tasks/${task.id}`, {
+      title: task.title,
+      done: task.done,
+      order: task.order,
+      description: task.description,
+      userId: task.userId,
+      boardId: boardId,
+      columnId: columnId,
+    })
+    .then((res) => res.data);
+};

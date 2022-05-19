@@ -1,4 +1,4 @@
-import './AddNewTaskForm.scss';
+import './EditTaskForm.scss';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { addTask, getBoardById, getUsers } from '../../api/api';
-import { IBoard, IColumn } from '../../constants/interfaces';
+import { IBoard, IColumn, ITask } from '../../constants/interfaces';
 import { notify } from '../Notification/Notification';
 import { useEffect, useState } from 'react';
 
@@ -17,11 +17,11 @@ import MenuItem from '@mui/material/MenuItem';
 
 import FormControl from '@mui/material/FormControl';
 
-interface addNewTaskProps {
-  setColumnToAddTask: (column: IColumn | null) => void;
-  setBoard: (board: IBoard) => void;
-  boardId: string;
-  column: IColumn;
+interface EditTaskProps {
+  // setColumnToAddTask: (column: IColumn | null) => void;
+  // setBoard: (board: IBoard) => void;
+  setTaskToEdit: (task: ITask | null) => void;
+  task: ITask;
 }
 
 interface User {
@@ -30,7 +30,7 @@ interface User {
   login: string;
 }
 
-const AddNewTaskForm = (props: addNewTaskProps) => {
+const EditTaskForm = (props: EditTaskProps) => {
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
@@ -55,10 +55,12 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
     user: string;
   }
 
+  const defaultUser = users.find((user) => user.id === props.task.userId);
+
   const initialState = {
-    title: '',
-    description: '',
-    user: '',
+    title: props.task.title,
+    description: props.task.description,
+    user: defaultUser ? defaultUser.name : '',
   };
 
   const validationSchema = Yup.object({
@@ -72,44 +74,46 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
       .required('This field is required!'),
   });
 
-  const addNewTask = async (formValue: IState) => {
+  const editTask = async (formValue: IState) => {
     const newTask = {
       title: formValue.title,
       done: false,
-      order: props.column.tasks.length + 1,
+      order: props.task.order,
       description: formValue.description,
       userId: formValue.user,
+      boardId: props.task.boardId,
+      columnId: props.task.columnId,
     };
 
     console.log(newTask);
 
-    try {
-      await addTask(props.boardId, props.column.id, newTask);
-      const newBoard = await getBoardById(props.boardId);
-      if (newBoard) {
-        props.setBoard(newBoard);
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const resMessage = error.message || error.toString();
-        notify(resMessage);
-      }
-    } finally {
-      props.setColumnToAddTask(null);
-    }
+    // try {
+    //   await addTask(props.boardId, props.column.id, newTask);
+    //   const newBoard = await getBoardById(props.boardId);
+    //   if (newBoard) {
+    //     props.setBoard(newBoard);
+    //   }
+    // } catch (error) {
+    //   if (axios.isAxiosError(error)) {
+    //     const resMessage = error.message || error.toString();
+    //     notify(resMessage);
+    //   }
+    // } finally {
+    //   props.setColumnToAddTask(null);
+    // }
   };
 
   const formik = useFormik({
     initialValues: initialState,
     validationSchema: validationSchema,
-    onSubmit: addNewTask,
+    onSubmit: editTask,
   });
 
   return (
     <div className="addNewTask__container">
       <form onSubmit={formik.handleSubmit} className="addNewTask__form">
         <Typography component="h1" variant="h5">
-          Add new task
+          Edit task
         </Typography>
         <Box sx={{ width: '75%', px: 0, py: 2 }}>
           <TextField
@@ -159,13 +163,13 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
         <Box sx={{ width: '75%', px: 0, py: 2, display: 'flex', justifyContent: 'center' }}>
           <Button
             variant="outlined"
-            onClick={() => props.setColumnToAddTask(null)}
+            onClick={() => props.setTaskToEdit(null)}
             sx={{ margin: '0 10px' }}
           >
             Cancel
           </Button>
           <Button type="submit" variant="contained" sx={{ margin: '0 10px' }}>
-            Add Task
+            Save
           </Button>
         </Box>
       </form>
@@ -173,4 +177,4 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
   );
 };
 
-export default AddNewTaskForm;
+export default EditTaskForm;

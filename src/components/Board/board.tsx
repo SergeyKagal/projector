@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { deleteColumn, getBoardById, updateColumn } from '../../api/api';
-import { IBoard, IColumn } from '../../constants/interfaces';
+import { IBoard, IColumn, ITask } from '../../constants/interfaces';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import { Header } from '../Header/Header';
@@ -17,6 +17,7 @@ import { notify } from '../Notification/Notification';
 import axios from 'axios';
 import AddNewTaskForm from '../AddNewTaskForm/AddNewTaskForm';
 import Footer from '../Footer/Footer';
+import EditTaskForm from '../EditTaskForm/EditTaskForm';
 
 export const Board = () => {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ export const Board = () => {
   const [columnToDelete, setColumnToDelete] = useState<IColumn | null>(null);
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
   const [columnToAddTask, setColumnToAddTask] = useState<IColumn | null>(null);
+  const [taskToEdit, setTaskToEdit] = useState<ITask | null>(null);
   const { isCreateNewBoardOpen } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -90,6 +92,7 @@ export const Board = () => {
         setColumnToDelete={setColumnToDelete}
         setShowConfirmPopUp={setShowConfirmPopUp}
         setColumnToAddTask={setColumnToAddTask}
+        setTaskToEdit={setTaskToEdit}
       />
     );
   });
@@ -152,6 +155,8 @@ export const Board = () => {
           column={columnToAddTask}
         />
       )}
+
+      {taskToEdit && board && <EditTaskForm task={taskToEdit} setTaskToEdit={setTaskToEdit} />}
     </>
   );
 };

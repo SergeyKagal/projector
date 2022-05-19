@@ -3,11 +3,24 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { ITask } from '../../constants/interfaces';
+import { IColumn, ITask, IBoard } from '../../constants/interfaces';
 import { localizationContent } from '../../localization/types';
 import EditIcon from '@mui/icons-material/Edit';
+import { useState } from 'react';
+import EditTaskForm from '../EditTaskForm/EditTaskForm';
 
-const TaskPreview = (props: { task: ITask }) => {
+interface TaskPreviewProps {
+  setTaskToEdit: (task: ITask) => void;
+  // column: IColumn;
+  // boardId: string;
+  task: ITask;
+}
+
+const TaskPreview = (props: TaskPreviewProps) => {
+  const editTask = () => {
+    // console.log('editTask');
+  };
+
   return (
     <Card
       className="task"
@@ -23,6 +36,7 @@ const TaskPreview = (props: { task: ITask }) => {
         overflow: 'unset',
         height: '50px',
       }}
+      onClick={() => props.setTaskToEdit(props.task)}
     >
       {/* <CardMedia
         component="img"
@@ -35,7 +49,7 @@ const TaskPreview = (props: { task: ITask }) => {
         alt="avatar sergey"
       /> */}
       <div className="task__title">
-        <Typography variant="h5">{props.task.title}</Typography>
+        <Typography variant="h6">{props.task.title}</Typography>
         {<EditIcon className="task_edit" />}
       </div>
     </Card>

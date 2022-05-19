@@ -2,7 +2,7 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
-import { IBoard, IColumn } from '../../constants/interfaces';
+import { IBoard, IColumn, ITask } from '../../constants/interfaces';
 import './Column.scss';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
@@ -23,6 +23,7 @@ interface IColumnProps {
   setShowConfirmPopUp: (flag: boolean) => void;
   setBoard: (board: IBoard) => void;
   setColumnToAddTask: (column: IColumn | null) => void;
+  setTaskToEdit: (task: ITask | null) => void;
 }
 
 interface IState {
@@ -72,7 +73,9 @@ const Column = (props: IColumnProps) => {
     backgroundColor: props.color,
   };
 
-  const tasks = props.column.tasks.map((task) => <TaskPreview key={task.id} task={task} />);
+  const tasks = props.column.tasks.map((task) => (
+    <TaskPreview key={task.id} task={task} setTaskToEdit={props.setTaskToEdit} />
+  ));
 
   const columnHeight = document.documentElement.clientHeight - 240;
 
