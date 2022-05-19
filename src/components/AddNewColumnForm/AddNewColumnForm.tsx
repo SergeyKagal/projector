@@ -36,7 +36,7 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
     try {
       const { title } = formValue;
 
-      await addColumn(props.board.id, title, props.board.columns.length + 1);
+      await addColumn(props.board.id, title.toUpperCase(), props.board.columns.length + 1);
 
       const newBoard = await getBoardById(props.board.id);
 

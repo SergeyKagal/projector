@@ -77,7 +77,7 @@ const Column = (props: IColumnProps) => {
   const columnHeight = document.documentElement.clientHeight - 240;
 
   return (
-    <Container className="column" sx={{ height: `${columnHeight}px` }}>
+    <Container className="column" sx={{ maxHeight: `${columnHeight}px` }}>
       <div className="column__header" style={styles}></div>
       <div className="title-container">
         <div className="column__title" onClick={() => handleTitleClick()}>
@@ -91,7 +91,9 @@ const Column = (props: IColumnProps) => {
         {editTitleMode && (
           <div className="title-edit">
             <form onSubmit={formik.handleSubmit} className="title-edit__form">
-              <Box sx={{ p: 0, display: 'flex', justifyContent: 'center' }}>
+              <Box
+                sx={{ p: 0, display: 'flex', justifyContent: 'center', backgroundColor: '#f0f0f1' }}
+              >
                 <TextField
                   fullWidth
                   size="small"
@@ -115,7 +117,12 @@ const Column = (props: IColumnProps) => {
                 <Button
                   aria-label="delete"
                   variant="outlined"
-                  sx={{ width: '32px', height: '32px', minWidth: 0, p: '6px 16px' }}
+                  sx={{
+                    width: '32px',
+                    height: '32px',
+                    minWidth: 0,
+                    p: '6px 16px',
+                  }}
                   onClick={handleCancelEditTitle}
                 >
                   <CloseIcon />
