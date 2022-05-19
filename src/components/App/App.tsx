@@ -19,7 +19,7 @@ function App() {
   const [userState, setUserState] = useState<IUser>(defaultGlobalState.userState);
   const defaultInterfaceLanguage = localizationContent.getLanguage();
   const [localization, setLocalization] = useState(
-    defaultInterfaceLanguage === 'ru-RU' ? Localization.ru : Localization.en
+    defaultInterfaceLanguage === 'ru' ? Localization.en : Localization.ru
   );
   const [isCreateNewBoardOpen, setIsCreateNewBoardOpen] = useState(false);
   const [boardsArray, setBoardsArray] = useState<IBoard[]>([]);
