@@ -6,19 +6,22 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { addTask, getBoardById, getUsers, updateTask } from '../../api/api';
-import { IBoard, IColumn, ITask } from '../../constants/interfaces';
+import { getBoardById, getUsers, updateTask } from '../../api/api';
+import { IBoard, ITask } from '../../constants/interfaces';
 import { notify } from '../Notification/Notification';
 import { useEffect, useState } from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
+import NativeSelect from '@mui/material/NativeSelect';
 
 interface EditTaskProps {
   setBoard: (board: IBoard) => void;
-  setTaskToEdit: (task: ITask | null) => void;
+  setTaskToEdit: (taskId: ITask | null) => void;
   task: ITask;
+  boardId: string;
 }
 
 interface User {
@@ -29,7 +32,6 @@ interface User {
 
 const EditTaskForm = (props: EditTaskProps) => {
   const [users, setUsers] = useState<User[]>([]);
-  console.log(props.task);
 
   useEffect(() => {
     getUsers().then(
@@ -58,7 +60,7 @@ const EditTaskForm = (props: EditTaskProps) => {
   const initialState = {
     title: props.task.title,
     description: props.task.description,
-    user: defaultUser ? defaultUser.name : '',
+    user: defaultUser ? defaultUser.id : '',
   };
 
   const validationSchema = Yup.object({
@@ -70,20 +72,20 @@ const EditTaskForm = (props: EditTaskProps) => {
       .min(3, 'The description must have min 3 characters.')
       .max(100, 'The description must have max 100 characters.')
       .required('This field is required!'),
+    user: Yup.string().required('This field is required!'),
   });
 
   const editTask = async (formValue: IState) => {
     const newTask = {
+      id: props.task.id,
       title: formValue.title,
       done: false,
       order: props.task.order,
       description: formValue.description,
       userId: formValue.user,
-      boardId: props.task.boardId,
+      boardId: props.boardId,
       columnId: props.task.columnId,
     };
-
-    // console.log(newTask);
 
     try {
       await updateTask(newTask);
@@ -140,21 +142,37 @@ const EditTaskForm = (props: EditTaskProps) => {
             helperText={formik.touched.description && formik.errors.description}
           />
           <FormControl fullWidth sx={{ mt: 2 }}>
-            <InputLabel id="demo-simple-select-label">{initialState.user}</InputLabel>
+            <InputLabel id="demo-simple-select-label">user</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               name="user"
-              id="demo-simple-select"
               value={formik.values.user}
               label="user"
               onChange={formik.handleChange}
+              error={formik.touched.user && Boolean(formik.errors.user)}
             >
+              <MenuItem value="">{defaultUser ? defaultUser.name : ''}</MenuItem>
               {users.map((user) => (
                 <MenuItem key={user.id} value={user.id}>
                   {user.name}
                 </MenuItem>
               ))}
             </Select>
+            {/* <NativeSelect
+              defaultValue={formik.values.user}
+              inputProps={{
+                name: 'user',
+                id: 'demo-simple-select-label',
+              }}
+            >
+              {users.map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.name}
+                </option>
+              ))}
+            </NativeSelect> */}
+
+            <FormHelperText>{formik.touched.user && formik.errors.user}</FormHelperText>
           </FormControl>
         </Box>
 

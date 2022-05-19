@@ -7,20 +7,14 @@ import { IColumn, ITask, IBoard } from '../../constants/interfaces';
 import { localizationContent } from '../../localization/types';
 import EditIcon from '@mui/icons-material/Edit';
 import { useState } from 'react';
-import EditTaskForm from '../EditTaskForm/EditTaskForm';
 
 interface TaskPreviewProps {
-  setTaskToEdit: (task: ITask) => void;
-  // column: IColumn;
-  // boardId: string;
+  setTaskToEdit: (taskID: ITask) => void;
+  column: IColumn;
   task: ITask;
 }
 
 const TaskPreview = (props: TaskPreviewProps) => {
-  const editTask = () => {
-    // console.log('editTask');
-  };
-
   return (
     <Card
       className="task"
@@ -36,7 +30,7 @@ const TaskPreview = (props: TaskPreviewProps) => {
         overflow: 'unset',
         height: '50px',
       }}
-      onClick={() => props.setTaskToEdit(props.task)}
+      onClick={() => props.setTaskToEdit({ ...props.task, columnId: props.column.id })}
     >
       {/* <CardMedia
         component="img"

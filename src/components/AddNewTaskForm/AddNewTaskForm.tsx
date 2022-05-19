@@ -16,6 +16,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
 import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
 
 interface addNewTaskProps {
   setColumnToAddTask: (column: IColumn | null) => void;
@@ -70,6 +71,7 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
       .min(3, 'The description must have min 3 characters.')
       .max(100, 'The description must have max 100 characters.')
       .required('This field is required!'),
+    user: Yup.string().required('This field is required!'),
   });
 
   const addNewTask = async (formValue: IState) => {
@@ -82,8 +84,6 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
       boardId: props.boardId,
       columnId: props.column.id,
     };
-
-    console.log(newTask);
 
     try {
       await addTask(props.boardId, props.column.id, newTask);
@@ -139,7 +139,11 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
             error={formik.touched.description && Boolean(formik.errors.description)}
             helperText={formik.touched.description && formik.errors.description}
           />
-          <FormControl fullWidth sx={{ mt: 2 }}>
+          <FormControl
+            fullWidth
+            sx={{ mt: 2 }}
+            error={formik.touched.user && Boolean(formik.errors.user)}
+          >
             <InputLabel id="demo-simple-select-label">user</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -154,6 +158,7 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
                   {user.name}
                 </MenuItem>
               ))}
+              <FormHelperText>{formik.touched.user && formik.errors.user}</FormHelperText>
             </Select>
           </FormControl>
         </Box>

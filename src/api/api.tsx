@@ -121,6 +121,12 @@ export const getTasks = async (boardId: string, columnId: string) => {
     .then((res) => res.data);
 };
 
+export const getTaskById = async (boardId: string, columnId: string, taskId: string) => {
+  return await axios
+    .get(`${API_URL}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`)
+    .then((res) => res.data);
+};
+
 export const addTask = async (boardId: string, columnId: string, task: ITask) => {
   return await axios
     .post(`${API_URL}/boards/${boardId}/columns/${columnId}/tasks`, {

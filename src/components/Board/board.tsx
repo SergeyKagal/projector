@@ -157,7 +157,12 @@ export const Board = () => {
       )}
 
       {taskToEdit && board && (
-        <EditTaskForm task={taskToEdit} setTaskToEdit={setTaskToEdit} setBoard={setBoard} />
+        <EditTaskForm
+          task={taskToEdit}
+          setTaskToEdit={setTaskToEdit}
+          setBoard={setBoard}
+          boardId={board.id}
+        />
       )}
     </>
   );

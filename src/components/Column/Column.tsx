@@ -73,9 +73,16 @@ const Column = (props: IColumnProps) => {
     backgroundColor: props.color,
   };
 
-  const tasks = props.column.tasks.map((task) => (
-    <TaskPreview key={task.id} task={task} setTaskToEdit={props.setTaskToEdit} />
-  ));
+  const tasks = props.column.tasks
+    .sort((a, b) => (a.order > b.order ? 1 : -1))
+    .map((task) => (
+      <TaskPreview
+        key={task.id}
+        task={task}
+        setTaskToEdit={props.setTaskToEdit}
+        column={props.column}
+      />
+    ));
 
   const columnHeight = document.documentElement.clientHeight - 240;
 
