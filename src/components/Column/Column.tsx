@@ -39,7 +39,7 @@ const Column = (props: IColumnProps) => {
     const { title } = formValue;
     const updatedColumn = { ...props.column, title: title };
 
-    await updateColumn(props.board.id, updatedColumn, title);
+    await updateColumn(props.board.id, updatedColumn);
     props.setBoard(await getBoardById(props.board.id));
     setEditTitleMode(false);
   };

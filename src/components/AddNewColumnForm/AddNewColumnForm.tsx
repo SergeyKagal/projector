@@ -33,7 +33,7 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
   const addNewColumn = async (formValue: IState) => {
     const { title } = formValue;
 
-    await addColumn(props.board.id, title, props.board.columns.length + 1);
+    await addColumn(props.board.id, title, props.board.columns.length);
 
     const newBoard = await getBoardById(props.board.id);
     if (newBoard) {
