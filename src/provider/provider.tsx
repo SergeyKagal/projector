@@ -40,6 +40,8 @@ interface IGlobalState {
   setIsCreateNewBoardOpen: Dispatch<SetStateAction<boolean>>;
   boardsArray: IBoard[];
   setBoardsArray: (boards: IBoard[]) => void;
+  stickyHeader: boolean;
+  setStickyHeader: (isStickyHeader: boolean) => void;
 }
 
 export const defaultGlobalState: IGlobalState = {
@@ -51,6 +53,8 @@ export const defaultGlobalState: IGlobalState = {
   setIsCreateNewBoardOpen: () => {},
   boardsArray: [],
   setBoardsArray: () => {},
+  stickyHeader: false,
+  setStickyHeader: () => {},
 };
 
 export const GlobalContext = React.createContext(defaultGlobalState);

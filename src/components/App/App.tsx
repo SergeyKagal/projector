@@ -23,6 +23,19 @@ function App() {
   );
   const [isCreateNewBoardOpen, setIsCreateNewBoardOpen] = useState(false);
   const [boardsArray, setBoardsArray] = useState<IBoard[]>([]);
+  const [stickyHeader, setStickyHeader] = useState(false);
+
+  const scrollHandler = () => {
+    if (window.scrollY >= 5) {
+      setStickyHeader(true);
+      console.log('scroll', window.scrollY);
+    } else {
+      setStickyHeader(false);
+      console.log('***');
+    }
+  };
+
+  window.addEventListener('scroll', scrollHandler);
 
   return (
     <div className="app">
@@ -37,6 +50,8 @@ function App() {
             setIsCreateNewBoardOpen,
             boardsArray,
             setBoardsArray,
+            stickyHeader,
+            setStickyHeader,
           }}
         >
           <Router>
