@@ -33,7 +33,7 @@ export interface IUser {
 
 interface IGlobalState {
   userState: IUser;
-  localization: Localization;
+  localization?: Localization;
   isCreateNewBoardOpen: boolean;
   setUserState: (user: IUser) => void;
   setLocalization: (Localize: Localization) => void;
@@ -46,7 +46,6 @@ interface IGlobalState {
 
 export const defaultGlobalState: IGlobalState = {
   userState: getUserInformation(),
-  localization: Localization.en,
   isCreateNewBoardOpen: false,
   setUserState: () => {},
   setLocalization: () => {},
