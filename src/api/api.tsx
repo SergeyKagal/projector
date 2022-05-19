@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { IColumn } from '../constants/interfaces';
 
-const API_URL = 'http://172.105.75.240:8080/http://172.105.75.240:4000';
+const API_URL = 'https://afternoon-hamlet-46054.herokuapp.com';
 
 axios.interceptors.request.use(function (config: AxiosRequestConfig) {
   const token = JSON.parse(localStorage.getItem('user') as string)?.token || null;
@@ -78,6 +78,7 @@ export const addBoard = async (title: string) => {
   return await axios
     .post(`${API_URL}/boards`, {
       title: title,
+      description: title,
     })
     .then((res) => res.data);
 };
