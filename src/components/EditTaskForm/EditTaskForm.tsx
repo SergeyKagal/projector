@@ -6,20 +6,17 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { addTask, getBoardById, getUsers } from '../../api/api';
+import { addTask, getBoardById, getUsers, updateTask } from '../../api/api';
 import { IBoard, IColumn, ITask } from '../../constants/interfaces';
 import { notify } from '../Notification/Notification';
 import { useEffect, useState } from 'react';
-
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-
 import FormControl from '@mui/material/FormControl';
 
 interface EditTaskProps {
-  // setColumnToAddTask: (column: IColumn | null) => void;
-  // setBoard: (board: IBoard) => void;
+  setBoard: (board: IBoard) => void;
   setTaskToEdit: (task: ITask | null) => void;
   task: ITask;
 }
@@ -32,6 +29,7 @@ interface User {
 
 const EditTaskForm = (props: EditTaskProps) => {
   const [users, setUsers] = useState<User[]>([]);
+  console.log(props.task);
 
   useEffect(() => {
     getUsers().then(
@@ -85,22 +83,22 @@ const EditTaskForm = (props: EditTaskProps) => {
       columnId: props.task.columnId,
     };
 
-    console.log(newTask);
+    // console.log(newTask);
 
-    // try {
-    //   await addTask(props.boardId, props.column.id, newTask);
-    //   const newBoard = await getBoardById(props.boardId);
-    //   if (newBoard) {
-    //     props.setBoard(newBoard);
-    //   }
-    // } catch (error) {
-    //   if (axios.isAxiosError(error)) {
-    //     const resMessage = error.message || error.toString();
-    //     notify(resMessage);
-    //   }
-    // } finally {
-    //   props.setColumnToAddTask(null);
-    // }
+    try {
+      await updateTask(newTask);
+      const newBoard = await getBoardById(newTask.boardId);
+      if (newBoard) {
+        props.setBoard(newBoard);
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const resMessage = error.message || error.toString();
+        notify(resMessage);
+      }
+    } finally {
+      props.setTaskToEdit(null);
+    }
   };
 
   const formik = useFormik({
@@ -142,7 +140,7 @@ const EditTaskForm = (props: EditTaskProps) => {
             helperText={formik.touched.description && formik.errors.description}
           />
           <FormControl fullWidth sx={{ mt: 2 }}>
-            <InputLabel id="demo-simple-select-label">user</InputLabel>
+            <InputLabel id="demo-simple-select-label">{initialState.user}</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               name="user"

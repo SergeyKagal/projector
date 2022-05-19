@@ -18,8 +18,8 @@ export interface ITask {
   order: number;
   description: string;
   userId: string;
-  boardId?: string;
-  columnId?: string;
+  boardId: string;
+  columnId: string;
 }
 
 export interface BoardActionTypes {

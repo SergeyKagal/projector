@@ -79,6 +79,8 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
       order: props.column.tasks.length + 1,
       description: formValue.description,
       userId: formValue.user,
+      boardId: props.boardId,
+      columnId: props.column.id,
     };
 
     console.log(newTask);

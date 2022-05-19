@@ -156,7 +156,9 @@ export const Board = () => {
         />
       )}
 
-      {taskToEdit && board && <EditTaskForm task={taskToEdit} setTaskToEdit={setTaskToEdit} />}
+      {taskToEdit && board && (
+        <EditTaskForm task={taskToEdit} setTaskToEdit={setTaskToEdit} setBoard={setBoard} />
+      )}
     </>
   );
 };
