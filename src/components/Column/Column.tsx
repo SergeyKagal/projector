@@ -14,7 +14,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import { getBoardById, updateColumn } from '../../api/api';
 import TaskPreview from '../TaskPreview/TaskPreview';
-import AddNewTaskForm from '../AddNewTaskForm/AddNewTaskForm';
+
 interface IColumnProps {
   board: IBoard;
   column: IColumn;
@@ -74,8 +74,10 @@ const Column = (props: IColumnProps) => {
 
   const tasks = props.column.tasks.map((task) => <TaskPreview key={task.id} task={task} />);
 
+  const columnHeight = document.documentElement.clientHeight - 240;
+
   return (
-    <Container className="column">
+    <Container className="column" sx={{ height: `${columnHeight}px` }}>
       <div className="column__header" style={styles}></div>
       <div className="title-container">
         <div className="column__title" onClick={() => handleTitleClick()}>

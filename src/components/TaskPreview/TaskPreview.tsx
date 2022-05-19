@@ -20,6 +20,8 @@ const TaskPreview = (props: { task: ITask }) => {
         margin: '5px 0',
         cursor: 'pointer',
         backgroundColor: '#fff',
+        overflow: 'unset',
+        height: '50px',
       }}
     >
       {/* <CardMedia

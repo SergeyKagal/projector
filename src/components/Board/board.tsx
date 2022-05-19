@@ -16,6 +16,7 @@ import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
 import { notify } from '../Notification/Notification';
 import axios from 'axios';
 import AddNewTaskForm from '../AddNewTaskForm/AddNewTaskForm';
+import Footer from '../Footer/Footer';
 
 export const Board = () => {
   const navigate = useNavigate();
@@ -119,6 +120,8 @@ export const Board = () => {
           </Button>
         </div>
       </div>
+
+      <Footer />
 
       {isAddColumnFormOpen && board && (
         <AddNewColumnForm
