@@ -18,11 +18,19 @@ import { LangToggler } from '../Header/LangToggler/LangToggler';
 import { localizationContent } from '../../localization/types';
 
 const Welcome = () => {
-  const { userState } = useContext(GlobalContext);
+  const { userState, stickyHeader } = useContext(GlobalContext);
 
   return (
     <div className="welcome">
-      <AppBar position="relative" className="appBar">
+      <AppBar
+        position="fixed"
+        className="appBar"
+        style={
+          stickyHeader
+            ? { height: '50px', transition: '0.5s' }
+            : { height: '77px', transition: '0.5s' }
+        }
+      >
         <Toolbar sx={{ display: { justifyContent: 'flex-end' } }} className="toolbar">
           {userState.isUserSignIn ? (
             <Button color="inherit" component={RouterLink} to={PATH.MAIN_ROUTE}>
@@ -46,8 +54,7 @@ const Welcome = () => {
       <main className="main">
         <Box
           sx={{
-            pt: 6,
-            pb: 6,
+            py: 6,
           }}
         >
           <Container maxWidth="sm">

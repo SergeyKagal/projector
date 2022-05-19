@@ -5,10 +5,14 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  padding-top: 100px;
 
   .appBar {
     align-items: center;
     padding: 0 24px;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
   }
 
   .toolbar {
@@ -20,7 +24,7 @@
 
 .main {
   width: 100%;
-  height: 100%;
+
   display: flex;
   flex-direction: column;
   align-items: center;
