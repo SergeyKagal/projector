@@ -23,10 +23,12 @@ const AddNewBoardForm = () => {
 
   interface IState {
     title: string;
+    description: string;
   }
 
   const initialState = {
     title: '',
+    description: '',
   };
 
   const validationSchema = Yup.object({
@@ -34,13 +36,17 @@ const AddNewBoardForm = () => {
       .min(3, `${localizationContent.errors.titleLength}`)
       .max(30, `${localizationContent.errors.titleLength}`)
       .required(`${localizationContent.errors.required}`),
+    description: Yup.string()
+      .min(3, `${localizationContent.errors.descriptionLength}`)
+      .max(100, `${localizationContent.errors.descriptionLength}`)
+      .required(`${localizationContent.errors.required}`),
   });
 
   const addNewBoard = async (formValue: IState) => {
-    const { title } = formValue;
+    const { title, description } = formValue;
 
     try {
-      await addBoard(title);
+      await addBoard(title, description);
 
       const newArray = await getBoards();
       setBoardsArray(newArray);
@@ -84,6 +90,18 @@ const AddNewBoardForm = () => {
             error={formik.touched.title && Boolean(formik.errors.title)}
             helperText={formik.touched.title && formik.errors.title}
             autoFocus
+          />
+          <TextField
+            sx={{ mt: 2 }}
+            fullWidth
+            id="description"
+            name="description"
+            label={localizationContent.addNewBoard.description}
+            type="description"
+            value={formik.values.description}
+            onChange={formik.handleChange}
+            error={formik.touched.description && Boolean(formik.errors.description)}
+            helperText={formik.touched.description && formik.errors.description}
           />
         </Box>
         <Box sx={{ width: '75%', px: 0, py: 2, display: 'flex', justifyContent: 'center' }}>

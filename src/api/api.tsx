@@ -74,11 +74,11 @@ export const getBoardById = async (id: string) => {
   return await axios.get(`${API_URL}/boards/${id}`).then((res) => res.data);
 };
 
-export const addBoard = async (title: string) => {
+export const addBoard = async (title: string, description: string) => {
   return await axios
     .post(`${API_URL}/boards`, {
       title: title,
-      description: title,
+      description: description,
     })
     .then((res) => res.data);
 };

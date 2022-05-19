@@ -10,12 +10,14 @@ export const en = {
   addBoard: 'Add new board',
   editUser: 'Edit User profile',
   signOut: 'Sign Out',
-  boardList: "Board's list",
+  boardList: 'Your boards',
   addNewBoard: {
     addTitle: 'Add title for new board',
     title: 'title',
+    description: 'description',
   },
   errors: {
+    descriptionLength: 'The description must be between 3 and 100 characters.',
     titleLength: 'The title must be between 3 and 30 characters.',
     required: 'This field is required!',
     userNameLength: 'The username must be between 3 and 20 characters.',
