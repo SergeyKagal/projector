@@ -28,10 +28,8 @@ function App() {
   const scrollHandler = () => {
     if (window.scrollY >= 5) {
       setStickyHeader(true);
-      console.log('scroll', window.scrollY);
     } else {
       setStickyHeader(false);
-      console.log('***');
     }
   };
 
