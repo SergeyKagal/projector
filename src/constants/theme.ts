@@ -1,9 +1,12 @@
 import { createTheme } from '@mui/material/styles';
 
 const themeOptions = {
-  
   palette: {
     type: 'light',
+    text: {
+      primary: 'rgba(0, 0, 0, 0.78)',
+      secondary: 'rgba(0, 0, 0, 0.54)',
+    },
     primary: {
       main: '#6a93e8',
       light: '#87A8EC',
@@ -36,6 +39,17 @@ const themeOptions = {
     },
     info: {
       main: '#673ab7',
+    },
+  },
+  typography: {
+    h4: {
+      fontSize: '1.6rem',
+    },
+    h5: {
+      fontSize: '1.3rem',
+    },
+    h6: {
+      fontSize: '1.1rem',
     },
   },
 };

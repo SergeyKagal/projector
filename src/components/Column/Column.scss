@@ -33,7 +33,7 @@ div.column {
     height: 50px;
   }
 
-  &__title {
+  div > .column__title {
     width: 100%;
     display: flex;
     justify-content: space-between;

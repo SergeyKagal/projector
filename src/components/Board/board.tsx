@@ -18,6 +18,7 @@ import axios from 'axios';
 import AddNewTaskForm from '../AddNewTaskForm/AddNewTaskForm';
 import Footer from '../Footer/Footer';
 import EditTaskForm from '../EditTaskForm/EditTaskForm';
+import Typography from '@mui/material/Typography';
 
 export const Board = () => {
   const navigate = useNavigate();
@@ -109,7 +110,9 @@ export const Board = () => {
           <KeyboardBackspaceIcon sx={{ fontSize: '66px' }} />
         </Button>
 
-        <h3>Board «{board?.title}»</h3>
+        <Typography variant="h4" align="center" color="text.secondary" paragraph>
+          Board «{board?.title}»
+        </Typography>
 
         <div className="columns-container">
           {columns}

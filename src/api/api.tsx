@@ -139,7 +139,7 @@ export const addTask = async (boardId: string, columnId: string, task: ITask) =>
     .then((res) => res.data);
 };
 
-export const deleteTask = async (boardId: string, columnId: string, taskId: number) => {
+export const deleteTask = async (boardId: string, columnId: string, taskId: string) => {
   return await axios
     .delete(`${API_URL}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`)
     .then((res) => res.data);

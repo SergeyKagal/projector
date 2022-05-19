@@ -7,9 +7,14 @@
     position: relative;
     height: 50px;
 
-    .task_edit {
+    .task_edit,
+    .task_close {
       display: none;
     }
+  }
+
+  &__buttons-container {
+    display: flex;
   }
 
   &:hover {
@@ -18,10 +23,18 @@
 
     .task_edit {
       display: block;
-      color: rgba(0, 0, 0, 0.1);
-      position: absolute;
-      right: 5px;
-      top: 2px;
+      // color: rgba(0, 0, 0, 0.3);
+      // position: absolute;
+      // right: 5px;
+      // top: 2px;
+    }
+
+    .task_close {
+      display: block;
+      // color: rgba(0, 0, 0, 0.3);
+      // position: absolute;
+      // right: 10px;
+      // top: 2px;
     }
   }
 }

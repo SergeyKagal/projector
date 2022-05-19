@@ -14,6 +14,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import { getBoardById, updateColumn } from '../../api/api';
 import TaskPreview from '../TaskPreview/TaskPreview';
+import { Typography } from '@mui/material';
 
 interface IColumnProps {
   board: IBoard;
@@ -81,6 +82,7 @@ const Column = (props: IColumnProps) => {
         task={task}
         setTaskToEdit={props.setTaskToEdit}
         column={props.column}
+        boardId={props.board.id}
       />
     ));
 
@@ -90,10 +92,15 @@ const Column = (props: IColumnProps) => {
     <Container className="column" sx={{ maxHeight: `${columnHeight}px` }}>
       <div className="column__header" style={styles}></div>
       <div className="title-container">
-        <div className="column__title" onClick={() => handleTitleClick()}>
+        <Typography
+          variant="h5"
+          color="text.primary"
+          className="column__title"
+          onClick={() => handleTitleClick()}
+        >
           {props.column.title}
           {<EditIcon className="column-edit" />}
-        </div>
+        </Typography>
         <Button sx={{ p: '2px', minWidth: '' }} onClick={() => handleClick()}>
           {<DeleteIcon />}
         </Button>
