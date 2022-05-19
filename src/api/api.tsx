@@ -103,9 +103,9 @@ export const deleteColumn = async (boardId: string, columnId: string) => {
   return await axios.delete(`${API_URL}/boards/${boardId}/columns/${columnId}`);
 };
 
-export const updateColumn = async (boardId: string, column: IColumn, newOrder?: number) => {
+export const updateColumn = async (boardId: string, column: IColumn, newTitle: string) => {
   return await axios.put(`${API_URL}/boards/${boardId}/columns/${column.id}`, {
-    title: column.title,
-    order: newOrder || column.id,
+    title: newTitle,
+    order: column.order,
   });
 };
