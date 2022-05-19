@@ -15,6 +15,7 @@ import { GlobalContext } from '../../provider/provider';
 import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
 import { notify } from '../Notification/Notification';
 import axios from 'axios';
+import { Card, Typography, CardContent } from '@mui/material';
 
 export const Board = () => {
   const navigate = useNavigate();
@@ -102,10 +103,18 @@ export const Board = () => {
           onClick={() => navigate(-1)}
         >
           <KeyboardBackspaceIcon sx={{ fontSize: '66px' }} />
-        </Button>
-
+        </Button>{' '}
         <h3>Board «{board?.title}»</h3>
-
+        <Card sx={{ minWidth: 0.8 }}>
+          <CardContent>
+            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              Board Description
+            </Typography>
+            <Typography sx={{ fontSize: 18 }} variant="body2" color="text.primary">
+              {board?.description}
+            </Typography>
+          </CardContent>
+        </Card>{' '}
         <div className="columns-container">
           {columns}
           <Button

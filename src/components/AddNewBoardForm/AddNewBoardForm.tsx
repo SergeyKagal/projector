@@ -102,6 +102,7 @@ const AddNewBoardForm = () => {
             onChange={formik.handleChange}
             error={formik.touched.description && Boolean(formik.errors.description)}
             helperText={formik.touched.description && formik.errors.description}
+            multiline
           />
         </Box>
         <Box sx={{ width: '75%', px: 0, py: 2, display: 'flex', justifyContent: 'center' }}>

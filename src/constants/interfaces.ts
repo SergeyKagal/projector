@@ -7,6 +7,7 @@ export interface IBoard {
   id: string;
   title: string;
   columns: IColumn[];
+  description: string;
 }
 
 export interface BoardActionTypes {
