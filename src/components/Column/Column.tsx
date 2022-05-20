@@ -25,6 +25,7 @@ interface IColumnProps {
   setBoard: (board: IBoard) => void;
   setColumnToAddTask: (column: IColumn | null) => void;
   setTaskToEdit: (task: ITask | null) => void;
+  setTaskToDelete: (task: ITask | null) => void;
 }
 
 interface IState {
@@ -83,6 +84,8 @@ const Column = (props: IColumnProps) => {
         setTaskToEdit={props.setTaskToEdit}
         column={props.column}
         boardId={props.board.id}
+        setTaskToDelete={props.setTaskToDelete}
+        setShowConfirmPopUp={props.setShowConfirmPopUp}
       />
     ));
 

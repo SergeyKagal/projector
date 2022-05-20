@@ -6,23 +6,35 @@ import Typography from '@mui/material/Typography';
 import { IColumn, ITask, IBoard } from '../../constants/interfaces';
 import { localizationContent } from '../../localization/types';
 import EditIcon from '@mui/icons-material/Edit';
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useContext, useState } from 'react';
 import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
 import { deleteTask } from '../../api/api';
-
+import { GlobalContext } from '../../provider/provider';
+import Notification, { notify } from '../Notification/Notification';
 interface TaskPreviewProps {
   setTaskToEdit: (taskID: ITask) => void;
+  setTaskToDelete: (taskID: ITask) => void;
+  setShowConfirmPopUp: (flag: boolean) => void;
   column: IColumn;
   task: ITask;
   boardId: string;
 }
 
 const TaskPreview = (props: TaskPreviewProps) => {
+  const { userState } = useContext(GlobalContext);
+
   const handleDeleteTask = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
-    props.setTaskToDelete(props.task.id);
-    // await deleteTask(props.boardId, props.column.id, props.task.id);
+
+    if (props.task.userId === userState.userId) {
+      const taskToDelete = { ...props.task, columnId: props.column.id, boardId: props.boardId };
+
+      props.setTaskToDelete(taskToDelete);
+      props.setShowConfirmPopUp(true);
+    } else {
+      notify('You are not allowed to delete this task');
+    }
   };
 
   return (
@@ -76,6 +88,8 @@ const TaskPreview = (props: TaskPreviewProps) => {
       </div>
 
       <div className="task__status">{props.task.done ? 'done' : 'in progress'}</div>
+
+      <Notification />
     </Card>
   );
 };

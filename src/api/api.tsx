@@ -139,9 +139,9 @@ export const addTask = async (boardId: string, columnId: string, task: ITask) =>
     .then((res) => res.data);
 };
 
-export const deleteTask = async (boardId: string, columnId: string, taskId: string) => {
+export const deleteTask = async (task: ITask) => {
   return await axios
-    .delete(`${API_URL}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`)
+    .delete(`${API_URL}/boards/${task.boardId}/columns/${task.columnId}/tasks/${task.id}`)
     .then((res) => res.data);
 };
 

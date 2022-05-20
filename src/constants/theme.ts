@@ -4,7 +4,7 @@ const themeOptions = {
   palette: {
     type: 'light',
     text: {
-      primary: 'rgba(0, 0, 0, 0.78)',
+      primary: 'rgba(0, 0, 0, 0.75)',
       secondary: 'rgba(0, 0, 0, 0.54)',
     },
     primary: {

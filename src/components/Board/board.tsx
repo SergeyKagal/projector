@@ -1,6 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { deleteColumn, getBoardById, updateColumn } from '../../api/api';
+import {
+  deleteColumn,
+  deleteTask,
+  getBoardById,
+  getTasks,
+  updateColumn,
+  updateTask,
+} from '../../api/api';
 import { IBoard, IColumn, ITask } from '../../constants/interfaces';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
@@ -13,7 +20,7 @@ import Column from '../Column/Column';
 import getColumnsColor from '../getColumnsColor/getColumnsColor';
 import { GlobalContext } from '../../provider/provider';
 import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
-import { notify } from '../Notification/Notification';
+import Notification, { notify } from '../Notification/Notification';
 import axios from 'axios';
 import AddNewTaskForm from '../AddNewTaskForm/AddNewTaskForm';
 import Footer from '../Footer/Footer';
@@ -29,6 +36,7 @@ export const Board = () => {
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
   const [columnToAddTask, setColumnToAddTask] = useState<IColumn | null>(null);
   const [taskToEdit, setTaskToEdit] = useState<ITask | null>(null);
+  const [taskToDelete, setTaskToDelete] = useState<ITask | null>(null);
   const { isCreateNewBoardOpen } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -79,6 +87,34 @@ export const Board = () => {
     }
   };
 
+  const handleDeleteTask = async (task: ITask) => {
+    if (!board) return;
+
+    try {
+      await deleteTask(task);
+
+      const tasksArray = await getTasks(task.boardId, task.columnId);
+
+      const requestsForUpdateTasksOrder = tasksArray.map((item: ITask, index: number) => {
+        const newTask = { ...item, order: index + 1 };
+        return updateTask(newTask);
+      });
+
+      await Promise.all(requestsForUpdateTasksOrder);
+
+      const newBoard = await getBoardById(params);
+
+      setBoard(newBoard);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const resMessage = error.message || error.toString();
+        notify(resMessage);
+      }
+    } finally {
+      setShowConfirmPopUp(false);
+    }
+  };
+
   board?.columns.sort((a, b) => (a.order > b.order ? 1 : -1));
   const colors = getColumnsColor(board);
 
@@ -94,6 +130,7 @@ export const Board = () => {
         setShowConfirmPopUp={setShowConfirmPopUp}
         setColumnToAddTask={setColumnToAddTask}
         setTaskToEdit={setTaskToEdit}
+        setTaskToDelete={setTaskToDelete}
       />
     );
   });
@@ -167,6 +204,19 @@ export const Board = () => {
           boardId={board.id}
         />
       )}
+
+      {taskToDelete && (
+        <ConfirmPopUp
+          description={`Are you sure to delete task "${taskToDelete.title}"?`}
+          isOpen={isShowConfirmPopUp}
+          toShowPopUp={setShowConfirmPopUp}
+          onConfirm={() => {
+            handleDeleteTask(taskToDelete);
+          }}
+        />
+      )}
+
+      <Notification />
     </>
   );
 };
