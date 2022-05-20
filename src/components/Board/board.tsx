@@ -67,6 +67,7 @@ export const Board = () => {
       }
     } finally {
       setShowConfirmPopUp(false);
+      setColumnToDelete(null);
     }
   };
 
