@@ -33,24 +33,27 @@ export interface IUser {
 
 interface IGlobalState {
   userState: IUser;
-  localization: Localization;
+  localization?: Localization;
   isCreateNewBoardOpen: boolean;
   setUserState: (user: IUser) => void;
   setLocalization: (Localize: Localization) => void;
   setIsCreateNewBoardOpen: Dispatch<SetStateAction<boolean>>;
   boardsArray: IBoard[];
   setBoardsArray: (boards: IBoard[]) => void;
+  stickyHeader: boolean;
+  setStickyHeader: (isStickyHeader: boolean) => void;
 }
 
 export const defaultGlobalState: IGlobalState = {
   userState: getUserInformation(),
-  localization: Localization.en,
   isCreateNewBoardOpen: false,
   setUserState: () => {},
   setLocalization: () => {},
   setIsCreateNewBoardOpen: () => {},
   boardsArray: [],
   setBoardsArray: () => {},
+  stickyHeader: false,
+  setStickyHeader: () => {},
 };
 
 export const GlobalContext = React.createContext(defaultGlobalState);
