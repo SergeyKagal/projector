@@ -1,13 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  deleteColumn,
-  deleteTask,
-  getBoardById,
-  getTasks,
-  updateColumn,
-  updateTask,
-} from '../../api/api';
+import { deleteColumn, deleteTask, getBoardById } from '../../api/api';
 import { IBoard, IColumn, ITask } from '../../constants/interfaces';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
@@ -62,18 +55,6 @@ export const Board = () => {
     try {
       await deleteColumn(board.id, columnToDelete.id);
 
-      const currentBoard = {
-        ...board,
-        columns: board.columns.filter((column) => column.id !== columnToDelete.id),
-      };
-
-      const requestsForUpdateColumns = currentBoard.columns.map((column, index) => {
-        const newColumn = { ...column, order: index + 1 };
-        return updateColumn(board.id, newColumn);
-      });
-
-      await Promise.all(requestsForUpdateColumns);
-
       const newBoard = await getBoardById(params);
 
       setBoard(newBoard);
@@ -93,15 +74,6 @@ export const Board = () => {
     try {
       await deleteTask(task);
 
-      const tasksArray = await getTasks(task.boardId, task.columnId);
-
-      const requestsForUpdateTasksOrder = tasksArray.map((item: ITask, index: number) => {
-        const newTask = { ...item, order: index + 1 };
-        return updateTask(newTask);
-      });
-
-      await Promise.all(requestsForUpdateTasksOrder);
-
       const newBoard = await getBoardById(params);
 
       setBoard(newBoard);
@@ -112,6 +84,7 @@ export const Board = () => {
       }
     } finally {
       setShowConfirmPopUp(false);
+      setTaskToDelete(null);
     }
   };
 

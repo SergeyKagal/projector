@@ -75,10 +75,13 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
   });
 
   const addNewTask = async (formValue: IState) => {
+    const order = props.column.tasks.length
+      ? props.column.tasks[props.column.tasks.length - 1].order + 1
+      : 0;
     const newTask = {
       title: formValue.title,
       done: false,
-      order: props.column.tasks.length + 1,
+      order: order,
       description: formValue.description,
       userId: formValue.user,
       boardId: props.boardId,
