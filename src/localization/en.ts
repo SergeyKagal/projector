@@ -16,6 +16,10 @@ export const en = {
     title: 'title',
   },
   board: 'Board',
+  addColumn: {
+    header: 'Add new column',
+    title: 'title',
+  },
   errors: {
     titleLength: 'The title must be between 3 and 30 characters.',
     required: 'This field is required!',
@@ -36,6 +40,7 @@ export const en = {
     delAcc: 'delete account',
     redirect: 'go to',
     addTask: 'add task',
+    addColumn: 'add column',
   },
   deletePopup: {
     title: 'Delete Confirmation',
@@ -83,5 +88,8 @@ export const en = {
     title: 'title',
     description: 'description',
     user: 'user',
+  },
+  editTask: {
+    header: 'Edit task',
   },
 };

@@ -7,6 +7,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { addColumn, getBoardById } from '../../api/api';
 import { IBoard } from '../../constants/interfaces';
+import { localizationContent } from '../../localization/types';
 import { notify } from '../Notification/Notification';
 import './AddNewColumnForm.scss';
 
@@ -66,7 +67,7 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
     <div className="addNewColumn__container">
       <form onSubmit={formik.handleSubmit} className="addNewColumn__form">
         <Typography component="h1" variant="h5">
-          Add title for new column
+          {localizationContent.addColumn.header}
         </Typography>
         <Box sx={{ width: '75%', px: 0, py: 2 }}>
           <TextField
@@ -74,7 +75,7 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
             fullWidth
             id="title"
             name="title"
-            label="title"
+            label={localizationContent.addColumn.title}
             type="title"
             value={formik.values.title}
             onChange={formik.handleChange}
@@ -89,10 +90,10 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
             onClick={() => props.setIsAddColumnFormOpen(false)}
             sx={{ margin: '0 10px' }}
           >
-            Cancel
+            {localizationContent.buttons.cancel}
           </Button>
           <Button type="submit" variant="contained" sx={{ margin: '0 10px' }}>
-            Add column
+            {localizationContent.buttons.add}
           </Button>
         </Box>
       </form>

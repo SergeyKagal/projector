@@ -16,10 +16,11 @@ import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
 import Notification, { notify } from '../Notification/Notification';
 import axios from 'axios';
 import AddNewTaskForm from '../AddNewTaskForm/AddNewTaskForm';
-import Footer from '../Footer/Footer';
+
 import EditTaskForm from '../EditTaskForm/EditTaskForm';
 import Typography from '@mui/material/Typography';
 import { localizationContent } from '../../localization/types';
+import Footer from '../Footer/Footer';
 
 export const Board = () => {
   const navigate = useNavigate();
@@ -133,7 +134,7 @@ export const Board = () => {
             startIcon={<AddIcon />}
             onClick={() => setIsAddColumnFormOpen(true)}
           >
-            {localizationContent.buttons.add}
+            {localizationContent.buttons.addColumn}
           </Button>
         </div>
       </div>

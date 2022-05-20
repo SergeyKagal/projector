@@ -17,6 +17,10 @@ export const ru = {
     title: 'заголовок',
   },
   board: 'Проект',
+  addColumn: {
+    header: 'Добавьте новую колонку',
+    title: 'название',
+  },
   errors: {
     titleLength: 'Заголовок должен содержать от 3-х до 30 символов.',
     required: 'Это поле обязательно к заполнению!',
@@ -37,6 +41,7 @@ export const ru = {
     delAcc: 'удалить профиль пользователя',
     redirect: 'перейти',
     addTask: 'добавить задачу',
+    addColumn: 'добавить',
   },
   deletePopup: {
     title: 'Подтверждение удаления',
@@ -84,5 +89,8 @@ export const ru = {
     title: 'название',
     description: 'описание',
     user: 'исполнитель',
+  },
+  editTask: {
+    header: 'Редактировать задачу',
   },
 };

@@ -15,6 +15,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
+import { localizationContent } from '../../localization/types';
 
 interface EditTaskProps {
   setBoard: (board: IBoard) => void;
@@ -112,7 +113,7 @@ const EditTaskForm = (props: EditTaskProps) => {
     <div className="addNewTask__container">
       <form onSubmit={formik.handleSubmit} className="addNewTask__form">
         <Typography component="h1" variant="h5">
-          Edit task
+          {localizationContent.editTask.header}
         </Typography>
         <Box sx={{ width: '75%', px: 0, py: 2 }}>
           <TextField
@@ -120,7 +121,7 @@ const EditTaskForm = (props: EditTaskProps) => {
             fullWidth
             id="title"
             name="title"
-            label="title"
+            label={localizationContent.addNewTask.title}
             type="title"
             value={formik.values.title}
             onChange={formik.handleChange}
@@ -133,7 +134,7 @@ const EditTaskForm = (props: EditTaskProps) => {
             fullWidth
             id="description"
             name="description"
-            label="description"
+            label={localizationContent.addNewTask.description}
             type="description"
             value={formik.values.description}
             onChange={formik.handleChange}
@@ -141,7 +142,9 @@ const EditTaskForm = (props: EditTaskProps) => {
             helperText={formik.touched.description && formik.errors.description}
           />
           <FormControl fullWidth sx={{ mt: 2 }}>
-            <InputLabel id="demo-simple-select-label">user</InputLabel>
+            <InputLabel id="demo-simple-select-label">
+              {localizationContent.addNewTask.user}
+            </InputLabel>
             <Select
               labelId="demo-simple-select-label"
               name="user"
@@ -168,10 +171,10 @@ const EditTaskForm = (props: EditTaskProps) => {
             onClick={() => props.setTaskToEdit(null)}
             sx={{ margin: '0 10px' }}
           >
-            Cancel
+            {localizationContent.buttons.cancel}
           </Button>
           <Button type="submit" variant="contained" sx={{ margin: '0 10px' }}>
-            Save
+            {localizationContent.buttons.save}
           </Button>
         </Box>
       </form>
