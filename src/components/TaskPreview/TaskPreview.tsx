@@ -1,15 +1,11 @@
 import './TaskPreview.scss';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { IColumn, ITask, IBoard } from '../../constants/interfaces';
-import { localizationContent } from '../../localization/types';
+import { IColumn, ITask } from '../../constants/interfaces';
 import EditIcon from '@mui/icons-material/Edit';
-import { MouseEvent, useContext, useState } from 'react';
+import { useContext } from 'react';
 import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
-import { deleteTask } from '../../api/api';
 import { GlobalContext } from '../../provider/provider';
 import Notification, { notify } from '../Notification/Notification';
 interface TaskPreviewProps {
@@ -55,16 +51,6 @@ const TaskPreview = (props: TaskPreviewProps) => {
       }}
       onClick={() => props.setTaskToEdit({ ...props.task, columnId: props.column.id })}
     >
-      {/* <CardMedia
-        component="img"
-        sx={{
-          width: 100,
-          height: 100,
-          borderRadius: '50%',
-        }}
-        image="./avatar_sergey.png"
-        alt="avatar sergey"
-      /> */}
       <div className="task__title">
         <Typography variant="h6">{props.task.title}</Typography>
 

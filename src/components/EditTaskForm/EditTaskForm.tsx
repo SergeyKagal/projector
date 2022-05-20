@@ -15,7 +15,6 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
-import NativeSelect from '@mui/material/NativeSelect';
 
 interface EditTaskProps {
   setBoard: (board: IBoard) => void;
@@ -158,19 +157,6 @@ const EditTaskForm = (props: EditTaskProps) => {
                 </MenuItem>
               ))}
             </Select>
-            {/* <NativeSelect
-              defaultValue={formik.values.user}
-              inputProps={{
-                name: 'user',
-                id: 'demo-simple-select-label',
-              }}
-            >
-              {users.map((user) => (
-                <option key={user.id} value={user.id}>
-                  {user.name}
-                </option>
-              ))}
-            </NativeSelect> */}
 
             <FormHelperText>{formik.touched.user && formik.errors.user}</FormHelperText>
           </FormControl>
