@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { deleteColumn, getBoardById, updateColumn } from '../../api/api';
-import { IBoard, IColumn } from '../../constants/interfaces';
+import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
-import { Header } from '../Header/Header';
-import './board.scss';
+
+import setColumnsColor from '../SetColumnsColor/SetColumnsColor';
+import { deleteColumn, getBoardById, updateColumn } from '../../api/api';
+import { IBoard, IColumn } from '../../constants/interfaces';
 import AddNewColumnForm from '../AddNewColumnForm/AddNewColumnForm';
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
 import Column from '../Column/Column';
-import setColumnsColor from '../SetColumnsColor/SetColumnsColor';
-import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
+import { Header } from '../Header/Header';
+
+import './board.scss';
 
 export const Board = () => {
   const navigate = useNavigate();
@@ -30,6 +32,7 @@ export const Board = () => {
   useEffect(() => {
     getBoardById(params).then((response) => {
       if (response) {
+        response.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
         setBoard(response);
       }
     });
@@ -41,10 +44,10 @@ export const Board = () => {
     if (board) await deleteColumn(board.id, columnToDelete.id);
 
     const newBoard = await getBoardById(params);
+    newBoard.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
     setBoard(newBoard);
   };
 
-  board?.columns.sort((a, b) => (a.order > b.order ? 1 : -1));
   const colors = setColumnsColor(board);
 
   const columns = board?.columns.map((column, index) => {
@@ -62,10 +65,6 @@ export const Board = () => {
     );
   });
 
-  // async function setNewColumnOrder(board.id, column, index) {
-  //   updateColumn(board.id, column, index);
-  // }
-
   async function handleDragEnd(result: DropResult): Promise<void> {
     const { destination, source, type } = result;
 
@@ -80,70 +79,61 @@ export const Board = () => {
     let removed: IColumn;
 
     const reorder = async (list: IColumn[], startIndex: number, endIndex: number) => {
-      if (startIndex > endIndex) {
-        console.log(startIndex, endIndex);
-        // Вырезаем передвигаемый элемент
-        await updateColumn(board.id, board.columns[startIndex], -1);
+      const createNewColumns = async () => {
         const result = Array.from(list);
         [removed] = result.splice(startIndex, 1);
+        result.splice(endIndex, 0, removed);
+        return result;
+      };
+      const columns: IColumn[] = await createNewColumns();
 
-        // Передвигаем элементы слева от вырезаемого на один вправо
-        const reorderStartIndex = startIndex - 1;
+      if (board) {
+        setBoard({ id: board.id, title: board.title, columns: columns });
 
-        for (let i = reorderStartIndex; i >= endIndex; i--) {
-          if (i === endIndex) {
-            // В последгей итерации присваиваем передвигаемому элементу нужный индекс
-            await updateColumn(board.id, board.columns[i], i + 1);
-            await updateColumn(board.id, removed, endIndex);
-          } else {
-            await updateColumn(board.id, board.columns[i], i + 1);
+        if (startIndex > endIndex) {
+          // Вырезаем передвигаемый элемент
+          await updateColumn(board.id, board.columns[startIndex], -1);
+          const result = Array.from(list);
+          [removed] = result.splice(startIndex, 1);
+
+          // Передвигаем элементы слева от вырезаемого на один вправо
+          const reorderStartIndex = startIndex - 1;
+
+          for (let i = reorderStartIndex; i >= endIndex; i--) {
+            if (i === endIndex) {
+              // В последней итерации присваиваем передвигаемому элементу нужный индекс
+              await updateColumn(board.id, board.columns[i], i + 1);
+              await updateColumn(board.id, removed, endIndex);
+            } else {
+              await updateColumn(board.id, board.columns[i], i + 1);
+            }
+          }
+        }
+
+        if (startIndex < endIndex) {
+          // Вырезаем передвигаемый элемент
+          await updateColumn(board.id, board.columns[startIndex], -1);
+          const result = Array.from(list);
+          [removed] = result.splice(startIndex, 1);
+
+          // Передвигаем элементы слева от вырезаемого на один вправо
+          const reorderStartIndex = startIndex + 1;
+
+          for (let i = reorderStartIndex; i <= endIndex; i++) {
+            if (i === endIndex) {
+              // В последней итерации присваиваем передвигаемому элементу нужный индекс
+              await updateColumn(board.id, board.columns[i], i - 1);
+              await updateColumn(board.id, removed, endIndex);
+            } else {
+              await updateColumn(board.id, board.columns[i], i - 1);
+            }
           }
         }
       }
-
-      if (startIndex < endIndex) {
-        console.log(startIndex, endIndex);
-        // Вырезаем передвигаемый элемент
-        await updateColumn(board.id, board.columns[startIndex], -1);
-        const result = Array.from(list);
-        [removed] = result.splice(startIndex, 1);
-
-        // Передвигаем элементы слева от вырезаемого на один вправо
-        const reorderStartIndex = startIndex + 1;
-
-        for (let i = reorderStartIndex; i <= endIndex; i++) {
-          if (i === endIndex) {
-            // В последней итерации присваиваем передвигаемому элементу нужный индекс
-            await updateColumn(board.id, board.columns[i], i - 1);
-            await updateColumn(board.id, removed, endIndex);
-          } else {
-            await updateColumn(board.id, board.columns[i], i - 1);
-          }
-        }
-      }
-
-              const newBoard = await getBoardById(params);
-        setBoard(newBoard);
     };
-
     if (type === 'column') {
       if (board) {
-        console.log(board?.columns);
-        // Сортируем старый массив в новом порядке
         reorder(board.columns, source.index, destination.index);
-        // getBoardById(params);
-
-        // const sendNewOrder = async () => {
-        //   for (let i = 0; i < ordered.length; i++) {
-        //     await updateColumn(board.id, board?.columns[i], ordered[i].title);
-        //   }
-        // };
-
-        // await sendNewOrder();
-
-        // // Обновляем список колонок
-        // const newBoard = await getBoardById(params);
-        // setBoard(newBoard);
       }
     }
   }
