@@ -149,11 +149,14 @@ const EditTaskForm = (props: EditTaskProps) => {
               labelId="demo-simple-select-label"
               name="user"
               value={formik.values.user}
-              label="user"
+              displayEmpty
               onChange={formik.handleChange}
               error={formik.touched.user && Boolean(formik.errors.user)}
             >
-              <MenuItem value="">{defaultUser ? defaultUser.name : ''}</MenuItem>
+              {/* <MenuItem value="">{defaultUser ? defaultUser.name : ''}</MenuItem> */}
+              <MenuItem value="" selected>
+                user name{' '}
+              </MenuItem>
               {users.map((user) => (
                 <MenuItem key={user.id} value={user.id}>
                   {user.name}
@@ -161,7 +164,7 @@ const EditTaskForm = (props: EditTaskProps) => {
               ))}
             </Select>
 
-            <FormHelperText>{formik.touched.user && formik.errors.user}</FormHelperText>
+            <FormHelperText error>{formik.touched.user && formik.errors.user}</FormHelperText>
           </FormControl>
         </Box>
 
