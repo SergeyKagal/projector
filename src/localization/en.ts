@@ -78,4 +78,10 @@ export const en = {
     discription: 'To Edit Profile, please change content of all form fields.',
     succes: 'Success',
   },
+  addNewTask: {
+    header: 'Add new task',
+    title: 'title',
+    description: 'description',
+    user: 'user',
+  },
 };

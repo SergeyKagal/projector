@@ -17,6 +17,7 @@ import MenuItem from '@mui/material/MenuItem';
 
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
+import { localizationContent } from '../../localization/types';
 
 interface addNewTaskProps {
   setColumnToAddTask: (column: IColumn | null) => void;
@@ -114,7 +115,7 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
     <div className="addNewTask__container">
       <form onSubmit={formik.handleSubmit} className="addNewTask__form">
         <Typography component="h1" variant="h5">
-          Add new task
+          {localizationContent.addNewTask.header}
         </Typography>
         <Box sx={{ width: '75%', px: 0, py: 2 }}>
           <TextField
@@ -122,7 +123,7 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
             fullWidth
             id="title"
             name="title"
-            label="title"
+            label={localizationContent.addNewTask.title}
             type="title"
             value={formik.values.title}
             onChange={formik.handleChange}
@@ -135,7 +136,7 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
             fullWidth
             id="description"
             name="description"
-            label="description"
+            label={localizationContent.addNewTask.description}
             type="description"
             value={formik.values.description}
             onChange={formik.handleChange}
@@ -147,13 +148,15 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
             sx={{ mt: 2 }}
             error={formik.touched.user && Boolean(formik.errors.user)}
           >
-            <InputLabel id="demo-simple-select-label">user</InputLabel>
+            <InputLabel id="demo-simple-select-label">
+              {localizationContent.addNewTask.user}
+            </InputLabel>
             <Select
               labelId="demo-simple-select-label"
               name="user"
               id="demo-simple-select"
               value={formik.values.user}
-              label="user"
+              label={localizationContent.addNewTask.user}
               onChange={formik.handleChange}
             >
               {users.map((user) => (
@@ -172,10 +175,10 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
             onClick={() => props.setColumnToAddTask(null)}
             sx={{ margin: '0 10px' }}
           >
-            Cancel
+            {localizationContent.buttons.cancel}
           </Button>
           <Button type="submit" variant="contained" sx={{ margin: '0 10px' }}>
-            Add Task
+            {localizationContent.buttons.add}
           </Button>
         </Box>
       </form>
