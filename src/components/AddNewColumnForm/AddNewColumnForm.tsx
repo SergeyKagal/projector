@@ -2,10 +2,12 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { addColumn, getBoardById } from '../../api/api';
-import { IBoard } from '../../constants/interfaces';
+import { IBoard, IColumn } from '../../constants/interfaces';
+import { notify } from '../Notification/Notification';
 import './AddNewColumnForm.scss';
 
 interface addNewColumnProps {
@@ -31,15 +33,27 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
   });
 
   const addNewColumn = async (formValue: IState) => {
-    const { title } = formValue;
+    try {
+      const { title } = formValue;
+      const order = props.board.columns.length
+        ? props.board.columns[props.board.columns.length - 1].order + 1
+        : 0;
+console.log(order)
+      await addColumn(props.board.id, title.toUpperCase(), order);
 
-    await addColumn(props.board.id, title, props.board.columns.length);
-
-    const newBoard = await getBoardById(props.board.id);
-    if (newBoard) {
-      props.setBoard(newBoard);
+      const newBoard = await getBoardById(props.board.id);
+      newBoard.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
+      if (newBoard) {
+        props.setBoard(newBoard);
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const resMessage = error.message || error.toString();
+        notify(resMessage);
+      }
+    } finally {
+      props.setIsAddColumnFormOpen(false);
     }
-    props.setIsAddColumnFormOpen(false);
   };
 
   const formik = useFormik({

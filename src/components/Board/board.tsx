@@ -14,6 +14,8 @@ import Column from '../Column/Column';
 import { Header } from '../Header/Header';
 
 import './board.scss';
+import axios from 'axios';
+import { notify } from '../Notification/Notification';
 
 export const Board = () => {
   const navigate = useNavigate();
@@ -39,13 +41,21 @@ export const Board = () => {
   }, [params]);
 
   const handleDeleteColumn = async (columnToDelete: IColumn) => {
-    setShowConfirmPopUp(false);
+    if (!board) return;
+    try {
+      await deleteColumn(board.id, columnToDelete.id);
 
-    if (board) await deleteColumn(board.id, columnToDelete.id);
-
-    const newBoard = await getBoardById(params);
-    newBoard.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
-    setBoard(newBoard);
+      const newBoard = await getBoardById(params);
+      newBoard.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
+      setBoard(newBoard);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const resMessage = error.message || error.toString();
+        notify(resMessage);
+      }
+    } finally {
+      setShowConfirmPopUp(false);
+    }
   };
 
   const colors = setColumnsColor(board);
@@ -91,6 +101,7 @@ export const Board = () => {
         setBoard({ id: board.id, title: board.title, columns: columns });
 
         if (startIndex > endIndex) {
+          console.log('движение влево');
           // Вырезаем передвигаемый элемент
           await updateColumn(board.id, board.columns[startIndex], -1);
           const result = Array.from(list);
@@ -111,6 +122,7 @@ export const Board = () => {
         }
 
         if (startIndex < endIndex) {
+          console.log('движение вправо');
           // Вырезаем передвигаемый элемент
           await updateColumn(board.id, board.columns[startIndex], -1);
           const result = Array.from(list);
@@ -133,7 +145,10 @@ export const Board = () => {
     };
     if (type === 'column') {
       if (board) {
-        reorder(board.columns, source.index, destination.index);
+        await reorder(board.columns, source.index, destination.index);
+        const newBoard = await getBoardById(params);
+        newBoard.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
+        setBoard(newBoard);
       }
     }
   }
