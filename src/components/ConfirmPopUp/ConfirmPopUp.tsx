@@ -15,6 +15,7 @@ interface IConfirm {
   onConfirm?: () => void;
   child?: JSX.Element;
   description: string;
+  onCancel?: () => void;
 }
 
 const ConfirmPopUp = (props: IConfirm) => {
@@ -31,7 +32,16 @@ const ConfirmPopUp = (props: IConfirm) => {
           <DialogContentText>{props.description}</DialogContentText>
         </DialogContent>
         <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Button variant="outlined" onClick={cancelClickHandler}>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              if (props.onCancel) {
+                props.onCancel();
+              }
+
+              cancelClickHandler();
+            }}
+          >
             {localizationContent.buttons.cancel}
           </Button>
           <Button color="error" variant="contained" onClick={props.onConfirm}>

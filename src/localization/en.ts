@@ -15,6 +15,7 @@ export const en = {
     addTitle: 'Add title for new board',
     title: 'title',
   },
+  board: 'Board',
   errors: {
     titleLength: 'The title must be between 3 and 30 characters.',
     required: 'This field is required!',
@@ -34,10 +35,19 @@ export const en = {
     save: 'save changes',
     delAcc: 'delete account',
     redirect: 'go to',
+    addTask: 'add task',
   },
   deletePopup: {
     title: 'Delete Confirmation',
     description: 'Are you sure to delete user?',
+  },
+  deleteColumn: {
+    title: 'Delete Confirmation',
+    description: 'Are you sure to delete column',
+  },
+  deleteTask: {
+    title: 'Delete Confirmation',
+    description: 'Are you sure to delete task',
   },
   redirectionPopup: {
     title: 'Redirect Confirmation',

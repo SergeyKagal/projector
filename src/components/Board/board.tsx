@@ -19,6 +19,7 @@ import AddNewTaskForm from '../AddNewTaskForm/AddNewTaskForm';
 import Footer from '../Footer/Footer';
 import EditTaskForm from '../EditTaskForm/EditTaskForm';
 import Typography from '@mui/material/Typography';
+import { localizationContent } from '../../localization/types';
 
 export const Board = () => {
   const navigate = useNavigate();
@@ -121,7 +122,7 @@ export const Board = () => {
         </Button>
 
         <Typography variant="h4" align="center" color="text.secondary" paragraph>
-          Board «{board?.title}»
+          {localizationContent.board} «{board?.title}»
         </Typography>
 
         <div className="columns-container">
@@ -132,7 +133,7 @@ export const Board = () => {
             startIcon={<AddIcon />}
             onClick={() => setIsAddColumnFormOpen(true)}
           >
-            ADD NEW COLUMN
+            {localizationContent.buttons.add}
           </Button>
         </div>
       </div>
@@ -149,11 +150,15 @@ export const Board = () => {
 
       {columnToDelete && (
         <ConfirmPopUp
-          description={`Are you sure to delete column "${columnToDelete.title}"?`}
+          description={`${localizationContent.deleteColumn.description} "${columnToDelete.title}"?`}
           isOpen={isShowConfirmPopUp}
           toShowPopUp={setShowConfirmPopUp}
           onConfirm={() => {
             handleDeleteColumn(columnToDelete);
+          }}
+          onCancel={() => {
+            setShowConfirmPopUp(false);
+            setColumnToDelete(null);
           }}
         />
       )}
@@ -180,11 +185,15 @@ export const Board = () => {
 
       {taskToDelete && (
         <ConfirmPopUp
-          description={`Are you sure to delete task "${taskToDelete.title}"?`}
+          description={`${localizationContent.deleteTask.description} "${taskToDelete.title}"?`}
           isOpen={isShowConfirmPopUp}
           toShowPopUp={setShowConfirmPopUp}
           onConfirm={() => {
             handleDeleteTask(taskToDelete);
+          }}
+          onCancel={() => {
+            setShowConfirmPopUp(false);
+            setTaskToDelete(null);
           }}
         />
       )}

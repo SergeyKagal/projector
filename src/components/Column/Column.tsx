@@ -15,6 +15,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { getBoardById, updateColumn } from '../../api/api';
 import TaskPreview from '../TaskPreview/TaskPreview';
 import { Typography } from '@mui/material';
+import { localizationContent } from '../../localization/types';
 
 interface IColumnProps {
   board: IBoard;
@@ -161,7 +162,7 @@ const Column = (props: IColumnProps) => {
         startIcon={<AddIcon />}
         onClick={() => props.setColumnToAddTask(props.column)}
       >
-        ADD TASK
+        {localizationContent.buttons.addTask}
       </Button>
     </Container>
   );
