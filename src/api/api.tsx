@@ -91,7 +91,7 @@ export const addColumn = async (boardId: string, columnTitle: string, columnOrde
   return await axios
     .post(`${API_URL}/boards/${boardId}/columns`, {
       title: columnTitle,
-      order: columnOrder,
+      // order: columnOrder,
     })
     .then((res) => res.data);
 };

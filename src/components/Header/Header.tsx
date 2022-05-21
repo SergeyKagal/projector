@@ -38,9 +38,11 @@ export const Header: React.FC<IHeaderProps> = (props) => {
                 </Button>
               </Typography>
               <nav className="headerNav">
-                <Button color="inherit" onClick={props.setMainPageBgr}>
-                  Change wallpaper
-                </Button>
+                {window.location.pathname === '/main' && (
+                  <Button color="inherit" onClick={props.setMainPageBgr}>
+                    Change wallpaper
+                  </Button>
+                )}
                 <CreateNewBoard />
                 <Button color="inherit" component={RouterLink} to={PATH.EDIT_PROFILE}>
                   <ManageAccountsIcon />
