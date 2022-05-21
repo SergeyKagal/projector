@@ -18,14 +18,21 @@ import Footer from '../Footer/Footer';
 import { notify } from '../Notification/Notification';
 import axios from 'axios';
 
-const Main = () => {
+export const Main = () => {
   const navigate = useNavigate();
 
   const { isCreateNewBoardOpen, boardsArray, setBoardsArray, userState } =
     useContext(GlobalContext);
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
   const [boardToDelete, setBoardToDelete] = useState<IBoard | null>(null);
+  const [bgrUrl, setBgrUrl] = useState('' || localStorage.getItem('bgrUrl'));
 
+  const changeBacground = async () => {
+    const url = `https://api.unsplash.com/photos/random?orientation=landscape&&client_id=nwRpYv6V0PqOKIPPobvCaSByNX5UwvXBsMEfcoi0usE`;
+    const res = await axios(url);
+    localStorage.setItem('bgrUrl', res.data.urls.regular);
+    setBgrUrl(res.data.urls.regular);
+  };
   useEffect(() => {
     getBoards().then(
       (response) => {
@@ -99,9 +106,9 @@ const Main = () => {
 
   return (
     <>
-      <Header />
+      <Header setMainPageBgr={changeBacground} />
 
-      <div className="boards">
+      <div className="boards" style={{ backgroundImage: `url(${bgrUrl})` }}>
         <Typography variant="h4" align="center" color="text.secondary" paragraph>
           {localizationContent.boardList}
         </Typography>

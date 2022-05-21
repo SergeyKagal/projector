@@ -14,7 +14,11 @@ import SignOut from '../SignOut/SignOut';
 import { GlobalContext } from '../../provider/provider';
 import { useContext } from 'react';
 
-export const Header = () => {
+interface IHeaderProps {
+  setMainPageBgr?: () => void;
+}
+
+export const Header: React.FC<IHeaderProps> = (props) => {
   const { stickyHeader } = useContext(GlobalContext);
   return (
     <>
@@ -34,6 +38,9 @@ export const Header = () => {
                 </Button>
               </Typography>
               <nav className="headerNav">
+                <Button color="inherit" onClick={props.setMainPageBgr}>
+                  Change wallpaper
+                </Button>
                 <CreateNewBoard />
                 <Button color="inherit" component={RouterLink} to={PATH.EDIT_PROFILE}>
                   <ManageAccountsIcon />
