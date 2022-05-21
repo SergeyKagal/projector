@@ -10,7 +10,9 @@
   .columns-container {
     width: 90%;
     display: flex;
-    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: space-between;
     padding-top: 30px;
   }
 

@@ -15,7 +15,7 @@ import { PATH } from '../../constants/paths';
 import { GlobalContext } from '../../provider/provider';
 import { localizationContent } from '../../localization/types';
 import Footer from '../Footer/Footer';
-import { notify } from '../Notification/Notification';
+import Notification, { notify } from '../Notification/Notification';
 import axios from 'axios';
 
 export const Main = () => {
@@ -80,6 +80,9 @@ export const Main = () => {
       setShowConfirmPopUp(false);
     }
   };
+  const cutBoardTitle = (title: string) => {
+    return title.length > 10 ? title.split('').splice(0, 10).join('') + '...' : title;
+  };
 
   const boardsToShow = boardsArray.map((board) => {
     return (
@@ -92,8 +95,8 @@ export const Main = () => {
         onClick={() => handleCardClick(board)}
       >
         <CardContent sx={{ flexGrow: 1, p: '10px' }}>
-          <Typography variant="h6" component="h2" sx={{ color: '#fff' }}>
-            {board.title}
+          <Typography noWrap variant="h6" component="h2" sx={{ color: '#fff' }}>
+            {cutBoardTitle(board.title)}
           </Typography>
         </CardContent>
 
@@ -127,7 +130,7 @@ export const Main = () => {
       </div>
 
       <Footer />
-
+      <Notification />
       {isCreateNewBoardOpen && <AddNewBoardForm />}
     </>
   );

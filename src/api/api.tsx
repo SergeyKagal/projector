@@ -87,7 +87,7 @@ export const deleteBoard = async (boardId: string) => {
   return await axios.delete(`${API_URL}/boards/${boardId}`).then((res) => res.data);
 };
 
-export const addColumn = async (boardId: string, columnTitle: string, columnOrder: number) => {
+export const addColumn = async (boardId: string, columnTitle: string) => {
   return await axios
     .post(`${API_URL}/boards/${boardId}/columns`, {
       title: columnTitle,

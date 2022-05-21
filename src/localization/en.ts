@@ -4,6 +4,8 @@ export const en = {
   toMain: 'go to main page',
   signin: 'sign in',
   signup: 'sign up',
+  changeBgr: 'change wallpaper',
+
   names: ['Sergey', 'Ravganiyat', 'Elena'],
   jobs: ['Project build. CI/CD.', 'Authorization.', 'Welcome page'],
   gitHubLink: 'View Github',
