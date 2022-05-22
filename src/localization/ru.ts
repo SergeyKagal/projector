@@ -19,7 +19,10 @@ export const ru = {
     title: 'заголовок',
     description: 'описание',
   },
-  board: 'Проект',
+  board: {
+    header: 'Проект',
+    description: 'Описание',
+  },
   addColumn: {
     header: 'Добавьте новую колонку',
     title: 'название',
@@ -31,6 +34,7 @@ export const ru = {
     userNameLength: 'Имя пользователя должно содержать от 3 до 20 символов..',
     passwLength: 'Пароль должен содержать от 6 до 10 символов.',
     wrongEmail: 'Это недействительный адрес электронной почты.',
+    forbidToDeleteTask: 'Вы не можете удалить эту задачу',
   },
   buttons: {
     cancel: 'отмена',
