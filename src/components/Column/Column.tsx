@@ -1,18 +1,21 @@
+import { useState } from 'react';
+import { Draggable } from 'react-beautiful-dnd';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
-import { IBoard, IColumn } from '../../constants/interfaces';
-import './Column.scss';
-import { useState } from 'react';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+
+import { IBoard, IColumn } from '../../constants/interfaces';
 import { getBoardById, updateColumn } from '../../api/api';
-import { Draggable } from 'react-beautiful-dnd';
+
+import './Column.scss';
+
 interface IColumnProps {
   board: IBoard;
   column: IColumn;
@@ -38,9 +41,10 @@ const Column = (props: IColumnProps) => {
   const editColumnTitle = async (formValue: IState) => {
     const { title } = formValue;
     const updatedColumn = { ...props.column, title: title };
-
     await updateColumn(props.board.id, updatedColumn);
-    props.setBoard(await getBoardById(props.board.id));
+    const board = await getBoardById(props.board.id);
+    board?.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
+    props.setBoard(board);
     setEditTitleMode(false);
   };
 
@@ -73,9 +77,14 @@ const Column = (props: IColumnProps) => {
   return (
     <Draggable draggableId={props.column.id} index={props.index}>
       {(provided) => (
-        <Container className="column"  ref={provided.innerRef}  {...provided.draggableProps}   {...provided.dragHandleProps}>
+        <Container
+          className="column"
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
           <div className="column__header" style={styles}></div>
-          <div className="title-container" >
+          <div className="title-container">
             <div className="column__title" onClick={() => handleTitleClick()}>
               {props.column.title}
             </div>

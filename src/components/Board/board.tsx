@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import AddIcon from '@mui/icons-material/Add';
@@ -10,12 +11,11 @@ import { deleteColumn, getBoardById, updateColumn } from '../../api/api';
 import { IBoard, IColumn } from '../../constants/interfaces';
 import AddNewColumnForm from '../AddNewColumnForm/AddNewColumnForm';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
+import { notify } from '../Notification/Notification';
 import Column from '../Column/Column';
 import { Header } from '../Header/Header';
 
 import './board.scss';
-import axios from 'axios';
-import { notify } from '../Notification/Notification';
 
 export const Board = () => {
   const navigate = useNavigate();
@@ -75,7 +75,7 @@ export const Board = () => {
     );
   });
 
-  async function handleDragEnd(result: DropResult): Promise<void> {
+  async function handleDragEnd(result: DropResult) {
     const { destination, source, type } = result;
 
     if (!destination) {
@@ -86,69 +86,20 @@ export const Board = () => {
       return;
     }
 
-    let removed: IColumn;
-
     const reorder = async (list: IColumn[], startIndex: number, endIndex: number) => {
-      const createNewColumns = async () => {
-        const result = Array.from(list);
-        [removed] = result.splice(startIndex, 1);
-        result.splice(endIndex, 0, removed);
-        return result;
-      };
-      const columns: IColumn[] = await createNewColumns();
+      const result = Array.from(list);
+      const [removed] = result.splice(startIndex, 1);
+      result.splice(endIndex, 0, removed);
 
       if (board) {
-        setBoard({ id: board.id, title: board.title, columns: columns });
-
-        if (startIndex > endIndex) {
-          console.log('движение влево');
-          // Вырезаем передвигаемый элемент
-          await updateColumn(board.id, board.columns[startIndex], -1);
-          const result = Array.from(list);
-          [removed] = result.splice(startIndex, 1);
-
-          // Передвигаем элементы слева от вырезаемого на один вправо
-          const reorderStartIndex = startIndex - 1;
-
-          for (let i = reorderStartIndex; i >= endIndex; i--) {
-            if (i === endIndex) {
-              // В последней итерации присваиваем передвигаемому элементу нужный индекс
-              await updateColumn(board.id, board.columns[i], i + 1);
-              await updateColumn(board.id, removed, endIndex);
-            } else {
-              await updateColumn(board.id, board.columns[i], i + 1);
-            }
-          }
-        }
-
-        if (startIndex < endIndex) {
-          console.log('движение вправо');
-          // Вырезаем передвигаемый элемент
-          await updateColumn(board.id, board.columns[startIndex], -1);
-          const result = Array.from(list);
-          [removed] = result.splice(startIndex, 1);
-
-          // Передвигаем элементы слева от вырезаемого на один вправо
-          const reorderStartIndex = startIndex + 1;
-
-          for (let i = reorderStartIndex; i <= endIndex; i++) {
-            if (i === endIndex) {
-              // В последней итерации присваиваем передвигаемому элементу нужный индекс
-              await updateColumn(board.id, board.columns[i], i - 1);
-              await updateColumn(board.id, removed, endIndex);
-            } else {
-              await updateColumn(board.id, board.columns[i], i - 1);
-            }
-          }
-        }
+        setBoard({ id: board.id, title: board.title, columns: result });
+        updateColumn(board.id, board.columns[startIndex], endIndex + 1);
       }
     };
+
     if (type === 'column') {
       if (board) {
-        await reorder(board.columns, source.index, destination.index);
-        const newBoard = await getBoardById(params);
-        newBoard.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
-        setBoard(newBoard);
+        reorder(board.columns, source.index, destination.index);
       }
     }
   }
@@ -156,7 +107,6 @@ export const Board = () => {
   return (
     <>
       <Header setIsAddBoardFormOpen={setIsAddBoardFormOpen} />
-
       <div className="board">
         <Button
           sx={{ position: 'absolute', top: '71px', left: '10px' }}
@@ -164,9 +114,7 @@ export const Board = () => {
         >
           <KeyboardBackspaceIcon sx={{ fontSize: '66px' }} />
         </Button>
-
         <h3>Board «{board?.title}»</h3>
-
         <div className="columns-container">
           <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="all-columns" direction="horizontal" type="column">
@@ -188,7 +136,6 @@ export const Board = () => {
           </Button>
         </div>
       </div>
-
       {isAddColumnFormOpen && board && (
         <AddNewColumnForm
           setIsAddColumnFormOpen={setIsAddColumnFormOpen}
@@ -196,7 +143,6 @@ export const Board = () => {
           setBoard={setBoard}
         />
       )}
-
       {columnToDelete && (
         <ConfirmPopUp
           description={`Are you sure to delete column "${columnToDelete.title}"?`}
