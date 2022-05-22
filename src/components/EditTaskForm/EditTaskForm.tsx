@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { getBoardById, getUsers, updateTask } from '../../api/api';
-import { IBoard, ITask } from '../../constants/interfaces';
+import { IBoard, IColumn, ITask } from '../../constants/interfaces';
 import { notify } from '../Notification/Notification';
 import { useEffect, useState } from 'react';
 import InputLabel from '@mui/material/InputLabel';
@@ -79,7 +79,6 @@ const EditTaskForm = (props: EditTaskProps) => {
     const newTask = {
       id: props.task.id,
       title: formValue.title,
-      done: false,
       order: props.task.order,
       description: formValue.description,
       userId: formValue.user,
@@ -90,6 +89,7 @@ const EditTaskForm = (props: EditTaskProps) => {
     try {
       await updateTask(newTask);
       const newBoard = await getBoardById(newTask.boardId);
+      newBoard.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
       if (newBoard) {
         props.setBoard(newBoard);
       }

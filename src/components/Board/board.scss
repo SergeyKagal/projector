@@ -9,8 +9,10 @@
 
   .columns-container {
     display: flex;
-    width: 90%;
-    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: space-between;
+    padding-top: 30px;
   }
 
   .button-add-item {
@@ -19,6 +21,10 @@
     height: 40px;
     margin: 0 8px;
     justify-content: flex-start;
-    padding: 0 10px;
+    padding: 0px 10px;
+  }
+
+  .all-columns {
+    display: flex;
   }
 }

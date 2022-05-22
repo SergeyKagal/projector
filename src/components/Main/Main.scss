@@ -1,19 +1,22 @@
 .boards {
   padding-top: 89px;
   width: 100%;
-  height: 100%;
+  min-height: calc(100vh - 158px);
+  background-repeat: no-repeat;
+  background-size: cover;
 
   .boards__container {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 10px;
   }
 
   &__card {
     padding: 10px;
     height: 50px;
-    width: 20%;
+    width: 200px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
