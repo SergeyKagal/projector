@@ -126,8 +126,6 @@ export const addTask = async (boardId: string, columnId: string, task: ITask) =>
   return await axios
     .post(`${API_URL}/boards/${boardId}/columns/${columnId}/tasks`, {
       title: task.title,
-      done: task.done,
-      order: task.order,
       description: task.description,
       userId: task.userId,
     })
