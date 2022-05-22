@@ -18,6 +18,11 @@ export const en = {
     title: 'title',
     description: 'description',
   },
+  board: 'Board',
+  addColumn: {
+    header: 'Add new column',
+    title: 'title',
+  },
   errors: {
     descriptionLength: 'The description must be between 3 and 100 characters.',
     titleLength: 'The title must be between 3 and 30 characters.',
@@ -38,10 +43,20 @@ export const en = {
     save: 'save changes',
     delAcc: 'delete account',
     redirect: 'go to',
+    addTask: 'add task',
+    addColumn: 'add column',
   },
   deletePopup: {
     title: 'Delete Confirmation',
     description: 'Are you sure to delete user?',
+  },
+  deleteColumn: {
+    title: 'Delete Confirmation',
+    description: 'Are you sure to delete column',
+  },
+  deleteTask: {
+    title: 'Delete Confirmation',
+    description: 'Are you sure to delete task',
   },
   redirectionPopup: {
     title: 'Redirect Confirmation',
@@ -71,5 +86,14 @@ export const en = {
     title: 'Account Settings',
     discription: 'To Edit Profile, please change content of all form fields.',
     succes: 'Success',
+  },
+  addNewTask: {
+    header: 'Add new task',
+    title: 'title',
+    description: 'description',
+    user: 'user',
+  },
+  editTask: {
+    header: 'Edit task',
   },
 };
