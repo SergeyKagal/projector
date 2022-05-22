@@ -2,7 +2,7 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
-import { IBoard, IColumn } from '../../constants/interfaces';
+import { IBoard, IColumn, ITask } from '../../constants/interfaces';
 import './Column.scss';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
@@ -13,6 +13,10 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import { getBoardById, updateColumn } from '../../api/api';
+import TaskPreview from '../TaskPreview/TaskPreview';
+import { Typography } from '@mui/material';
+import { localizationContent } from '../../localization/types';
+
 interface IColumnProps {
   board: IBoard;
   column: IColumn;
@@ -20,6 +24,9 @@ interface IColumnProps {
   setColumnToDelete: (column: IColumn) => void;
   setShowConfirmPopUp: (flag: boolean) => void;
   setBoard: (board: IBoard) => void;
+  setColumnToAddTask: (column: IColumn | null) => void;
+  setTaskToEdit: (task: ITask | null) => void;
+  setTaskToDelete: (task: ITask | null) => void;
 }
 
 interface IState {
@@ -69,14 +76,35 @@ const Column = (props: IColumnProps) => {
     backgroundColor: props.color,
   };
 
+  const tasks = props.column.tasks
+    .sort((a, b) => (a.order > b.order ? 1 : -1))
+    .map((task) => (
+      <TaskPreview
+        key={task.id}
+        task={task}
+        setTaskToEdit={props.setTaskToEdit}
+        column={props.column}
+        boardId={props.board.id}
+        setTaskToDelete={props.setTaskToDelete}
+        setShowConfirmPopUp={props.setShowConfirmPopUp}
+      />
+    ));
+
+  const columnHeight = document.documentElement.clientHeight - 240;
+
   return (
-    <Container className="column">
+    <Container className="column" sx={{ maxHeight: `${columnHeight}px` }}>
       <div className="column__header" style={styles}></div>
       <div className="title-container">
-        <div className="column__title" onClick={() => handleTitleClick()}>
+        <Typography
+          variant="h5"
+          color="text.primary"
+          className="column__title"
+          onClick={() => handleTitleClick()}
+        >
           {props.column.title}
           {<EditIcon className="column-edit" />}
-        </div>
+        </Typography>
         <Button sx={{ p: '2px', minWidth: '' }} onClick={() => handleClick()}>
           {<DeleteIcon />}
         </Button>
@@ -84,7 +112,9 @@ const Column = (props: IColumnProps) => {
         {editTitleMode && (
           <div className="title-edit">
             <form onSubmit={formik.handleSubmit} className="title-edit__form">
-              <Box sx={{ p: 0, display: 'flex', justifyContent: 'center' }}>
+              <Box
+                sx={{ p: 0, display: 'flex', justifyContent: 'center', backgroundColor: '#f0f0f1' }}
+              >
                 <TextField
                   fullWidth
                   size="small"
@@ -108,7 +138,12 @@ const Column = (props: IColumnProps) => {
                 <Button
                   aria-label="delete"
                   variant="outlined"
-                  sx={{ width: '32px', height: '32px', minWidth: 0, p: '6px 16px' }}
+                  sx={{
+                    width: '32px',
+                    height: '32px',
+                    minWidth: 0,
+                    p: '6px 16px',
+                  }}
                   onClick={handleCancelEditTitle}
                 >
                   <CloseIcon />
@@ -119,8 +154,15 @@ const Column = (props: IColumnProps) => {
         )}
       </div>
 
-      <Button variant="text" className="button-add-item" startIcon={<AddIcon />}>
-        ADD TASK
+      {tasks}
+
+      <Button
+        variant="text"
+        className="button-add-item"
+        startIcon={<AddIcon />}
+        onClick={() => props.setColumnToAddTask(props.column)}
+      >
+        {localizationContent.buttons.addTask}
       </Button>
     </Container>
   );

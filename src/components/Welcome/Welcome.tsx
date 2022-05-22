@@ -67,7 +67,7 @@ const Welcome = () => {
             >
               Projector
             </Typography>
-            <Typography variant="h5" align="center" color="text.secondary" paragraph>
+            <Typography variant="h4" align="center" color="text.secondary" paragraph>
               {localizationContent.about}
             </Typography>
           </Container>

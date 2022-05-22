@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { IColumn } from '../constants/interfaces';
+import { IColumn, ITask } from '../constants/interfaces';
 
 const API_URL = 'https://afternoon-hamlet-46054.herokuapp.com';
 
@@ -66,6 +66,10 @@ export const deleteUser = async (id: string) => {
   return await axios.delete(`${API_URL}/users/${id}`).then((res) => res.data);
 };
 
+export const getUsers = async () => {
+  return await axios.get(`${API_URL}/users`).then((res) => res.data);
+};
+
 export const getBoards = async () => {
   return await axios.get(`${API_URL}/boards`).then((res) => res.data);
 };
@@ -107,6 +111,50 @@ export const updateColumn = async (boardId: string, column: IColumn) => {
     .put(`${API_URL}/boards/${boardId}/columns/${column.id}`, {
       title: column.title,
       order: column.order,
+    })
+    .then((res) => res.data);
+};
+
+export const getTasks = async (boardId: string, columnId: string) => {
+  return await axios
+    .get(`${API_URL}/boards/${boardId}/columns/${columnId}/tasks`)
+    .then((res) => res.data);
+};
+
+export const getTaskById = async (boardId: string, columnId: string, taskId: string) => {
+  return await axios
+    .get(`${API_URL}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`)
+    .then((res) => res.data);
+};
+
+export const addTask = async (boardId: string, columnId: string, task: ITask) => {
+  return await axios
+    .post(`${API_URL}/boards/${boardId}/columns/${columnId}/tasks`, {
+      title: task.title,
+      done: task.done,
+      order: task.order,
+      description: task.description,
+      userId: task.userId,
+    })
+    .then((res) => res.data);
+};
+
+export const deleteTask = async (task: ITask) => {
+  return await axios
+    .delete(`${API_URL}/boards/${task.boardId}/columns/${task.columnId}/tasks/${task.id}`)
+    .then((res) => res.data);
+};
+
+export const updateTask = async (task: ITask) => {
+  return await axios
+    .put(`${API_URL}/boards/${task.boardId}/columns/${task.columnId}/tasks/${task.id}`, {
+      title: task.title,
+      done: task.done,
+      order: task.order,
+      description: task.description,
+      userId: task.userId,
+      boardId: task.boardId,
+      columnId: task.columnId,
     })
     .then((res) => res.data);
 };

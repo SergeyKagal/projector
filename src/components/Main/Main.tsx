@@ -85,8 +85,8 @@ const Main = () => {
         onClick={() => handleCardClick(board)}
       >
         <CardContent sx={{ flexGrow: 1, p: '10px' }}>
-          <Typography variant="h6" component="h2" sx={{ color: '#fff' }}>
-            {board.title}
+          <Typography variant="h6" sx={{ color: '#fff' }}>
+            {board.title.toUpperCase()}
           </Typography>
         </CardContent>
 

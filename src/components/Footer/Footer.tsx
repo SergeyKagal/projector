@@ -15,7 +15,7 @@ const Footer = () => {
             align="center"
             sx={{ display: 'flex', alignItems: 'center' }}
           >
-            <img className="rs-logo" src="./rs_school_js.svg" alt="rs logo" />
+            <img className="rs-logo" src="/rs_school_js.svg" alt="rs logo" />
 
             <Link color="inherit" href="https://rs.school/react/" target="_blank">
               Online course «React developing»

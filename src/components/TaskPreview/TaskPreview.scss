@@ -1,0 +1,32 @@
+.task {
+  &__title {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    height: 50px;
+
+    .task_edit,
+    .task_close {
+      display: none;
+    }
+  }
+
+  &__buttons-container {
+    display: flex;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.7);
+
+    .task_edit {
+      display: block;
+    }
+
+    .task_close {
+      display: block;
+    }
+  }
+}
