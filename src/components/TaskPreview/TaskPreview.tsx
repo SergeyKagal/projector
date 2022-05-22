@@ -73,7 +73,7 @@ const TaskPreview = (props: TaskPreviewProps) => {
         </div>
       </div>
 
-      <div className="task__status">{props.task.done ? 'done' : 'in progress'}</div>
+      {/* <div className="task__status">{props.task.done ? 'done' : 'in progress'}</div> */}
 
       <Notification />
     </Card>

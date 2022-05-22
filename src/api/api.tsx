@@ -142,7 +142,6 @@ export const updateTask = async (task: ITask) => {
   return await axios
     .put(`${API_URL}/boards/${task.boardId}/columns/${task.columnId}/tasks/${task.id}`, {
       title: task.title,
-      done: task.done,
       order: task.order,
       description: task.description,
       userId: task.userId,
