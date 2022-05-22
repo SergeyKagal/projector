@@ -15,13 +15,27 @@ import './App.scss';
 import { localizationContent } from '../../localization/types';
 import theme from '../../constants/theme';
 import { Board } from '../Board/board';
+import { IBoard } from '../../constants/interfaces';
 
 function App() {
   const [userState, setUserState] = useState<IUser>(defaultGlobalState.userState);
   const defaultInterfaceLanguage = localizationContent.getLanguage();
   const [localization, setLocalization] = useState(
-    defaultInterfaceLanguage === 'ru-RU' ? Localization.ru : Localization.en
+    defaultInterfaceLanguage === 'ru' ? Localization.en : Localization.ru
   );
+  const [isCreateNewBoardOpen, setIsCreateNewBoardOpen] = useState(false);
+  const [boardsArray, setBoardsArray] = useState<IBoard[]>([]);
+  const [stickyHeader, setStickyHeader] = useState(false);
+
+  const scrollHandler = () => {
+    if (window.scrollY >= 5) {
+      setStickyHeader(true);
+    } else {
+      setStickyHeader(false);
+    }
+  };
+
+  window.addEventListener('scroll', scrollHandler);
 
   return (
     <div className="app">
@@ -32,13 +46,19 @@ function App() {
             setUserState,
             localization,
             setLocalization,
+            isCreateNewBoardOpen,
+            setIsCreateNewBoardOpen,
+            boardsArray,
+            setBoardsArray,
+            stickyHeader,
+            setStickyHeader,
           }}
         >
           <Router>
             <Routes>
               <Route path={PATH.BASE_URL} element={<Welcome />} />
               <Route path={PATH.MAIN_ROUTE} element={<Main />} />
-              <Route path={`main/board/:id`} element={<Board />} />
+              <Route path={PATH.BOARD} element={<Board />} />
               <Route path={PATH.SIGN_IN} element={<SignIn />} />
               <Route path={PATH.SIGN_UP} element={<SignUp />} />
 

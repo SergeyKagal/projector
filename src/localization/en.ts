@@ -10,9 +10,14 @@ export const en = {
   addBoard: 'Add new board',
   editUser: 'Edit User profile',
   signOut: 'Sign Out',
-  boardList: "Board's list",
+  boardList: 'Your boards',
   addNewBoard: {
     addTitle: 'Add title for new board',
+    title: 'title',
+  },
+  board: 'Board',
+  addColumn: {
+    header: 'Add new column',
     title: 'title',
   },
   errors: {
@@ -33,10 +38,25 @@ export const en = {
     signUp: 'sign up',
     save: 'save changes',
     delAcc: 'delete account',
+    redirect: 'go to',
+    addTask: 'add task',
+    addColumn: 'add column',
   },
   deletePopup: {
     title: 'Delete Confirmation',
     description: 'Are you sure to delete user?',
+  },
+  deleteColumn: {
+    title: 'Delete Confirmation',
+    description: 'Are you sure to delete column',
+  },
+  deleteTask: {
+    title: 'Delete Confirmation',
+    description: 'Are you sure to delete task',
+  },
+  redirectionPopup: {
+    title: 'Redirect Confirmation',
+    description: 'Do you want to go to the main page?',
   },
   editProfilePopup: {
     title: 'Edit Profile',
@@ -62,5 +82,14 @@ export const en = {
     title: 'Account Settings',
     discription: 'To Edit Profile, please change content of all form fields.',
     succes: 'Success',
+  },
+  addNewTask: {
+    header: 'Add new task',
+    title: 'title',
+    description: 'description',
+    user: 'user',
+  },
+  editTask: {
+    header: 'Edit task',
   },
 };

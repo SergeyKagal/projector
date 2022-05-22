@@ -5,11 +5,10 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-
 import { addColumn, getBoardById } from '../../api/api';
 import { IBoard, IColumn } from '../../constants/interfaces';
+import { localizationContent } from '../../localization/types';
 import { notify } from '../Notification/Notification';
-
 import './AddNewColumnForm.scss';
 
 interface addNewColumnProps {
@@ -65,7 +64,7 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
     <div className="addNewColumn__container">
       <form onSubmit={formik.handleSubmit} className="addNewColumn__form">
         <Typography component="h1" variant="h5">
-          Add title for new column
+          {localizationContent.addColumn.header}
         </Typography>
         <Box sx={{ width: '75%', px: 0, py: 2 }}>
           <TextField
@@ -73,12 +72,13 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
             fullWidth
             id="title"
             name="title"
-            label="title"
+            label={localizationContent.addColumn.title}
             type="title"
             value={formik.values.title}
             onChange={formik.handleChange}
             error={formik.touched.title && Boolean(formik.errors.title)}
             helperText={formik.touched.title && formik.errors.title}
+            autoFocus
           />
         </Box>
         <Box sx={{ width: '75%', px: 0, py: 2, display: 'flex', justifyContent: 'center' }}>
@@ -87,10 +87,10 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
             onClick={() => props.setIsAddColumnFormOpen(false)}
             sx={{ margin: '0 10px' }}
           >
-            Cancel
+            {localizationContent.buttons.cancel}
           </Button>
           <Button type="submit" variant="contained" sx={{ margin: '0 10px' }}>
-            Add column
+            {localizationContent.buttons.add}
           </Button>
         </Box>
       </form>

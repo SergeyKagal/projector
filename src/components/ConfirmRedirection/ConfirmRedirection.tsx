@@ -13,39 +13,26 @@ interface IConfirm {
   isOpen: boolean;
   toShowPopUp: (isShow: boolean) => void;
   onConfirm?: () => void;
+  onCancel?: () => void;
   child?: JSX.Element;
   description: string;
-  onCancel?: () => void;
 }
 
-const ConfirmPopUp = (props: IConfirm) => {
-  const cancelClickHandler = () => {
-    props.toShowPopUp(false);
-  };
-
+const ConfirmRedirection = (props: IConfirm) => {
   return (
     <>
       <Dialog open={props.isOpen}>
-        <DialogTitle color="error">{localizationContent.deletePopup.title}</DialogTitle>
+        <DialogTitle color="secondary">{localizationContent.redirectionPopup.title}</DialogTitle>
         <DialogContent>
           {props.child}
           <DialogContentText>{props.description}</DialogContentText>
         </DialogContent>
         <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            variant="outlined"
-            onClick={() => {
-              if (props.onCancel) {
-                props.onCancel();
-              }
-
-              cancelClickHandler();
-            }}
-          >
+          <Button variant="outlined" onClick={props.onCancel}>
             {localizationContent.buttons.cancel}
           </Button>
-          <Button color="error" variant="contained" onClick={props.onConfirm}>
-            {localizationContent.buttons.delete}
+          <Button color="secondary" variant="contained" onClick={props.onConfirm}>
+            {localizationContent.buttons.redirect}
           </Button>
         </DialogActions>
       </Dialog>
@@ -53,4 +40,4 @@ const ConfirmPopUp = (props: IConfirm) => {
   );
 };
 
-export default ConfirmPopUp;
+export default ConfirmRedirection;

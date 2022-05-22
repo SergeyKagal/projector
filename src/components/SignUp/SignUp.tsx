@@ -62,25 +62,27 @@ const SignUp = () => {
       successful: false,
     });
 
-    signUp(username, email, password).then(
-      () => {
-        signIn(email, password);
-        setState({
-          ...state,
-          successful: true,
-        });
-        setUserState(getUserInformation());
-        navigate(PATH.MAIN_ROUTE);
-      },
-      (error) => {
-        const resMessage =
-          (error.response && error.response.data && error.response.data.message) ||
-          error.message ||
-          error.toString();
-        setState({ ...state, successful: false });
-        notify(resMessage);
-      }
-    );
+    signUp(username, email, password)
+      .then(
+        async () => {
+          await signIn(email, password);
+          await setState({
+            ...state,
+            successful: true,
+          });
+          await setUserState(getUserInformation());
+          navigate(PATH.MAIN_ROUTE);
+        },
+        (error) => {
+          const resMessage =
+            (error.response && error.response.data && error.response.data.message) ||
+            error.message ||
+            error.toString();
+          setState({ ...state, successful: false });
+          notify(resMessage);
+        }
+      )
+      .then(() => {});
   }
 
   const formik = useFormik({

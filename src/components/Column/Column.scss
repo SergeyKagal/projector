@@ -1,20 +1,22 @@
 div.column {
-  width: 250px;
-  min-height: 100px;
-  height: auto;
+  width: 267px;
+  min-width: 267px;
+  height: fit-content;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
-  background-color: #f0f0f1;
+  background-color: rgb(240, 240, 241);
   border-radius: 5px;
-  padding: 15px;
+  padding: 10px 15px;
   box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%);
   margin: 0 8px;
   position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
 
   &__header {
     position: absolute;
-    // background-color: #ffa000;
     width: 100%;
     height: 6px;
     top: 0px;
@@ -26,31 +28,48 @@ div.column {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     position: relative;
+    height: 50px;
   }
 
-  &__title {
+  div > .column__title {
     width: 100%;
-    height: 50px;
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    padding-top: 5px;
-
+    align-items: center;
+    padding: 5px;
+    border-radius: 5px;
     position: relative;
+    height: 40px;
+
+    .column-edit {
+      display: none;
+      height: 40px;
+      padding-top: 5px;
+    }
+
     &:hover {
       cursor: pointer;
+      background-color: rgba(0, 0, 0, 0.05);
+
+      .column-edit {
+        display: block;
+        color: rgba(0, 0, 0, 0.1);
+        position: absolute;
+        right: 5px;
+        top: 2px;
+      }
     }
   }
 
   .title-edit {
     position: absolute;
     width: 100%;
+    top: 10px;
   }
 
   .title-edit__form {
-    background-color: #f0f0f1;
     height: 50px;
   }
 
@@ -62,8 +81,9 @@ div.column {
     min-width: 250px;
     width: 250px;
     height: 40px;
+    min-height: 40px;
     margin: 0 8px;
     justify-content: flex-start;
-    padding: 0 10px;
+    padding: 2px 10px 0 10px;
   }
 }

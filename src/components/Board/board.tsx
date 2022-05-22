@@ -1,43 +1,58 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
+
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import AddIcon from '@mui/icons-material/Add';
-import Button from '@mui/material/Button';
-
-import setColumnsColor from '../SetColumnsColor/SetColumnsColor';
-import { deleteColumn, getBoardById, updateColumn } from '../../api/api';
-import { IBoard, IColumn } from '../../constants/interfaces';
+import { deleteColumn, deleteTask, getBoardById, updateColumn } from '../../api/api';
 import AddNewColumnForm from '../AddNewColumnForm/AddNewColumnForm';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
-import { notify } from '../Notification/Notification';
-import Column from '../Column/Column';
 import { Header } from '../Header/Header';
+import { IBoard, IColumn, ITask } from '../../constants/interfaces';
+import getColumnsColor from '../getColumnsColor/getColumnsColor';
+import { GlobalContext } from '../../provider/provider';
+import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
+import Notification, { notify } from '../Notification/Notification';
+import AddNewTaskForm from '../AddNewTaskForm/AddNewTaskForm';
+import EditTaskForm from '../EditTaskForm/EditTaskForm';
+import { localizationContent } from '../../localization/types';
+import Footer from '../Footer/Footer';
+import Column from '../Column/Column';
 
 import './board.scss';
 
 export const Board = () => {
   const navigate = useNavigate();
-
   const params = useParams<{ id: string }>().id || '';
-
   const [board, setBoard] = useState<IBoard | null>(null);
   const [isAddColumnFormOpen, setIsAddColumnFormOpen] = useState(false);
   const [columnToDelete, setColumnToDelete] = useState<IColumn | null>(null);
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
-
-  const setIsAddBoardFormOpen = () => {
-    return false;
-  };
+  const [columnToAddTask, setColumnToAddTask] = useState<IColumn | null>(null);
+  const [taskToEdit, setTaskToEdit] = useState<ITask | null>(null);
+  const [taskToDelete, setTaskToDelete] = useState<ITask | null>(null);
+  const { isCreateNewBoardOpen } = useContext(GlobalContext);
 
   useEffect(() => {
-    getBoardById(params).then((response) => {
-      if (response) {
-        response.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
-        setBoard(response);
+    getBoardById(params).then(
+      (response) => {
+        if (response) {
+          response.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
+          setBoard(response);
+        }
+      },
+      (error) => {
+        const resMessage =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        notify(resMessage);
       }
-    });
+    );
   }, [params]);
 
   const handleDeleteColumn = async (columnToDelete: IColumn) => {
@@ -55,10 +70,32 @@ export const Board = () => {
       }
     } finally {
       setShowConfirmPopUp(false);
+      setColumnToDelete(null);
     }
   };
 
-  const colors = setColumnsColor(board);
+  const handleDeleteTask = async (task: ITask) => {
+    if (!board) return;
+
+    try {
+      await deleteTask(task);
+
+      const newBoard = await getBoardById(params);
+      newBoard.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
+      setBoard(newBoard);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const resMessage = error.message || error.toString();
+        notify(resMessage);
+      }
+    } finally {
+      setShowConfirmPopUp(false);
+      setTaskToDelete(null);
+    }
+  };
+
+  board?.columns.sort((a, b) => (a.order > b.order ? 1 : -1));
+  const colors = getColumnsColor(board);
 
   const columns = board?.columns.map((column, index) => {
     return (
@@ -71,6 +108,9 @@ export const Board = () => {
         color={colors.get(column.id) || '#87A8EC'}
         setColumnToDelete={setColumnToDelete}
         setShowConfirmPopUp={setShowConfirmPopUp}
+        setColumnToAddTask={setColumnToAddTask}
+        setTaskToEdit={setTaskToEdit}
+        setTaskToDelete={setTaskToDelete}
       />
     );
   });
@@ -92,7 +132,12 @@ export const Board = () => {
       result.splice(endIndex, 0, removed);
 
       if (board) {
-        setBoard({ id: board.id, title: board.title, columns: result });
+        setBoard({
+          id: board.id,
+          description: board.description,
+          title: board.title,
+          columns: result,
+        });
         updateColumn(board.id, board.columns[startIndex], endIndex + 1);
       }
     };
@@ -106,7 +151,8 @@ export const Board = () => {
 
   return (
     <>
-      <Header setIsAddBoardFormOpen={setIsAddBoardFormOpen} />
+      <Header />
+
       <div className="board">
         <Button
           sx={{ position: 'absolute', top: '71px', left: '10px' }}
@@ -114,7 +160,11 @@ export const Board = () => {
         >
           <KeyboardBackspaceIcon sx={{ fontSize: '66px' }} />
         </Button>
-        <h3>Board «{board?.title}»</h3>
+
+        <Typography variant="h4" align="center" color="text.secondary" paragraph>
+          {localizationContent.board} «{board?.title}»
+        </Typography>
+
         <div className="columns-container">
           <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="all-columns" direction="horizontal" type="column">
@@ -132,10 +182,13 @@ export const Board = () => {
             startIcon={<AddIcon />}
             onClick={() => setIsAddColumnFormOpen(true)}
           >
-            ADD NEW COLUMN
+            {localizationContent.buttons.addColumn}
           </Button>
         </div>
       </div>
+
+      <Footer />
+
       {isAddColumnFormOpen && board && (
         <AddNewColumnForm
           setIsAddColumnFormOpen={setIsAddColumnFormOpen}
@@ -145,14 +198,55 @@ export const Board = () => {
       )}
       {columnToDelete && (
         <ConfirmPopUp
-          description={`Are you sure to delete column "${columnToDelete.title}"?`}
+          description={`${localizationContent.deleteColumn.description} "${columnToDelete.title}"?`}
           isOpen={isShowConfirmPopUp}
           toShowPopUp={setShowConfirmPopUp}
           onConfirm={() => {
             handleDeleteColumn(columnToDelete);
           }}
+          onCancel={() => {
+            setShowConfirmPopUp(false);
+            setColumnToDelete(null);
+          }}
         />
       )}
+
+      {isCreateNewBoardOpen && <AddNewBoardForm />}
+
+      {columnToAddTask && board && (
+        <AddNewTaskForm
+          setColumnToAddTask={setColumnToAddTask}
+          setBoard={setBoard}
+          boardId={board.id}
+          column={columnToAddTask}
+        />
+      )}
+
+      {taskToEdit && board && (
+        <EditTaskForm
+          task={taskToEdit}
+          setTaskToEdit={setTaskToEdit}
+          setBoard={setBoard}
+          boardId={board.id}
+        />
+      )}
+
+      {taskToDelete && (
+        <ConfirmPopUp
+          description={`${localizationContent.deleteTask.description} "${taskToDelete.title}"?`}
+          isOpen={isShowConfirmPopUp}
+          toShowPopUp={setShowConfirmPopUp}
+          onConfirm={() => {
+            handleDeleteTask(taskToDelete);
+          }}
+          onCancel={() => {
+            setShowConfirmPopUp(false);
+            setTaskToDelete(null);
+          }}
+        />
+      )}
+
+      <Notification />
     </>
   );
 };

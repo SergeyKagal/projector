@@ -8,37 +8,49 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useContext, useEffect, useState } from 'react';
 import { deleteBoard, getBoards } from '../../api/api';
 import { IBoard } from '../../constants/interfaces';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
 import { PATH } from '../../constants/paths';
 import { GlobalContext } from '../../provider/provider';
 import { localizationContent } from '../../localization/types';
 import Footer from '../Footer/Footer';
-
-import { Link as RouterLink } from 'react-router-dom';
+import { notify } from '../Notification/Notification';
+import axios from 'axios';
 
 const Main = () => {
-  // const navigate = useNavigate();
-  const [boardsArray, setBoardsArray] = useState<IBoard[]>([]);
-  const [isAddBoardFormOpen, setIsAddBoardFormOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const { isCreateNewBoardOpen, boardsArray, setBoardsArray, userState } =
+    useContext(GlobalContext);
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
   const [boardToDelete, setBoardToDelete] = useState<IBoard | null>(null);
-  const [currentBoard, setCurrentBoard] = useState<IBoard | null>(null);
-
-  const { userState } = useContext(GlobalContext);
 
   useEffect(() => {
-    getBoards().then((response) => {
-      if (response) {
-        setBoardsArray(response);
+    getBoards().then(
+      (response) => {
+        if (response) {
+          setBoardsArray(response);
+        }
+      },
+      (error) => {
+        const resMessage =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        notify(resMessage);
       }
-    });
-  }, []);
+    );
+  }, [setBoardsArray]);
 
   if (!userState.isUserSignIn) {
     return <Navigate to={PATH.BASE_URL} />;
   }
+
+  const handleCardClick = (board: IBoard) => {
+    navigate(`board/${board.id}`);
+  };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, board: IBoard) => {
     event.stopPropagation();
@@ -47,59 +59,20 @@ const Main = () => {
   };
 
   const handleDeleteBoard = async (boardToDelete: IBoard) => {
-    setShowConfirmPopUp(false);
+    try {
+      await deleteBoard(boardToDelete.id);
 
-    await deleteBoard(boardToDelete.id);
-
-    const newBoardsArray = await getBoards();
-    setBoardsArray(newBoardsArray);
-  };
-
-  function dragOverHandler(e: React.DragEvent<HTMLDivElement>) {
-    e.preventDefault();
-    // const el = e.target as HTMLDivElement;
-    // if (el.classList.contains('boards__card')) {
-    //   el.style.boxShadow = '0 4px 3px red';
-    // }
-  }
-
-  function dragLeaveHandler(e: React.DragEvent<HTMLDivElement>) {
-    // const el = e.target as HTMLDivElement;
-    // // el.style.boxShadow = '';
-  }
-
-  function dragStartHandler(e: React.DragEvent<HTMLDivElement>, board: IBoard) {
-    setCurrentBoard(board);
-    // console.log(boardsArray);
-  }
-
-  function dragEndHandler(e: React.DragEvent<HTMLDivElement>) {
-    const el = e.target as HTMLDivElement;
-    // el.style.boxShadow = '';
-  }
-
-  function dropHandler(e: React.DragEvent<HTMLDivElement>, board: IBoard) {
-    e.preventDefault();
-    if (currentBoard) {
-      const currentIndex = boardsArray.indexOf(currentBoard);
-
-      const dropIndex = boardsArray.indexOf(board);
-      boardsArray.splice(currentIndex, 1);
-      boardsArray.splice(dropIndex, 0, currentBoard);
-      setBoardsArray(
-        boardsArray.map((board) => {
-          if (board.id === board.id) {
-            return board;
-          }
-          if (board.id === currentBoard.id) {
-            return currentBoard;
-          }
-          return board;
-        })
-      );
-      // console.log(boardsArray);
+      const newBoardsArray = await getBoards();
+      setBoardsArray(newBoardsArray);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const resMessage = error.message || error.toString();
+        notify(resMessage);
+      }
+    } finally {
+      setShowConfirmPopUp(false);
     }
-  }
+  };
 
   const boardsToShow = boardsArray.map((board) => {
     return (
@@ -109,18 +82,11 @@ const Main = () => {
           backgroundColor: '#6a93e8',
         }}
         className="boards__card"
-        component={RouterLink}
-        to={`board/${board.id}`}
-        draggable="true"
-        onDragOver={(e) => dragOverHandler(e)}
-        onDragLeave={(e) => dragLeaveHandler(e)}
-        onDragStart={(e) => dragStartHandler(e, board)}
-        onDragEnd={(e) => dragEndHandler(e)}
-        onDrop={(e) => dropHandler(e, board)}
+        onClick={() => handleCardClick(board)}
       >
         <CardContent sx={{ flexGrow: 1, p: '10px' }}>
-          <Typography variant="h6" component="h2" sx={{ color: '#fff' }}>
-            {board.title}
+          <Typography variant="h6" sx={{ color: '#fff' }}>
+            {board.title.toUpperCase()}
           </Typography>
         </CardContent>
 
@@ -133,7 +99,7 @@ const Main = () => {
 
   return (
     <>
-      <Header setIsAddBoardFormOpen={setIsAddBoardFormOpen} />
+      <Header />
 
       <div className="boards">
         <Typography variant="h4" align="center" color="text.secondary" paragraph>
@@ -155,12 +121,7 @@ const Main = () => {
 
       <Footer />
 
-      {isAddBoardFormOpen && (
-        <AddNewBoardForm
-          setBoardsArray={setBoardsArray}
-          setIsAddBoardFormOpen={setIsAddBoardFormOpen}
-        />
-      )}
+      {isCreateNewBoardOpen && <AddNewBoardForm />}
     </>
   );
 };

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -6,15 +5,18 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
+import { IBoard, IColumn, ITask } from '../../constants/interfaces';
+import './Column.scss';
+import { useState } from 'react';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-
-import { IBoard, IColumn } from '../../constants/interfaces';
+import EditIcon from '@mui/icons-material/Edit';
 import { getBoardById, updateColumn } from '../../api/api';
-
-import './Column.scss';
+import TaskPreview from '../TaskPreview/TaskPreview';
+import { Typography } from '@mui/material';
+import { localizationContent } from '../../localization/types';
 
 interface IColumnProps {
   board: IBoard;
@@ -24,6 +26,9 @@ interface IColumnProps {
   setColumnToDelete: (column: IColumn) => void;
   setShowConfirmPopUp: (flag: boolean) => void;
   setBoard: (board: IBoard) => void;
+  setColumnToAddTask: (column: IColumn | null) => void;
+  setTaskToEdit: (task: ITask | null) => void;
+  setTaskToDelete: (task: ITask | null) => void;
 }
 
 interface IState {
@@ -74,6 +79,22 @@ const Column = (props: IColumnProps) => {
     backgroundColor: props.color,
   };
 
+  const tasks = props.column.tasks
+    .sort((a, b) => (a.order > b.order ? 1 : -1))
+    .map((task) => (
+      <TaskPreview
+        key={task.id}
+        task={task}
+        setTaskToEdit={props.setTaskToEdit}
+        column={props.column}
+        boardId={props.board.id}
+        setTaskToDelete={props.setTaskToDelete}
+        setShowConfirmPopUp={props.setShowConfirmPopUp}
+      />
+    ));
+
+  const columnHeight = document.documentElement.clientHeight - 240;
+
   return (
     <Draggable draggableId={props.column.id} index={props.index}>
       {(provided) => (
@@ -82,20 +103,35 @@ const Column = (props: IColumnProps) => {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
+          sx={{ maxHeight: `${columnHeight}px` }}
         >
           <div className="column__header" style={styles}></div>
           <div className="title-container">
-            <div className="column__title" onClick={() => handleTitleClick()}>
+            <Typography
+              variant="h5"
+              color="text.primary"
+              className="column__title"
+              onClick={() => handleTitleClick()}
+            >
               {props.column.title}
-            </div>
-            <Button sx={{ p: '0px', minWidth: '' }} onClick={() => handleClick()}>
+              {<EditIcon className="column-edit" />}
+            </Typography>
+
+            <Button sx={{ p: '2px', minWidth: '' }} onClick={() => handleClick()}>
               {<DeleteIcon />}
             </Button>
 
             {editTitleMode && (
               <div className="title-edit">
                 <form onSubmit={formik.handleSubmit} className="title-edit__form">
-                  <Box sx={{ p: 0, display: 'flex', justifyContent: 'center' }}>
+                  <Box
+                    sx={{
+                      p: 0,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      backgroundColor: '#f0f0f1',
+                    }}
+                  >
                     <TextField
                       fullWidth
                       size="small"
@@ -129,8 +165,16 @@ const Column = (props: IColumnProps) => {
               </div>
             )}
           </div>
-          <Button variant="text" className="button-add-item" startIcon={<AddIcon />}>
-            ADD TASK
+
+          {tasks}
+
+          <Button
+            variant="text"
+            className="button-add-item"
+            startIcon={<AddIcon />}
+            onClick={() => props.setColumnToAddTask(props.column)}
+          >
+            {localizationContent.buttons.addTask}
           </Button>
         </Container>
       )}
