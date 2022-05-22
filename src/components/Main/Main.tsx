@@ -15,17 +15,24 @@ import { PATH } from '../../constants/paths';
 import { GlobalContext } from '../../provider/provider';
 import { localizationContent } from '../../localization/types';
 import Footer from '../Footer/Footer';
-import { notify } from '../Notification/Notification';
+import Notification, { notify } from '../Notification/Notification';
 import axios from 'axios';
 
-const Main = () => {
+export const Main = () => {
   const navigate = useNavigate();
 
   const { isCreateNewBoardOpen, boardsArray, setBoardsArray, userState } =
     useContext(GlobalContext);
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
   const [boardToDelete, setBoardToDelete] = useState<IBoard | null>(null);
+  const [bgrUrl, setBgrUrl] = useState('' || localStorage.getItem('bgrUrl'));
 
+  const changeBacground = async () => {
+    const url = `https://api.unsplash.com/photos/random?orientation=landscape&&client_id=nwRpYv6V0PqOKIPPobvCaSByNX5UwvXBsMEfcoi0usE`;
+    const res = await axios(url);
+    localStorage.setItem('bgrUrl', res.data.urls.regular);
+    setBgrUrl(res.data.urls.regular);
+  };
   useEffect(() => {
     getBoards().then(
       (response) => {
@@ -73,6 +80,9 @@ const Main = () => {
       setShowConfirmPopUp(false);
     }
   };
+  const cutBoardTitle = (title: string) => {
+    return title.length > 10 ? title.split('').splice(0, 10).join('') + '...' : title;
+  };
 
   const boardsToShow = boardsArray.map((board) => {
     return (
@@ -85,8 +95,8 @@ const Main = () => {
         onClick={() => handleCardClick(board)}
       >
         <CardContent sx={{ flexGrow: 1, p: '10px' }}>
-          <Typography variant="h6" sx={{ color: '#fff' }}>
-            {board.title.toUpperCase()}
+          <Typography noWrap variant="h6" component="h2" sx={{ color: '#fff' }}>
+            {cutBoardTitle(board.title)}
           </Typography>
         </CardContent>
 
@@ -99,9 +109,9 @@ const Main = () => {
 
   return (
     <>
-      <Header />
+      <Header setMainPageBgr={changeBacground} />
 
-      <div className="boards">
+      <div className="boards" style={{ backgroundImage: `url(${bgrUrl})` }}>
         <Typography variant="h4" align="center" color="text.secondary" paragraph>
           {localizationContent.boardList}
         </Typography>
@@ -120,7 +130,7 @@ const Main = () => {
       </div>
 
       <Footer />
-
+      <Notification />
       {isCreateNewBoardOpen && <AddNewBoardForm />}
     </>
   );

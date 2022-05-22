@@ -2,8 +2,6 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
-
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import AddIcon from '@mui/icons-material/Add';
@@ -16,8 +14,10 @@ import getColumnsColor from '../getColumnsColor/getColumnsColor';
 import { GlobalContext } from '../../provider/provider';
 import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
 import Notification, { notify } from '../Notification/Notification';
+import { Card, Typography, CardContent } from '@mui/material';
 import AddNewTaskForm from '../AddNewTaskForm/AddNewTaskForm';
 import EditTaskForm from '../EditTaskForm/EditTaskForm';
+
 import { localizationContent } from '../../localization/types';
 import Footer from '../Footer/Footer';
 import Column from '../Column/Column';
@@ -158,12 +158,18 @@ export const Board = () => {
           onClick={() => navigate(-1)}
         >
           <KeyboardBackspaceIcon sx={{ fontSize: '66px' }} />
-        </Button>
-
-        <Typography variant="h4" align="center" color="text.secondary" paragraph>
-          {localizationContent.board} «{board?.title}»
-        </Typography>
-
+        </Button>{' '}
+        <h3>Board «{board?.title}»</h3>
+        <Card sx={{ minWidth: 0.8 }}>
+          <CardContent>
+            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              Board Description
+            </Typography>
+            <Typography sx={{ fontSize: 18 }} variant="body2" color="text.primary">
+              {board?.description}
+            </Typography>
+          </CardContent>
+        </Card>{' '}
         <div className="columns-container">
           <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="all-columns" direction="horizontal" type="column">

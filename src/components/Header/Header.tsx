@@ -13,8 +13,13 @@ import { Link as RouterLink } from 'react-router-dom';
 import SignOut from '../SignOut/SignOut';
 import { GlobalContext } from '../../provider/provider';
 import { useContext } from 'react';
+import { localizationContent } from '../../localization/types';
 
-export const Header = () => {
+interface IHeaderProps {
+  setMainPageBgr?: () => void;
+}
+
+export const Header: React.FC<IHeaderProps> = (props) => {
   const { stickyHeader } = useContext(GlobalContext);
   return (
     <>
@@ -34,6 +39,11 @@ export const Header = () => {
                 </Button>
               </Typography>
               <nav className="headerNav">
+                {window.location.pathname === '/main' && (
+                  <Button color="inherit" onClick={props.setMainPageBgr}>
+                    {localizationContent.changeBgr}
+                  </Button>
+                )}
                 <CreateNewBoard />
                 <Button color="inherit" component={RouterLink} to={PATH.EDIT_PROFILE}>
                   <ManageAccountsIcon />
