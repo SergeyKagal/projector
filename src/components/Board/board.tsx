@@ -1,25 +1,36 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { deleteColumn, deleteTask, getBoardById } from '../../api/api';
-import { IBoard, IColumn, ITask } from '../../constants/interfaces';
-import AddIcon from '@mui/icons-material/Add';
+import axios from 'axios';
+import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
+
+import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { Header } from '../Header/Header';
-import './board.scss';
-import AddNewColumnForm from '../AddNewColumnForm/AddNewColumnForm';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import AddIcon from '@mui/icons-material/Add';
+import { deleteColumn, deleteTask, getBoardById, updateColumn } from '../../api/api';
+import AddNewColumnForm from '../AddNewColumnForm/AddNewColumnForm';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
-import Column from '../Column/Column';
+import { Header } from '../Header/Header';
+import { IBoard, IColumn, ITask } from '../../constants/interfaces';
 import getColumnsColor from '../getColumnsColor/getColumnsColor';
 import { GlobalContext } from '../../provider/provider';
 import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
 import Notification, { notify } from '../Notification/Notification';
+<<<<<<< HEAD
 import axios from 'axios';
 import { Card, Typography, CardContent } from '@mui/material';
 import { localizationContent } from '../../localization/types';
 import AddNewTaskForm from '../AddNewTaskForm/AddNewTaskForm';
 import EditTaskForm from '../EditTaskForm/EditTaskForm';
+=======
+import AddNewTaskForm from '../AddNewTaskForm/AddNewTaskForm';
+import EditTaskForm from '../EditTaskForm/EditTaskForm';
+import { localizationContent } from '../../localization/types';
+>>>>>>> origin/develop
 import Footer from '../Footer/Footer';
+import Column from '../Column/Column';
+
+import './board.scss';
 
 export const Board = () => {
   const navigate = useNavigate();
@@ -37,6 +48,7 @@ export const Board = () => {
     getBoardById(params).then(
       (response) => {
         if (response) {
+          response.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
           setBoard(response);
         }
       },
@@ -57,7 +69,7 @@ export const Board = () => {
       await deleteColumn(board.id, columnToDelete.id);
 
       const newBoard = await getBoardById(params);
-
+      newBoard.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
       setBoard(newBoard);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -77,7 +89,7 @@ export const Board = () => {
       await deleteTask(task);
 
       const newBoard = await getBoardById(params);
-
+      newBoard.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
       setBoard(newBoard);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -90,12 +102,12 @@ export const Board = () => {
     }
   };
 
-  board?.columns.sort((a, b) => (a.order > b.order ? 1 : -1));
   const colors = getColumnsColor(board);
 
-  const columns = board?.columns.map((column) => {
+  const columns = board?.columns.map((column, index) => {
     return (
       <Column
+        index={index}
         key={column.id}
         board={board}
         setBoard={setBoard}
@@ -109,6 +121,40 @@ export const Board = () => {
       />
     );
   });
+
+  async function handleDragEnd(result: DropResult) {
+    const { destination, source, type } = result;
+
+    if (!destination) {
+      return;
+    }
+
+    if (destination.droppableId === source.droppableId && destination.index === source.index) {
+      return;
+    }
+
+    const reorder = async (list: IColumn[], startIndex: number, endIndex: number) => {
+      const result = Array.from(list);
+      const [removed] = result.splice(startIndex, 1);
+      result.splice(endIndex, 0, removed);
+      return result;
+    };
+
+    if (type === 'column') {
+      if (board) {
+        const reorderedColumns = await reorder(board.columns, source.index, destination.index);
+        if (board) {
+          setBoard({
+            id: board.id,
+            description: board.description,
+            title: board.title,
+            columns: reorderedColumns,
+          });
+          updateColumn(board.id, board.columns[source.index], destination.index + 1);
+        }
+      }
+    }
+  }
 
   return (
     <>
@@ -133,7 +179,16 @@ export const Board = () => {
           </CardContent>
         </Card>{' '}
         <div className="columns-container">
-          {columns}
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId="all-columns" direction="horizontal" type="column">
+              {(provided) => (
+                <div className="all-columns" ref={provided.innerRef} {...provided.droppableProps}>
+                  {columns}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
           <Button
             variant="outlined"
             className="button-add-item"
@@ -154,7 +209,6 @@ export const Board = () => {
           setBoard={setBoard}
         />
       )}
-
       {columnToDelete && (
         <ConfirmPopUp
           description={`${localizationContent.deleteColumn.description} "${columnToDelete.title}"?`}

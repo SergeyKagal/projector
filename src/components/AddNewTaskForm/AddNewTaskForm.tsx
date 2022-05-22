@@ -81,7 +81,6 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
       : 0;
     const newTask = {
       title: formValue.title,
-      done: false,
       order: order,
       description: formValue.description,
       userId: formValue.user,
@@ -92,6 +91,7 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
     try {
       await addTask(props.boardId, props.column.id, newTask);
       const newBoard = await getBoardById(props.boardId);
+      newBoard.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
       if (newBoard) {
         props.setBoard(newBoard);
       }
