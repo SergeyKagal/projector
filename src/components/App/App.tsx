@@ -10,9 +10,11 @@ import SignUp from '../SignUp/SignUp';
 import Welcome from '../Welcome/Welcome';
 import Main from '../Main/Main';
 import { PATH } from '../../constants/paths';
+
+import './App.scss';
+import { localizationContent } from '../../localization/types';
 import theme from '../../constants/theme';
 import { Board } from '../Board/board';
-import { localizationContent } from '../../localization/types';
 import { IBoard } from '../../constants/interfaces';
 
 function App() {

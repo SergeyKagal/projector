@@ -82,7 +82,7 @@ export const addBoard = async (title: string) => {
   return await axios
     .post(`${API_URL}/boards`, {
       title: title,
-      description: title,
+      description: title
     })
     .then((res) => res.data);
 };
@@ -91,13 +91,10 @@ export const deleteBoard = async (boardId: string) => {
   return await axios.delete(`${API_URL}/boards/${boardId}`).then((res) => res.data);
 };
 
-export const addColumn = async (boardId: string, columnTitle: string, columnOrder: number) => {
-  return await axios
-    .post(`${API_URL}/boards/${boardId}/columns`, {
-      title: columnTitle,
-      order: columnOrder,
-    })
-    .then((res) => res.data);
+export const addColumn = async (boardId: string, columnTitle: string) => {
+  return await axios.post(`${API_URL}/boards/${boardId}/columns`, {
+    title: columnTitle
+  });
 };
 
 export const deleteColumn = async (boardId: string, columnId: string) => {
@@ -106,13 +103,11 @@ export const deleteColumn = async (boardId: string, columnId: string) => {
     .then((res) => res.data);
 };
 
-export const updateColumn = async (boardId: string, column: IColumn) => {
-  return await axios
-    .put(`${API_URL}/boards/${boardId}/columns/${column.id}`, {
-      title: column.title,
-      order: column.order,
-    })
-    .then((res) => res.data);
+export const updateColumn = async (boardId: string, column: IColumn, newOrder?: number) => {
+  return await axios.put(`${API_URL}/boards/${boardId}/columns/${column.id}`, {
+    title: column.title,
+    order: newOrder || column.order,
+  });
 };
 
 export const getTasks = async (boardId: string, columnId: string) => {
@@ -131,8 +126,6 @@ export const addTask = async (boardId: string, columnId: string, task: ITask) =>
   return await axios
     .post(`${API_URL}/boards/${boardId}/columns/${columnId}/tasks`, {
       title: task.title,
-      done: task.done,
-      order: task.order,
       description: task.description,
       userId: task.userId,
     })
@@ -149,7 +142,6 @@ export const updateTask = async (task: ITask) => {
   return await axios
     .put(`${API_URL}/boards/${task.boardId}/columns/${task.columnId}/tasks/${task.id}`, {
       title: task.title,
-      done: task.done,
       order: task.order,
       description: task.description,
       userId: task.userId,
