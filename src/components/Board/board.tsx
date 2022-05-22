@@ -94,7 +94,6 @@ export const Board = () => {
     }
   };
 
-  board?.columns.sort((a, b) => (a.order > b.order ? 1 : -1));
   const colors = getColumnsColor(board);
 
   const columns = board?.columns.map((column, index) => {
@@ -130,21 +129,21 @@ export const Board = () => {
       const result = Array.from(list);
       const [removed] = result.splice(startIndex, 1);
       result.splice(endIndex, 0, removed);
-
-      if (board) {
-        setBoard({
-          id: board.id,
-          description: board.description,
-          title: board.title,
-          columns: result,
-        });
-        updateColumn(board.id, board.columns[startIndex], endIndex + 1);
-      }
+      return result;
     };
 
     if (type === 'column') {
       if (board) {
-        reorder(board.columns, source.index, destination.index);
+        const reorderedColumns = await reorder(board.columns, source.index, destination.index);
+        if (board) {
+          setBoard({
+            id: board.id,
+            description: board.description,
+            title: board.title,
+            columns: reorderedColumns,
+          });
+          updateColumn(board.id, board.columns[source.index], destination.index + 1);
+        }
       }
     }
   }
