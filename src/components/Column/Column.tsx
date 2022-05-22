@@ -93,7 +93,7 @@ const Column = (props: IColumnProps) => {
       />
     ));
 
-  const columnHeight = document.documentElement.clientHeight - 240;
+  const columnHeight = document.documentElement.clientHeight - 360;
 
   return (
     <Draggable draggableId={props.column.id} index={props.index}>

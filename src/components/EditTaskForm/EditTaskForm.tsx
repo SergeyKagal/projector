@@ -141,11 +141,20 @@ const EditTaskForm = (props: EditTaskProps) => {
             error={formik.touched.description && Boolean(formik.errors.description)}
             helperText={formik.touched.description && formik.errors.description}
           />
-          <FormControl fullWidth sx={{ mt: 2 }}>
-            <InputLabel id="demo-simple-select-label">
+          <FormControl fullWidth sx={{ mt: 2 }} variant="outlined">
+            <InputLabel
+              id="demo-simple-select-label"
+              sx={{
+                backgroundColor: '#fff',
+                padding: '0 5px',
+                transform: 'translate(14px, -9px) scale(0.75)',
+              }}
+            >
               {localizationContent.addNewTask.user}
             </InputLabel>
+
             <Select
+              variant="outlined"
               labelId="demo-simple-select-label"
               name="user"
               value={formik.values.user}
@@ -153,10 +162,10 @@ const EditTaskForm = (props: EditTaskProps) => {
               onChange={formik.handleChange}
               error={formik.touched.user && Boolean(formik.errors.user)}
             >
-              {/* <MenuItem value="">{defaultUser ? defaultUser.name : ''}</MenuItem> */}
-              <MenuItem value="" selected>
-                user name{' '}
+              <MenuItem value="" selected={true}>
+                {defaultUser ? defaultUser.name : ''}
               </MenuItem>
+
               {users.map((user) => (
                 <MenuItem key={user.id} value={user.id}>
                   {user.name}

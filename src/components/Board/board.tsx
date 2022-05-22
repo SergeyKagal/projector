@@ -158,9 +158,11 @@ export const Board = () => {
           onClick={() => navigate(-1)}
         >
           <KeyboardBackspaceIcon sx={{ fontSize: '66px' }} />
-        </Button>{' '}
+        </Button>
+
         <h3>Board «{board?.title}»</h3>
-        <Card sx={{ minWidth: 0.8 }}>
+
+        <Card sx={{ minWidth: 0.8, overflow: 'unset' }}>
           <CardContent>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
               Board Description
@@ -169,7 +171,8 @@ export const Board = () => {
               {board?.description}
             </Typography>
           </CardContent>
-        </Card>{' '}
+        </Card>
+
         <div className="columns-container">
           <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="all-columns" direction="horizontal" type="column">

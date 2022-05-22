@@ -9,9 +9,10 @@
 
   .columns-container {
     display: flex;
-    flex-wrap: wrap;
+    width: 100%;
+    padding-left: 40px;
     gap: 25px;
-    justify-content: space-between;
+    justify-content: flex-start;
     padding-top: 30px;
   }
 
