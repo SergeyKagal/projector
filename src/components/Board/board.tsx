@@ -2,8 +2,6 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
-
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import AddIcon from '@mui/icons-material/Add';
@@ -16,17 +14,11 @@ import getColumnsColor from '../getColumnsColor/getColumnsColor';
 import { GlobalContext } from '../../provider/provider';
 import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
 import Notification, { notify } from '../Notification/Notification';
-<<<<<<< HEAD
-import axios from 'axios';
 import { Card, Typography, CardContent } from '@mui/material';
-import { localizationContent } from '../../localization/types';
 import AddNewTaskForm from '../AddNewTaskForm/AddNewTaskForm';
 import EditTaskForm from '../EditTaskForm/EditTaskForm';
-=======
-import AddNewTaskForm from '../AddNewTaskForm/AddNewTaskForm';
-import EditTaskForm from '../EditTaskForm/EditTaskForm';
+
 import { localizationContent } from '../../localization/types';
->>>>>>> origin/develop
 import Footer from '../Footer/Footer';
 import Column from '../Column/Column';
 
