@@ -55,21 +55,41 @@ const Welcome = () => {
         <Box
           sx={{
             py: 6,
+            width: '100%',
           }}
         >
-          <Container maxWidth="sm">
+          <Container
+            maxWidth="sm"
+            sx={{ display: 'flex', flexDirection: 'column', alignContent: 'center' }}
+          >
             <Typography
               component="h1"
-              variant="h2"
-              align="center"
               color="text.primary"
-              gutterBottom
+              sx={{ position: 'absolute', width: '1px', height: '1px', top: -10, left: -10 }}
             >
               Projector
             </Typography>
-            <Typography variant="h4" align="center" color="text.secondary" paragraph>
-              {localizationContent.about}
-            </Typography>
+
+            <Box
+              sx={{
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+              <img className="main__logo" src="/projector_logo.svg" />
+
+              <Typography
+                variant="h4"
+                align="center"
+                color="text.secondary"
+                paragraph
+                sx={{ display: 'flex', justifyContent: 'center', width: '70%' }}
+              >
+                {localizationContent.about}
+              </Typography>
+            </Box>
           </Container>
         </Box>
 
