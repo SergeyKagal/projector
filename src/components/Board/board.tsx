@@ -5,7 +5,7 @@ import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import Button from '@mui/material/Button';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import AddIcon from '@mui/icons-material/Add';
-import { deleteColumn, deleteTask, getBoardById, updateColumn } from '../../api/api';
+import { deleteColumn, deleteTask, getBoardById, updateColumn, updateTask } from '../../api/api';
 import AddNewColumnForm from '../AddNewColumnForm/AddNewColumnForm';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
 import { Header } from '../Header/Header';
@@ -125,7 +125,7 @@ export const Board = () => {
       return;
     }
 
-    const reorder = async (list: IColumn[], startIndex: number, endIndex: number) => {
+    const reorderColumns = async (list: IColumn[], startIndex: number, endIndex: number) => {
       const result = Array.from(list);
       const [removed] = result.splice(startIndex, 1);
       result.splice(endIndex, 0, removed);
@@ -134,16 +134,94 @@ export const Board = () => {
 
     if (type === 'column') {
       if (board) {
-        const reorderedColumns = await reorder(board.columns, source.index, destination.index);
+        const reorderedColumns = await reorderColumns(
+          board.columns,
+          source.index,
+          destination.index
+        );
+
+        setBoard({
+          id: board.id,
+          description: board.description,
+          title: board.title,
+          columns: reorderedColumns,
+        });
+        updateColumn(board.id, board.columns[source.index], destination.index + 1);
+      }
+    }
+
+    const reorderTasks = async (list: ITask[], startIndex: number, endIndex: number) => {
+      const result = Array.from(list);
+      const [removed] = result.splice(startIndex, 1);
+      result.splice(endIndex, 0, removed);
+      return result;
+    };
+
+    // Колонка, из которой берем таск
+    const home = board?.columns.find((column) => column.id === source.droppableId);
+    const homeOrder = board?.columns.findIndex((obj) => {
+      return obj.id === home?.id;
+    });
+    // Колонка, куда помещаем таск
+    const foreign = board?.columns.find((column) => column.id === destination.droppableId);
+
+    if (home) {
+      if (home === foreign) {
+        const reorderedTasks = await reorderTasks(home.tasks, source.index, destination.index);
+
         if (board) {
-          setBoard({
-            id: board.id,
-            description: board.description,
-            title: board.title,
-            columns: reorderedColumns,
-          });
-          updateColumn(board.id, board.columns[source.index], destination.index + 1);
+            const newColumn: IColumn = {
+              ...home,
+              tasks: reorderedTasks,
+            };
+            // const allColumns = board.columns;
+
+            if (homeOrder) {
+              setBoard({
+                id: board.id,
+                description: board.description,
+                title: board.title,
+                columns: [
+                  ...board.columns,
+                  newColumn
+                ],
+              });
+            }
+
+          const updatedTask = {
+            ...home.tasks[source.index],
+            order: destination.index + 1,
+            boardId: board.id,
+            columnId: source.droppableId,
+          };
+          updateTask(updatedTask)
+            // .then(() => getBoardById(params))
+            // .then((response) => {
+            //   console.log(response);
+            //   response.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
+            //   setBoard(response);
+            // });
         }
+        // }
+        // const newTaskIds = Array.from(home.taskIds);
+        // newTaskIds.splice(source.index, 1);
+        // newTaskIds.splice(destination.index, 0, draggableId);
+
+        // const newHome = {
+        //   ...home,
+        //   taskIds: newTaskIds,
+        // };
+
+        // const newState = {
+        //   ...this.state,
+        //   columns: {
+        //     ...this.state.columns,
+        //     [newHome.id]: newHome,
+        //   },
+        // };
+
+        // this.setState(newState);
+        return;
       }
     }
   }

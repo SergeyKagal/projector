@@ -1,4 +1,4 @@
-import { Draggable } from 'react-beautiful-dnd';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Button from '@mui/material/Button';
@@ -81,8 +81,9 @@ const Column = (props: IColumnProps) => {
 
   const tasks = props.column.tasks
     .sort((a, b) => (a.order > b.order ? 1 : -1))
-    .map((task) => (
+    .map((task, index) => (
       <TaskPreview
+        index={index}
         key={task.id}
         task={task}
         setTaskToEdit={props.setTaskToEdit}
@@ -165,9 +166,24 @@ const Column = (props: IColumnProps) => {
               </div>
             )}
           </div>
-
-          {tasks}
-
+          <Droppable droppableId={props.column.id}>
+            {(provided) => (
+              <Box
+                className="all-tasks"
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '100%',
+                  paddingRight: '19px',
+                }}
+              >
+                {tasks}
+                {provided.placeholder}
+              </Box>
+            )}
+          </Droppable>
           <Button
             variant="text"
             className="button-add-item"
