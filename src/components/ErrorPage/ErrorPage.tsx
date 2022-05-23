@@ -14,6 +14,7 @@ export const ErrorPage: React.FC = () => {
       <Button
         onClick={() => {
           history.push(PATH.BASE_URL);
+          location.reload();
         }}
         variant="contained"
         color="primary"

@@ -25,7 +25,8 @@ axios.interceptors.response.use(
     if (error.response.data.statusCode === 401) {
       localStorage.removeItem('user');
       const history = createBrowserHistory();
-      history.push(PATH.BASE_URL);
+      history.push(PATH.AUTHORIZATION_ERROR);
+      location.reload();
     }
     return Promise.reject(error);
   }
