@@ -87,8 +87,8 @@ const Welcome = () => {
             <Card
               sx={{
                 p: '10px',
-                height: '260px',
-                width: '180px',
+                height: '270px',
+                width: '200px',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -127,8 +127,8 @@ const Welcome = () => {
             <Card
               sx={{
                 p: '10px',
-                height: '260px',
-                width: '180px',
+                height: '270px',
+                width: '200px',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -167,8 +167,8 @@ const Welcome = () => {
             <Card
               sx={{
                 p: '10px',
-                height: '260px',
-                width: '180px',
+                height: '270px',
+                width: '200px',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
