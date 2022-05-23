@@ -9,7 +9,6 @@ export const getUserInformation = (): IUser => {
     try {
       const decoded = jwtDecode<IUser>(token);
       const user = { ...decoded, isUserSignIn: true };
-      console.log(decoded);
 
       return user;
     } catch (err) {
