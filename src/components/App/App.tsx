@@ -16,6 +16,7 @@ import { localizationContent } from '../../localization/types';
 import theme from '../../constants/theme';
 import { Board } from '../Board/board';
 import { IBoard } from '../../constants/interfaces';
+import { ErrorPage } from '../ErrorPage/ErrorPage';
 
 function App() {
   const [userState, setUserState] = useState<IUser>(defaultGlobalState.userState);
@@ -62,8 +63,9 @@ function App() {
               <Route path={PATH.SIGN_IN} element={<SignIn />} />
               <Route path={PATH.SIGN_UP} element={<SignUp />} />
 
-              <Route path={PATH.ERROR_PAGE} element={<NotFoundPage />} />
+              <Route path={PATH.NOT_FOUND} element={<NotFoundPage />} />
               <Route path={PATH.EDIT_PROFILE} element={<EditProfile />} />
+              <Route path={PATH.AUTHORIZATION_ERROR} element={<ErrorPage />} />
             </Routes>
           </Router>
         </GlobalContext.Provider>
