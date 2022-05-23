@@ -10,15 +10,28 @@
     padding: 24px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
   }
 
   &__side {
     width: 50%;
+    @media screen and (min-width: 320px) and (max-width: 768px) {
+      width: 40%;
+    }
+  }
+
+  &__RS-link {
+    display: flex;
+
+    @media screen and (min-width: 320px) and (max-width: 768px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 }
 
 .footer .rs-logo {
   height: 20px;
   margin-right: 10px;
+  margin-bottom: 10px;
 }

@@ -49,7 +49,7 @@ const themeOptions = {
       fontSize: '1.3rem',
     },
     h6: {
-      fontSize: '1.1rem',
+      fontSize: '1rem',
     },
   },
 };

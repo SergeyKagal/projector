@@ -77,137 +77,133 @@ const Welcome = () => {
           sx={{
             width: '80%',
             maxWidth: '1200px',
+            pt: '25px',
           }}
         >
-          <Container sx={{ py: 4 }}>
-            <Typography variant="h4" align="center" color="text.secondary" paragraph>
-              {localizationContent.team}
-            </Typography>
-            <div className="cards-container">
-              <Card
+          <Typography variant="h4" align="center" color="text.secondary" paragraph>
+            {localizationContent.team}
+          </Typography>
+          <div className="cards-container">
+            <Card
+              sx={{
+                p: '10px',
+                height: '260px',
+                width: '180px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <CardMedia
+                component="img"
                 sx={{
-                  p: '10px',
-                  height: '100%',
-                  width: '180px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  textAlign: 'center',
-                  justifyContent: 'space-between',
-                  margin: '0 20px',
+                  width: 100,
+                  height: 100,
+                  borderRadius: '50%',
                 }}
-              >
-                <CardMedia
-                  component="img"
-                  sx={{
-                    width: 100,
-                    height: 100,
-                    borderRadius: '50%',
-                  }}
-                  image="./avatar_sergey.png"
-                  alt="avatar sergey"
-                />
-                <CardContent sx={{ flexGrow: 1, p: '10px' }}>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    {localizationContent.names[0]}
-                  </Typography>
-                  <Typography>{localizationContent.jobs[0]}</Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    size="small"
-                    href="https://github.com/SergeyKagal"
-                    target="_blank"
-                    sx={{ p: 0 }}
-                  >
-                    {localizationContent.gitHubLink}
-                  </Button>
-                </CardActions>
-              </Card>
+                image="./avatar_sergey.png"
+                alt="avatar sergey"
+              />
+              <CardContent sx={{ flexGrow: 1, p: '10px' }}>
+                <Typography gutterBottom variant="h5" component="h2">
+                  {localizationContent.names[0]}
+                </Typography>
+                <Typography variant="h6">{localizationContent.jobs[0]}</Typography>
+              </CardContent>
+              <CardActions>
+                <Button
+                  size="small"
+                  href="https://github.com/SergeyKagal"
+                  target="_blank"
+                  sx={{ p: 0 }}
+                >
+                  {localizationContent.gitHubLink}
+                </Button>
+              </CardActions>
+            </Card>
 
-              <Card
+            <Card
+              sx={{
+                p: '10px',
+                height: '260px',
+                width: '180px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <CardMedia
+                component="img"
                 sx={{
-                  p: '10px',
-                  height: '100%',
-                  width: '180px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  textAlign: 'center',
-                  justifyContent: 'space-between',
-                  margin: '0 20px',
+                  width: 100,
+                  height: 100,
+                  borderRadius: '50%',
                 }}
-              >
-                <CardMedia
-                  component="img"
-                  sx={{
-                    width: 100,
-                    height: 100,
-                    borderRadius: '50%',
-                  }}
-                  image="./avatar_raya.png"
-                  alt="avatar raya"
-                />
-                <CardContent sx={{ flexGrow: 1, p: '10px' }}>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    {localizationContent.names[1]}
-                  </Typography>
-                  <Typography>{localizationContent.jobs[1]} </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    size="small"
-                    href="https://github.com/ravgusha"
-                    target="_blank"
-                    sx={{ p: 0 }}
-                  >
-                    {localizationContent.gitHubLink}
-                  </Button>
-                </CardActions>
-              </Card>
+                image="./avatar_raya.png"
+                alt="avatar raya"
+              />
+              <CardContent sx={{ flexGrow: 1, p: '10px' }}>
+                <Typography gutterBottom variant="h5" component="h2">
+                  {localizationContent.names[1]}
+                </Typography>
+                <Typography>{localizationContent.jobs[1]} </Typography>
+              </CardContent>
+              <CardActions>
+                <Button
+                  size="small"
+                  href="https://github.com/ravgusha"
+                  target="_blank"
+                  sx={{ p: 0 }}
+                >
+                  {localizationContent.gitHubLink}
+                </Button>
+              </CardActions>
+            </Card>
 
-              <Card
+            <Card
+              sx={{
+                p: '10px',
+                height: '260px',
+                width: '180px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <CardMedia
+                component="img"
                 sx={{
-                  p: '10px',
-                  height: '100%',
-                  width: '180px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  textAlign: 'center',
-                  justifyContent: 'space-between',
-                  margin: '0 20px',
+                  width: 100,
+                  height: 100,
+                  borderRadius: '50%',
                 }}
-              >
-                <CardMedia
-                  component="img"
-                  sx={{
-                    width: 100,
-                    height: 100,
-                    borderRadius: '50%',
-                  }}
-                  image="./avatar_elena.png"
-                  alt="avatar elena"
-                />
-                <CardContent sx={{ flexGrow: 1, p: '10px' }}>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    {localizationContent.names[2]}
-                  </Typography>
-                  <Typography>{localizationContent.jobs[2]} </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    size="small"
-                    href="https://github.com/elvehnn"
-                    target="_blank"
-                    sx={{ p: 0 }}
-                  >
-                    {localizationContent.gitHubLink}
-                  </Button>
-                </CardActions>
-              </Card>
-            </div>
-          </Container>
+                image="./avatar_elena.png"
+                alt="avatar elena"
+              />
+              <CardContent sx={{ flexGrow: 1, p: '10px' }}>
+                <Typography gutterBottom variant="h5" component="h2">
+                  {localizationContent.names[2]}
+                </Typography>
+                <Typography>{localizationContent.jobs[2]} </Typography>
+              </CardContent>
+              <CardActions>
+                <Button
+                  size="small"
+                  href="https://github.com/elvehnn"
+                  target="_blank"
+                  sx={{ p: 0 }}
+                >
+                  {localizationContent.gitHubLink}
+                </Button>
+              </CardActions>
+            </Card>
+          </div>
         </Box>
       </main>
       <Footer />
