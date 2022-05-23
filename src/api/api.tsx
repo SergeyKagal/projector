@@ -1,5 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { IColumn, ITask } from '../constants/interfaces';
+import { createBrowserHistory } from 'history';
+import { PATH } from '../constants/paths';
 
 const API_URL = 'https://afternoon-hamlet-46054.herokuapp.com';
 
@@ -22,7 +24,8 @@ axios.interceptors.response.use(
   function (error) {
     if (error.response.data.statusCode === 401) {
       localStorage.removeItem('user');
-      window.location.pathname = '/';
+      const history = createBrowserHistory();
+      history.push(PATH.BASE_URL);
     }
     return Promise.reject(error);
   }

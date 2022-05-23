@@ -19,6 +19,7 @@ const SignOut = () => {
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
+
   return (
     <>
       <Button
