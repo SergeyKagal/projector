@@ -5,10 +5,10 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { addColumn, getBoardById } from '../../api/api';
-import { IBoard, IColumn } from '../../constants/interfaces';
-import { localizationContent } from '../../localization/types';
-import { notify } from '../Notification/Notification';
+import { addColumn, getBoardById } from '../../../api/api';
+import { IBoard, IColumn } from '../../../constants/interfaces';
+import { localizationContent } from '../../../localization/types';
+import { notify } from '../../Notification/Notification';
 import './AddNewColumnForm.scss';
 
 interface addNewColumnProps {

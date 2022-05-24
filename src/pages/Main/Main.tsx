@@ -1,5 +1,5 @@
 import './Main.scss';
-import { Header } from '../Header/Header';
+import { Header } from '../../components/Header/Header';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -9,13 +9,13 @@ import { useContext, useEffect, useState } from 'react';
 import { deleteBoard, getBoards } from '../../api/api';
 import { IBoard } from '../../constants/interfaces';
 import { Navigate, useNavigate } from 'react-router-dom';
-import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
-import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
+import AddNewBoardForm from '../../components/Forms/AddNewBoardForm/AddNewBoardForm';
+import ConfirmPopUp from '../../components/ConfirmPopUp/ConfirmPopUp';
 import { PATH } from '../../constants/paths';
 import { GlobalContext } from '../../provider/provider';
 import { localizationContent } from '../../localization/types';
-import Footer from '../Footer/Footer';
-import Notification, { notify } from '../Notification/Notification';
+import Footer from '../../components/Footer/Footer';
+import Notification, { notify } from '../../components/Notification/Notification';
 import axios from 'axios';
 
 export const Main = () => {
@@ -27,12 +27,13 @@ export const Main = () => {
   const [boardToDelete, setBoardToDelete] = useState<IBoard | null>(null);
   const [bgrUrl, setBgrUrl] = useState('' || localStorage.getItem('bgrUrl'));
 
-  const changeBacground = async () => {
+  const changeBackground = async () => {
     const url = `https://api.unsplash.com/photos/random?orientation=landscape&&client_id=nwRpYv6V0PqOKIPPobvCaSByNX5UwvXBsMEfcoi0usE`;
     const res = await axios(url);
     localStorage.setItem('bgrUrl', res.data.urls.regular);
     setBgrUrl(res.data.urls.regular);
   };
+
   useEffect(() => {
     getBoards().then(
       (response) => {
@@ -80,6 +81,7 @@ export const Main = () => {
       setShowConfirmPopUp(false);
     }
   };
+
   const cutBoardTitle = (title: string) => {
     return title.length > 10 ? title.split('').splice(0, 10).join('') + '...' : title;
   };
@@ -109,7 +111,7 @@ export const Main = () => {
 
   return (
     <>
-      <Header setMainPageBgr={changeBacground} />
+      <Header setMainPageBgr={changeBackground} />
 
       <div className="boards" style={{ backgroundImage: `url(${bgrUrl})` }}>
         <Typography variant="h4" align="center" color="text.secondary" paragraph>

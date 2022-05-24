@@ -3,18 +3,17 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import './App.scss';
 import { defaultGlobalState, GlobalContext, IUser, Localization } from '../../provider/provider';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import EditProfile from '../EditProfile/EditProfile';
-import SignIn from '../SignIn/SignIn';
-import SignUp from '../SignUp/SignUp';
-import Welcome from '../Welcome/Welcome';
-import Main from '../Main/Main';
+import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
+import EditProfile from '../Forms/EditProfile/EditProfile';
+import SignIn from '../Authorization/SignIn/SignIn';
+import SignUp from '../Authorization/SignUp/SignUp';
+import Welcome from '../../pages/Welcome/Welcome';
+import Main from '../../pages/Main/Main';
 import { PATH } from '../../constants/paths';
-
 import './App.scss';
 import { localizationContent } from '../../localization/types';
 import theme from '../../constants/theme';
-import { Board } from '../Board/board';
+import { Board } from '../../pages/Board/board';
 import { IBoard } from '../../constants/interfaces';
 
 function App() {

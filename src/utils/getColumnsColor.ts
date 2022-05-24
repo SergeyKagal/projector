@@ -1,4 +1,4 @@
-import { IBoard } from '../../constants/interfaces';
+import { IBoard } from '../constants/interfaces';
 
 const getColumnsColor = (board: IBoard | null): Map<string, string> => {
   const colorMap = new Map();

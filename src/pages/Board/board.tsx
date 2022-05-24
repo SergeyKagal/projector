@@ -6,21 +6,21 @@ import Button from '@mui/material/Button';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import AddIcon from '@mui/icons-material/Add';
 import { deleteColumn, deleteTask, getBoardById, updateColumn } from '../../api/api';
-import AddNewColumnForm from '../AddNewColumnForm/AddNewColumnForm';
-import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
-import { Header } from '../Header/Header';
+import AddNewColumnForm from '../../components/Forms/AddNewColumnForm/AddNewColumnForm';
+import ConfirmPopUp from '../../components/ConfirmPopUp/ConfirmPopUp';
+import { Header } from '../../components/Header/Header';
 import { IBoard, IColumn, ITask } from '../../constants/interfaces';
-import getColumnsColor from '../getColumnsColor/getColumnsColor';
+import getColumnsColor from '../../utils/getColumnsColor';
 import { GlobalContext } from '../../provider/provider';
-import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
-import Notification, { notify } from '../Notification/Notification';
+import AddNewBoardForm from '../../components/Forms/AddNewBoardForm/AddNewBoardForm';
+import Notification, { notify } from '../../components/Notification/Notification';
 import { Card, Typography, CardContent } from '@mui/material';
-import AddNewTaskForm from '../AddNewTaskForm/AddNewTaskForm';
-import EditTaskForm from '../EditTaskForm/EditTaskForm';
+import AddNewTaskForm from '../../components/Forms/AddNewTaskForm/AddNewTaskForm';
+import EditTaskForm from '../../components/Forms/EditTaskForm/EditTaskForm';
 
 import { localizationContent } from '../../localization/types';
-import Footer from '../Footer/Footer';
-import Column from '../Column/Column';
+import Footer from '../../components/Footer/Footer';
+import Column from '../../components/Column/Column';
 
 import './board.scss';
 

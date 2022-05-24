@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Footer from '../Footer/Footer';
+import Footer from '../../components/Footer/Footer';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
@@ -14,7 +14,7 @@ import CardActions from '@mui/material/CardActions';
 import { useContext } from 'react';
 import { GlobalContext } from '../../provider/provider';
 import { Link as RouterLink } from 'react-router-dom';
-import { LangToggler } from '../Header/LangToggler/LangToggler';
+import { LangToggler } from '../../components/Header/LangToggler/LangToggler';
 import { localizationContent } from '../../localization/types';
 
 const Welcome = () => {

@@ -8,9 +8,9 @@ import {
   DialogActions,
 } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { signOut } from '../../api/api';
-import { getUserInformation, GlobalContext } from '../../provider/provider';
-import { localizationContent } from '../../localization/types';
+import { signOut } from '../../../api/api';
+import { getUserInformation, GlobalContext } from '../../../provider/provider';
+import { localizationContent } from '../../../localization/types';
 
 const SignOut = () => {
   const { setUserState } = useContext(GlobalContext);
