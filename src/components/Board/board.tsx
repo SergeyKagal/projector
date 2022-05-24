@@ -38,8 +38,20 @@ export const Board = () => {
   const { isCreateNewBoardOpen } = useContext(GlobalContext);
 
   const storedColors = board && window.localStorage.getItem(board.id);
+  console.log(storedColors);
 
-  const [colors, setColors] = useState<Map<string, string> | null>(null);
+  // console.log(storedColors ? new Map(Object.entries(JSON.parse(storedColors))) : 'no');
+  const colors: Map<string, string> = storedColors
+    ? new Map(Object.entries(JSON.parse(storedColors)))
+    : getColumnsColor(board);
+  // console.log(storedColors?.length);
+  // const [colors, setColors] = useState<Map<string, string>>(
+  //   storedColors?.length
+  //     ? new Map(Object.entries(JSON.parse(storedColors)))
+  //     : getColumnsColor(board)
+  // );
+
+  console.log(colors);
 
   useEffect(() => {
     getBoardById(params).then(
@@ -47,11 +59,6 @@ export const Board = () => {
         if (response) {
           response.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
           setBoard(response);
-          setColors(
-            storedColors
-              ? new Map(Object.entries(JSON.parse(storedColors)))
-              : getColumnsColor(board)
-          );
         }
       },
       (error) => {
@@ -64,11 +71,15 @@ export const Board = () => {
       }
     );
 
-    // return function () {
-    //   if (board && colors)
-    //     window.localStorage.setItem(board.id, JSON.stringify(Object.fromEntries(colors)));
-    // };
-  }, [board, colors, params, storedColors]);
+    // const storedColors = board && window.localStorage.getItem(board.id);
+    // console.log(storedColors);
+
+    // setColors(
+    //   storedColors?.length
+    //     ? new Map(Object.entries(JSON.parse(storedColors)))
+    //     : getColumnsColor(board)
+    // );
+  }, []);
 
   const handleDeleteColumn = async (columnToDelete: IColumn) => {
     if (!board) return;
@@ -114,9 +125,6 @@ export const Board = () => {
   //     colors.set(column.id, getColor(index));
   //   }
   // });
-
-  if (board && colors)
-    window.localStorage.setItem(board.id, JSON.stringify(Object.fromEntries(colors)));
 
   const columns = board?.columns.map((column, index) => {
     return (
@@ -226,6 +234,7 @@ export const Board = () => {
           setIsAddColumnFormOpen={setIsAddColumnFormOpen}
           board={board}
           setBoard={setBoard}
+          colors={colors}
         />
       )}
       {columnToDelete && (

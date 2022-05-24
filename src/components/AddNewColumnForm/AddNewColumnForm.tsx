@@ -10,26 +10,25 @@ import { IBoard, IColumn } from '../../constants/interfaces';
 import { localizationContent } from '../../localization/types';
 import { notify } from '../Notification/Notification';
 import './AddNewColumnForm.scss';
-import { Color, ColorResult, CompactPicker, CirclePicker, ChromePicker } from 'react-color';
-import FormControl from '@mui/material/FormControl';
+import { CompactPicker } from 'react-color';
 import { useState } from 'react';
+import theme from '../../constants/theme';
 
 interface addNewColumnProps {
   setIsAddColumnFormOpen: (flag: boolean) => void;
   setBoard: (board: IBoard) => void;
   board: IBoard;
+  colors: Map<string, string>;
 }
 
 const AddNewColumnForm = (props: addNewColumnProps) => {
-  const [color, setColor] = useState('#ff0000');
+  const [color, setColor] = useState(theme.palette.primary.main);
   interface IState {
     title: string;
-    // color?: string;
   }
 
   const initialState = {
     title: '',
-    // color: '#ff0000',
   };
 
   const validationSchema = Yup.object({
@@ -42,12 +41,14 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
   const addNewColumn = async (formValue: IState) => {
     try {
       const { title } = formValue;
-      console.log(formValue);
-
-      await addColumn(props.board.id, title.toUpperCase());
-
+      const response = await addColumn(props.board.id, title.toUpperCase());
       const newBoard = await getBoardById(props.board.id);
+
       newBoard.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
+
+      const newColors = props.colors.set(response.data.id, color);
+      window.localStorage.setItem(props.board.id, JSON.stringify(Object.fromEntries(newColors)));
+
       if (newBoard) {
         props.setBoard(newBoard);
       }
@@ -88,10 +89,9 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
             autoFocus
           />
 
-          <ChromePicker
+          <CompactPicker
             color={color}
             onChange={(color) => {
-              console.log(color);
               setColor(color.hex);
             }}
           />
