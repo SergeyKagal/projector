@@ -17,17 +17,15 @@ import Notification, { notify } from '../Notification/Notification';
 import { Card, Typography, CardContent } from '@mui/material';
 import AddNewTaskForm from '../AddNewTaskForm/AddNewTaskForm';
 import EditTaskForm from '../EditTaskForm/EditTaskForm';
-
 import { localizationContent } from '../../localization/types';
 import Footer from '../Footer/Footer';
 import Column from '../Column/Column';
-
 import './board.scss';
-import getColor from '../getColumnsColor/getColor';
 
 export const Board = () => {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>().id || '';
+
   const [board, setBoard] = useState<IBoard | null>(null);
   const [isAddColumnFormOpen, setIsAddColumnFormOpen] = useState(false);
   const [columnToDelete, setColumnToDelete] = useState<IColumn | null>(null);
@@ -38,20 +36,9 @@ export const Board = () => {
   const { isCreateNewBoardOpen } = useContext(GlobalContext);
 
   const storedColors = board && window.localStorage.getItem(board.id);
-  console.log(storedColors);
-
-  // console.log(storedColors ? new Map(Object.entries(JSON.parse(storedColors))) : 'no');
   const colors: Map<string, string> = storedColors
     ? new Map(Object.entries(JSON.parse(storedColors)))
     : getColumnsColor(board);
-  // console.log(storedColors?.length);
-  // const [colors, setColors] = useState<Map<string, string>>(
-  //   storedColors?.length
-  //     ? new Map(Object.entries(JSON.parse(storedColors)))
-  //     : getColumnsColor(board)
-  // );
-
-  console.log(colors);
 
   useEffect(() => {
     getBoardById(params).then(
@@ -71,15 +58,10 @@ export const Board = () => {
       }
     );
 
-    // const storedColors = board && window.localStorage.getItem(board.id);
-    // console.log(storedColors);
-
-    // setColors(
-    //   storedColors?.length
-    //     ? new Map(Object.entries(JSON.parse(storedColors)))
-    //     : getColumnsColor(board)
-    // );
-  }, []);
+    return function cleanup() {
+      board && window.localStorage.setItem(board.id, JSON.stringify(Object.fromEntries(colors)));
+    };
+  }, [params]);
 
   const handleDeleteColumn = async (columnToDelete: IColumn) => {
     if (!board) return;

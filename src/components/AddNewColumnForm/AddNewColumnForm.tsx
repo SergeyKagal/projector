@@ -74,7 +74,7 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
         <Typography component="h1" variant="h5">
           {localizationContent.addColumn.header}
         </Typography>
-        <Box sx={{ width: '75%', px: 0, py: 2 }}>
+        <Box sx={{ width: '75%', px: 0, pt: 2, pb: 1 }}>
           <TextField
             sx={{ mt: 2 }}
             fullWidth
@@ -88,7 +88,9 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
             helperText={formik.touched.title && formik.errors.title}
             autoFocus
           />
-
+        </Box>
+        <Box sx={{ pb: 2 }}>
+          <p className="color-text">Choose color:</p>
           <CompactPicker
             color={color}
             onChange={(color) => {
