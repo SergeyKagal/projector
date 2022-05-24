@@ -57,10 +57,6 @@ export const Board = () => {
         notify(resMessage);
       }
     );
-
-    return function cleanup() {
-      board && window.localStorage.setItem(board.id, JSON.stringify(Object.fromEntries(colors)));
-    };
   }, [params]);
 
   const handleDeleteColumn = async (columnToDelete: IColumn) => {
@@ -102,12 +98,6 @@ export const Board = () => {
     }
   };
 
-  // board?.columns.map((column, index) => {
-  //   if (!colors.get(column.id)) {
-  //     colors.set(column.id, getColor(index));
-  //   }
-  // });
-
   const columns = board?.columns.map((column, index) => {
     return (
       <Column
@@ -116,7 +106,7 @@ export const Board = () => {
         board={board}
         setBoard={setBoard}
         column={column}
-        color={colors ? (colors.get(column.id) as string) : '#ggg'}
+        color={colors ? (colors.get(column.id) as string) : '#6a93e8'}
         setColumnToDelete={setColumnToDelete}
         setShowConfirmPopUp={setShowConfirmPopUp}
         setColumnToAddTask={setColumnToAddTask}
