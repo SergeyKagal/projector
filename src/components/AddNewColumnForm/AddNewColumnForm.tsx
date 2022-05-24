@@ -10,6 +10,9 @@ import { IBoard, IColumn } from '../../constants/interfaces';
 import { localizationContent } from '../../localization/types';
 import { notify } from '../Notification/Notification';
 import './AddNewColumnForm.scss';
+import { Color, ColorResult, CompactPicker, CirclePicker, ChromePicker } from 'react-color';
+import FormControl from '@mui/material/FormControl';
+import { useState } from 'react';
 
 interface addNewColumnProps {
   setIsAddColumnFormOpen: (flag: boolean) => void;
@@ -18,12 +21,15 @@ interface addNewColumnProps {
 }
 
 const AddNewColumnForm = (props: addNewColumnProps) => {
+  const [color, setColor] = useState('#ff0000');
   interface IState {
     title: string;
+    // color?: string;
   }
 
   const initialState = {
     title: '',
+    // color: '#ff0000',
   };
 
   const validationSchema = Yup.object({
@@ -36,6 +42,7 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
   const addNewColumn = async (formValue: IState) => {
     try {
       const { title } = formValue;
+      console.log(formValue);
 
       await addColumn(props.board.id, title.toUpperCase());
 
@@ -79,6 +86,14 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
             error={formik.touched.title && Boolean(formik.errors.title)}
             helperText={formik.touched.title && formik.errors.title}
             autoFocus
+          />
+
+          <ChromePicker
+            color={color}
+            onChange={(color) => {
+              console.log(color);
+              setColor(color.hex);
+            }}
           />
         </Box>
         <Box sx={{ width: '75%', px: 0, py: 2, display: 'flex', justifyContent: 'center' }}>

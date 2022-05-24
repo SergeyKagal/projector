@@ -23,6 +23,7 @@ import Footer from '../Footer/Footer';
 import Column from '../Column/Column';
 
 import './board.scss';
+import getColor from '../getColumnsColor/getColor';
 
 export const Board = () => {
   const navigate = useNavigate();
@@ -36,12 +37,21 @@ export const Board = () => {
   const [taskToDelete, setTaskToDelete] = useState<ITask | null>(null);
   const { isCreateNewBoardOpen } = useContext(GlobalContext);
 
+  const storedColors = board && window.localStorage.getItem(board.id);
+
+  const [colors, setColors] = useState<Map<string, string> | null>(null);
+
   useEffect(() => {
     getBoardById(params).then(
       (response) => {
         if (response) {
           response.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
           setBoard(response);
+          setColors(
+            storedColors
+              ? new Map(Object.entries(JSON.parse(storedColors)))
+              : getColumnsColor(board)
+          );
         }
       },
       (error) => {
@@ -53,7 +63,12 @@ export const Board = () => {
         notify(resMessage);
       }
     );
-  }, [params]);
+
+    // return function () {
+    //   if (board && colors)
+    //     window.localStorage.setItem(board.id, JSON.stringify(Object.fromEntries(colors)));
+    // };
+  }, [board, colors, params, storedColors]);
 
   const handleDeleteColumn = async (columnToDelete: IColumn) => {
     if (!board) return;
@@ -94,7 +109,14 @@ export const Board = () => {
     }
   };
 
-  const colors = getColumnsColor(board);
+  // board?.columns.map((column, index) => {
+  //   if (!colors.get(column.id)) {
+  //     colors.set(column.id, getColor(index));
+  //   }
+  // });
+
+  if (board && colors)
+    window.localStorage.setItem(board.id, JSON.stringify(Object.fromEntries(colors)));
 
   const columns = board?.columns.map((column, index) => {
     return (
@@ -104,7 +126,7 @@ export const Board = () => {
         board={board}
         setBoard={setBoard}
         column={column}
-        color={colors.get(column.id) || '#87A8EC'}
+        color={colors ? (colors.get(column.id) as string) : '#ggg'}
         setColumnToDelete={setColumnToDelete}
         setShowConfirmPopUp={setShowConfirmPopUp}
         setColumnToAddTask={setColumnToAddTask}
