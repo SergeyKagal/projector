@@ -16,8 +16,8 @@ import { useNavigate } from 'react-router-dom';
 
 const SignOut = () => {
   const { setUserState } = useContext(GlobalContext);
-  const [open, setOpen] = useState(false);
-  const handleClose = () => setOpen(false);
+  const [isModalOpen, setisModalOpen] = useState(false);
+  const handleClose = () => setisModalOpen(false);
   const navigate = useNavigate();
 
   return (
@@ -26,12 +26,12 @@ const SignOut = () => {
         color="inherit"
         title={localizationContent.signOut}
         onClick={() => {
-          setOpen(true);
+          setisModalOpen(true);
         }}
       >
         {<LogoutIcon />}
       </Button>
-      <Dialog open={open}>
+      <Dialog open={isModalOpen}>
         <DialogTitle sx={{ textAlign: 'center' }}>
           {localizationContent.signOutPopup.title}
         </DialogTitle>
@@ -45,9 +45,9 @@ const SignOut = () => {
           <Button
             variant="contained"
             onClick={async () => {
-              await handleClose();
-              await signOut();
-              await setUserState(getUserInformation());
+              handleClose();
+              signOut();
+              setUserState(getUserInformation());
               navigate(PATH.BASE_URL);
             }}
           >

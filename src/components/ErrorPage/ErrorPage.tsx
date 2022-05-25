@@ -10,7 +10,7 @@ export const ErrorPage: React.FC = () => {
     <div className="error-page-wrapper">
       <h2>401</h2>
       <h3>Whoops!</h3>
-      <h4>Authrization error</h4>
+      <h4>Authorization error</h4>
       <Button
         onClick={() => {
           history.push(PATH.BASE_URL);

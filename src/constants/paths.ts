@@ -8,5 +8,5 @@ export const PATH = {
   WELCOME: '/welcome',
   LOGOUT: '/logout',
   EDIT_PROFILE: '/profile',
-  AUTHORIZATION_ERROR: '/unauthor_err',
+  AUTHORIZATION_ERROR: '/unauthorize',
 };
