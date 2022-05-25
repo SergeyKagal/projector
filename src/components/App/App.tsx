@@ -16,6 +16,7 @@ import theme from '../../constants/theme';
 import { Board } from '../Board/board';
 import { IBoard } from '../../constants/interfaces';
 import { ErrorPage } from '../ErrorPage/ErrorPage';
+import { errors } from '../../constants/errors';
 
 function App() {
   const [userState, setUserState] = useState<IUser>(defaultGlobalState.userState);
@@ -61,9 +62,12 @@ function App() {
               <Route path={PATH.BOARD} element={<Board />} />
               <Route path={PATH.SIGN_IN} element={<SignIn />} />
               <Route path={PATH.SIGN_UP} element={<SignUp />} />
-              <Route path={PATH.NOT_FOUND} element={<ErrorPage />} />
+              <Route path={PATH.NOT_FOUND} element={<ErrorPage error={errors['404']} />} />
               <Route path={PATH.EDIT_PROFILE} element={<EditProfile />} />
-              <Route path={PATH.AUTHORIZATION_ERROR} element={<ErrorPage />} />
+              <Route
+                path={PATH.AUTHORIZATION_ERROR}
+                element={<ErrorPage error={errors['401']} />}
+              />
             </Routes>
           </Router>
         </GlobalContext.Provider>

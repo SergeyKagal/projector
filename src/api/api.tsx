@@ -20,7 +20,7 @@ axios.interceptors.response.use(
     return response;
   },
   function (error) {
-    if (error && error.response.data.statusCode === 401) {
+    if (error.response.data.statusCode === 401) {
       localStorage.removeItem('user');
       window.location.replace(PATH.AUTHORIZATION_ERROR);
     }
