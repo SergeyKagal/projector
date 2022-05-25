@@ -58,7 +58,11 @@ export const Board = () => {
   const handleDeleteColumn = async (columnToDelete: IColumn) => {
     if (!board) return;
     try {
-      await deleteColumn(board.id, columnToDelete.id);
+      await deleteColumn(board.id, columnToDelete.id).then((res) => {
+        if (res.status === 204) {
+          notify(localizationContent.deleted);
+        }
+      });
 
       const newBoard = await getBoardById(params);
       newBoard.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
@@ -78,7 +82,11 @@ export const Board = () => {
     if (!board) return;
 
     try {
-      await deleteTask(task);
+      await deleteTask(task).then((res) => {
+        if (res.status === 204) {
+          notify(localizationContent.deleted);
+        }
+      });
 
       const newBoard = await getBoardById(params);
       newBoard.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));

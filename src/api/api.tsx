@@ -110,7 +110,7 @@ export const addBoard = async (title: string, description: string) => {
 };
 
 export const deleteBoard = async (boardId: string) => {
-  return await axios.delete(`${API_URL}/boards/${boardId}`).then((res) => res.data);
+  return await axios.delete(`${API_URL}/boards/${boardId}`);
 };
 
 export const addColumn = async (boardId: string, columnTitle: string) => {
@@ -120,9 +120,7 @@ export const addColumn = async (boardId: string, columnTitle: string) => {
 };
 
 export const deleteColumn = async (boardId: string, columnId: string) => {
-  return await axios
-    .delete(`${API_URL}/boards/${boardId}/columns/${columnId}`)
-    .then((res) => res.data);
+  return await axios.delete(`${API_URL}/boards/${boardId}/columns/${columnId}`);
 };
 
 export const updateColumn = async (boardId: string, column: IColumn, newOrder?: number) => {
@@ -155,9 +153,9 @@ export const addTask = async (boardId: string, columnId: string, task: ITask) =>
 };
 
 export const deleteTask = async (task: ITask) => {
-  return await axios
-    .delete(`${API_URL}/boards/${task.boardId}/columns/${task.columnId}/tasks/${task.id}`)
-    .then((res) => res.data);
+  return await axios.delete(
+    `${API_URL}/boards/${task.boardId}/columns/${task.columnId}/tasks/${task.id}`
+  );
 };
 
 export const updateTask = async (task: ITask) => {
