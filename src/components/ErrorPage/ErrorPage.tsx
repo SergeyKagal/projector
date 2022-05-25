@@ -8,46 +8,28 @@ import './ErrorPage.scss';
 export const ErrorPage: React.FC = () => {
   const navigate = useNavigate();
   const { isUnauthrizedError, setIsUnauthorizedError } = useContext(GlobalContext);
-
-  const errorContent = {
-    notFound: (
-      <>
-        <h2>404</h2>
-        <h3>Whoops!</h3>
-        <h4>Page Not Found</h4>
-        <Button
-          onClick={() => {
-            navigate(-1);
-          }}
-          variant="contained"
-          color="primary"
-        >
-          Go BACK
-        </Button>
-      </>
-    ),
-    unauthorized: (
-      <>
-        <h2>401</h2>
-        <h3>Whoops!</h3>
-        <h4>Authorization error</h4>
-        <Button
-          onClick={() => {
-            setIsUnauthorizedError(false);
-            navigate(PATH.BASE_URL);
-          }}
-          variant="contained"
-          color="primary"
-        >
-          welcome page
-        </Button>
-      </>
-    ),
+  const notFoundHandler = () => {
+    navigate(-1);
+  };
+  const unAuthorizedHandler = () => {
+    setIsUnauthorizedError(false);
+    navigate(PATH.BASE_URL);
   };
 
   return (
     <div className="error-page-wrapper">
-      {isUnauthrizedError ? errorContent.unauthorized : errorContent.notFound}
+      <h2> {isUnauthrizedError ? '401' : '404'}</h2>
+      <h3>Whoops!</h3>
+      <h4>{isUnauthrizedError ? 'Authorization error' : 'Page Not Found'}</h4>
+      <Button
+        onClick={() => {
+          isUnauthrizedError ? unAuthorizedHandler() : notFoundHandler();
+        }}
+        variant="contained"
+        color="primary"
+      >
+        {isUnauthrizedError ? 'welcome page' : 'Go BACK'}
+      </Button>
     </div>
   );
 };
