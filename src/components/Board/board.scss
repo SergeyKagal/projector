@@ -7,6 +7,10 @@
   align-items: center;
   overflow-x: auto;
 
+  &__board__header {
+    margin-top: 35px;
+  }
+
   .columns-container {
     display: flex;
     width: 100%;

@@ -164,9 +164,9 @@ export const Board = () => {
           <KeyboardBackspaceIcon sx={{ fontSize: '66px' }} />
         </Button>
 
-        <h3>
+        <Typography variant="h4" align="center" color="text.secondary" sx={{ my: '18px' }}>
           {localizationContent.board.header} «{board?.title}»
-        </h3>
+        </Typography>
 
         <Card sx={{ minWidth: 0.8, overflow: 'unset' }}>
           <CardContent>
