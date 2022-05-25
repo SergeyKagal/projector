@@ -151,10 +151,15 @@ export const Board = () => {
     }
 
     const reorderTasks = async (list: ITask[], startIndex: number, endIndex: number) => {
-      const result = Array.from(list);
-      const [removed] = result.splice(startIndex, 1);
-      result.splice(endIndex, 0, removed);
-      return result;
+      const reorderedTasks = Array.from(list);
+      const [removed] = reorderedTasks.splice(startIndex, 1);
+      removed.order = endIndex + 1;
+      reorderedTasks.splice(endIndex, 0, removed);
+      // Назначаем новый ордер всем таскам в колонке
+      for (let i = 0; i < reorderedTasks.length; i++) {
+        reorderedTasks[i].order = i + 1;
+      }
+      return reorderedTasks;
     };
 
     // Колонка, из которой берем таск
@@ -165,64 +170,34 @@ export const Board = () => {
     // Колонка, куда помещаем таск
     const foreign = board?.columns.find((column) => column.id === destination.droppableId);
 
-    if (home) {
+    if (board && home) {
       if (home === foreign) {
         const reorderedTasks = await reorderTasks(home.tasks, source.index, destination.index);
+        const newColumn: IColumn = {
+          ...home,
+          tasks: reorderedTasks,
+        };
+        const result = board?.columns;
 
-        if (board) {
-            const newColumn: IColumn = {
-              ...home,
-              tasks: reorderedTasks,
-            };
-            // const allColumns = board.columns;
+        if (result) {
+          result[homeOrder!] = newColumn;
 
-            if (homeOrder) {
-              setBoard({
-                id: board.id,
-                description: board.description,
-                title: board.title,
-                columns: [
-                  ...board.columns,
-                  newColumn
-                ],
-              });
-            }
-
-          const updatedTask = {
-            ...home.tasks[source.index],
-            order: destination.index + 1,
-            boardId: board.id,
-            columnId: source.droppableId,
+          const newState = {
+            id: board.id,
+            description: board.description,
+            title: board.title,
+            columns: result,
           };
-          updateTask(updatedTask)
-            // .then(() => getBoardById(params))
-            // .then((response) => {
-            //   console.log(response);
-            //   response.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
-            //   setBoard(response);
-            // });
+          setBoard(newState);
         }
-        // }
-        // const newTaskIds = Array.from(home.taskIds);
-        // newTaskIds.splice(source.index, 1);
-        // newTaskIds.splice(destination.index, 0, draggableId);
-
-        // const newHome = {
-        //   ...home,
-        //   taskIds: newTaskIds,
-        // };
-
-        // const newState = {
-        //   ...this.state,
-        //   columns: {
-        //     ...this.state.columns,
-        //     [newHome.id]: newHome,
-        //   },
-        // };
-
-        // this.setState(newState);
-        return;
       }
+      const updatedTask = {
+        ...home.tasks[source.index],
+        order: destination.index + 1,
+        boardId: board.id,
+        columnId: source.droppableId,
+      };
+      updateTask(updatedTask);
     }
   }
 

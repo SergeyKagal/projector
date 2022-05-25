@@ -139,7 +139,6 @@ export const deleteTask = async (task: ITask) => {
 };
 
 export const updateTask = async (task: ITask) => {                            
-  console.log(task)
   return await axios
     .put(`${API_URL}/boards/${task.boardId}/columns/${task.columnId}/tasks/${task.id}`, {
       title: task.title,
