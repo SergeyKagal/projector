@@ -1,7 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { IColumn, ITask } from '../constants/interfaces';
-import { createBrowserHistory } from 'history';
-import { PATH } from '../constants/paths';
 
 const API_URL = 'https://afternoon-hamlet-46054.herokuapp.com';
 
@@ -14,23 +12,6 @@ axios.interceptors.request.use(function (config: AxiosRequestConfig) {
 
   return config;
 });
-
-axios.interceptors.response.use(
-  function (response) {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    return response;
-  },
-  function (error) {
-    if (error.response.data.statusCode === 401) {
-      localStorage.removeItem('user');
-      localStorage.setItem('AUTHORIZATION_ERROR', error.response.data.statusCode);
-      const history = createBrowserHistory();
-      history.push(PATH.AUTHORIZATION_ERROR);
-      location.reload();
-    }
-    return Promise.reject(error);
-  }
-);
 
 export const signUp = async (username: string, login: string, password: string) => {
   return await axios
@@ -51,9 +32,6 @@ export const signIn = async (login: string, password: string) => {
     .then((res) => {
       if (res.data.token) {
         localStorage.setItem('user', JSON.stringify(res.data));
-        if (localStorage.getItem('AUTHORIZATION_ERROR')) {
-          localStorage.removeItem('AUTHORIZATION_ERROR');
-        }
       }
       return res.data;
     });

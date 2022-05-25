@@ -42,6 +42,8 @@ interface IGlobalState {
   setBoardsArray: (boards: IBoard[]) => void;
   stickyHeader: boolean;
   setStickyHeader: (isStickyHeader: boolean) => void;
+  isUnauthrizedError?: boolean;
+  setIsUnauthorizedError: (isUnauthrizedError: boolean) => void;
 }
 
 export const defaultGlobalState: IGlobalState = {
@@ -54,6 +56,8 @@ export const defaultGlobalState: IGlobalState = {
   setBoardsArray: () => {},
   stickyHeader: false,
   setStickyHeader: () => {},
+  isUnauthrizedError: false,
+  setIsUnauthorizedError: () => {},
 };
 
 export const GlobalContext = React.createContext(defaultGlobalState);

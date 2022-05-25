@@ -12,7 +12,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
 import { PATH } from '../../constants/paths';
-import { GlobalContext } from '../../provider/provider';
+import { getUserInformation, GlobalContext } from '../../provider/provider';
 import { localizationContent } from '../../localization/types';
 import Footer from '../Footer/Footer';
 import Notification, { notify } from '../Notification/Notification';
@@ -21,11 +21,32 @@ import axios from 'axios';
 export const Main = () => {
   const navigate = useNavigate();
 
-  const { isCreateNewBoardOpen, boardsArray, setBoardsArray, userState } =
-    useContext(GlobalContext);
+  const {
+    isCreateNewBoardOpen,
+    boardsArray,
+    setBoardsArray,
+    userState,
+    setUserState,
+    setIsUnauthorizedError,
+  } = useContext(GlobalContext);
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
   const [boardToDelete, setBoardToDelete] = useState<IBoard | null>(null);
   const [bgrUrl, setBgrUrl] = useState('' || localStorage.getItem('bgrUrl'));
+
+  axios.interceptors.response.use(
+    function (response) {
+      // Any status code that lie within the range of 2xx cause this function to trigger
+      return response;
+    },
+    function (error) {
+      if (error && error.response.data.statusCode === 401) {
+        localStorage.removeItem('user');
+        setUserState(getUserInformation());
+        setIsUnauthorizedError(true);
+        navigate(PATH.AUTHORIZATION_ERROR);
+      }
+    }
+  );
 
   const changeBacground = async () => {
     const url = `https://api.unsplash.com/photos/random?orientation=landscape&&client_id=nwRpYv6V0PqOKIPPobvCaSByNX5UwvXBsMEfcoi0usE`;
