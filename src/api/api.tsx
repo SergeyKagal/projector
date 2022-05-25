@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { IColumn, ITask } from '../constants/interfaces';
+import { PATH } from '../constants/paths';
 
 const API_URL = 'https://afternoon-hamlet-46054.herokuapp.com';
 
@@ -12,6 +13,19 @@ axios.interceptors.request.use(function (config: AxiosRequestConfig) {
 
   return config;
 });
+
+axios.interceptors.response.use(
+  function (response) {
+    // Any status code that lie within the range of 2xx cause this function to trigger
+    return response;
+  },
+  function (error) {
+    if (error && error.response.data.statusCode === 401) {
+      localStorage.removeItem('user');
+      window.location.replace(PATH.AUTHORIZATION_ERROR);
+    }
+  }
+);
 
 export const signUp = async (username: string, login: string, password: string) => {
   return await axios

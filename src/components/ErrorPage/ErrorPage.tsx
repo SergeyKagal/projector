@@ -1,19 +1,17 @@
 import { Button } from '@mui/material';
-import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 import { PATH } from '../../constants/paths';
-import { GlobalContext } from '../../provider/provider';
+
 import './ErrorPage.scss';
 
 export const ErrorPage: React.FC = () => {
-  const navigate = useNavigate();
-  const { isUnauthrizedError, setIsUnauthorizedError } = useContext(GlobalContext);
+  const isUnauthrizedError = window.location.pathname === '/unauthorize';
+
   const notFoundHandler = () => {
-    navigate(-1);
+    window.history.back();
   };
   const unAuthorizedHandler = () => {
-    setIsUnauthorizedError(false);
-    navigate(PATH.BASE_URL);
+    window.location.replace(PATH.BASE_URL);
   };
 
   return (

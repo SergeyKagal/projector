@@ -26,7 +26,6 @@ function App() {
   const [isCreateNewBoardOpen, setIsCreateNewBoardOpen] = useState(false);
   const [boardsArray, setBoardsArray] = useState<IBoard[]>([]);
   const [stickyHeader, setStickyHeader] = useState(false);
-  const [isUnauthrizedError, setIsUnauthorizedError] = useState(false);
 
   const scrollHandler = () => {
     if (window.scrollY >= 5) {
@@ -53,8 +52,6 @@ function App() {
             setBoardsArray,
             stickyHeader,
             setStickyHeader,
-            isUnauthrizedError,
-            setIsUnauthorizedError,
           }}
         >
           <Router>
