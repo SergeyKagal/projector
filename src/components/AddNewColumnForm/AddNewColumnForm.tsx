@@ -10,9 +10,10 @@ import { IBoard, IColumn } from '../../constants/interfaces';
 import { localizationContent } from '../../localization/types';
 import { notify } from '../Notification/Notification';
 import './AddNewColumnForm.scss';
-import { CompactPicker } from 'react-color';
+import { CompactPicker, TwitterPicker, BlockPicker, SketchPicker, CirclePicker } from 'react-color';
 import { useState } from 'react';
 import theme from '../../constants/theme';
+import { useMediaPredicate } from 'react-media-hook';
 
 interface addNewColumnProps {
   setIsAddColumnFormOpen: (flag: boolean) => void;
@@ -23,6 +24,7 @@ interface addNewColumnProps {
 
 const AddNewColumnForm = (props: addNewColumnProps) => {
   const [color, setColor] = useState(theme.palette.primary.main);
+  const smallerThan480 = useMediaPredicate('(max-width: 480px)');
   interface IState {
     title: string;
   }
@@ -74,6 +76,7 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
         <Typography component="h1" variant="h5">
           {localizationContent.addColumn.header}
         </Typography>
+
         <Box sx={{ width: '75%', px: 0, pt: 2, pb: 1 }}>
           <TextField
             sx={{ mt: 2 }}
@@ -89,15 +92,29 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
             autoFocus
           />
         </Box>
+
         <Box sx={{ pb: 2 }}>
           <p className="color-text">Choose color:</p>
-          <CompactPicker
-            color={color}
-            onChange={(color) => {
-              setColor(color.hex);
-            }}
-          />
+          {!smallerThan480 && (
+            <SketchPicker
+              disableAlpha
+              width={'75%'}
+              color={color}
+              onChange={(color) => {
+                setColor(color.hex);
+              }}
+            />
+          )}
+          {smallerThan480 && (
+            <CirclePicker
+              color={color}
+              onChange={(color) => {
+                setColor(color.hex);
+              }}
+            />
+          )}
         </Box>
+
         <Box sx={{ width: '75%', px: 0, py: 2, display: 'flex', justifyContent: 'center' }}>
           <Button
             variant="outlined"

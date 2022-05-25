@@ -74,10 +74,11 @@ const AddNewBoardForm = () => {
   return (
     <div className="addNewBoard__container">
       <form onSubmit={formik.handleSubmit} className="addNewBoard__form">
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" align="center">
           {localizationContent.addNewBoard.addTitle}
         </Typography>
-        <Box sx={{ width: '75%', px: 0, py: 2 }}>
+
+        <Box sx={{ width: '80%', px: 0, py: 2 }}>
           <TextField
             sx={{ mt: 2 }}
             fullWidth
@@ -105,7 +106,17 @@ const AddNewBoardForm = () => {
             multiline
           />
         </Box>
-        <Box sx={{ width: '75%', px: 0, py: 2, display: 'flex', justifyContent: 'center' }}>
+
+        <Box
+          sx={{
+            width: '80%',
+            px: 0,
+            py: 2,
+            display: 'flex',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+          }}
+        >
           <Button
             variant="outlined"
             onClick={() => setIsCreateNewBoardOpen(false)}
