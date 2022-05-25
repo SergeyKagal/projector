@@ -40,6 +40,8 @@ export const Board = () => {
     ? new Map(Object.entries(JSON.parse(storedColors)))
     : getColumnsColor(board);
 
+  board && window.localStorage.setItem(board.id, JSON.stringify(Object.fromEntries(colors)));
+
   useEffect(() => {
     getBoardById(params).then(
       (response) => {
