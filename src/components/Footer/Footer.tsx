@@ -12,12 +12,16 @@ const Footer = () => {
           <Typography
             variant="body2"
             color="text.secondary"
-            align="center"
+            align="left"
             sx={{ display: 'flex', alignItems: 'center' }}
           >
-            <img className="rs-logo" src="/rs_school_js.svg" alt="rs logo" />
-
-            <Link color="inherit" href="https://rs.school/react/" target="_blank">
+            <Link
+              color="inherit"
+              href="https://rs.school/react/"
+              target="_blank"
+              className="footer__RS-link"
+            >
+              <img className="rs-logo" src="/rs_school_js.svg" alt="rs logo" />
               Online course «React developing»
             </Link>
           </Typography>

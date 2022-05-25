@@ -7,7 +7,11 @@ export const en = {
   changeBgr: 'change wallpaper',
 
   names: ['Sergey', 'Ravganiyat', 'Elena'],
-  jobs: ['Project build. CI/CD.', 'Authorization.', 'Welcome page'],
+  jobs: [
+    'Project build. CI/CD. Routing. Localization. Header. Styles.',
+    `Authorization. Drag'n'drop. User profile.`,
+    'Welcome page. Board page. Styles.',
+  ],
   gitHubLink: 'View Github',
   addBoard: 'Add new board',
   editUser: 'Edit User profile',

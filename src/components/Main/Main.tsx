@@ -68,6 +68,7 @@ export const Main = () => {
   const handleDeleteBoard = async (boardToDelete: IBoard) => {
     try {
       await deleteBoard(boardToDelete.id);
+      window.localStorage.removeItem(boardToDelete.id);
 
       const newBoardsArray = await getBoards();
       setBoardsArray(newBoardsArray);
@@ -112,9 +113,10 @@ export const Main = () => {
       <Header setMainPageBgr={changeBacground} />
 
       <div className="boards" style={{ backgroundImage: `url(${bgrUrl})` }}>
-        <Typography variant="h4" align="center" color="text.secondary" paragraph>
+        <Typography variant="h4" align="center" color="text.secondary" sx={{ my: '20px' }}>
           {localizationContent.boardList}
         </Typography>
+
         <div className="boards__container">{boardsToShow}</div>
 
         {boardToDelete && (
