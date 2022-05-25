@@ -17,6 +17,8 @@ import { getBoardById, updateColumn } from '../../api/api';
 import TaskPreview from '../TaskPreview/TaskPreview';
 import { Typography } from '@mui/material';
 import { localizationContent } from '../../localization/types';
+import axios from 'axios';
+import Notification, { notify } from '../Notification/Notification';
 
 interface IColumnProps {
   board: IBoard;
@@ -46,11 +48,21 @@ const Column = (props: IColumnProps) => {
   const editColumnTitle = async (formValue: IState) => {
     const { title } = formValue;
     const updatedColumn = { ...props.column, title: title };
-    await updateColumn(props.board.id, updatedColumn);
-    const board = await getBoardById(props.board.id);
-    board?.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
-    props.setBoard(board);
-    setEditTitleMode(false);
+
+    try {
+      await updateColumn(props.board.id, updatedColumn);
+      const board = await getBoardById(props.board.id);
+
+      board?.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
+      props.setBoard(board);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const resMessage = error.message || error.toString();
+        notify(resMessage);
+      }
+    } finally {
+      setEditTitleMode(false);
+    }
   };
 
   const validationSchema = Yup.object({
@@ -93,7 +105,7 @@ const Column = (props: IColumnProps) => {
       />
     ));
 
-  const columnHeight = document.documentElement.clientHeight - 240;
+  const columnHeight = document.documentElement.clientHeight - 360;
 
   return (
     <Draggable draggableId={props.column.id} index={props.index}>
@@ -176,6 +188,8 @@ const Column = (props: IColumnProps) => {
           >
             {localizationContent.buttons.addTask}
           </Button>
+
+          <Notification />
         </Container>
       )}
     </Draggable>

@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
 import { GlobalContext } from '../../provider/provider';
 import Notification, { notify } from '../Notification/Notification';
+import { localizationContent } from '../../localization/types';
 interface TaskPreviewProps {
   setTaskToEdit: (taskID: ITask) => void;
   setTaskToDelete: (taskID: ITask) => void;
@@ -29,7 +30,7 @@ const TaskPreview = (props: TaskPreviewProps) => {
       props.setTaskToDelete(taskToDelete);
       props.setShowConfirmPopUp(true);
     } else {
-      notify('You are not allowed to delete this task');
+      notify(localizationContent.errors.forbidToDeleteTask);
     }
   };
 
@@ -72,8 +73,6 @@ const TaskPreview = (props: TaskPreviewProps) => {
           </Button>
         </div>
       </div>
-
-      {/* <div className="task__status">{props.task.done ? 'done' : 'in progress'}</div> */}
 
       <Notification />
     </Card>

@@ -18,7 +18,10 @@ export const en = {
     title: 'title',
     description: 'description',
   },
-  board: 'Board',
+  board: {
+    header: 'Board',
+    description: 'Board Description',
+  },
   addColumn: {
     header: 'Add new column',
     title: 'title',
@@ -30,6 +33,7 @@ export const en = {
     userNameLength: 'The username must be between 3 and 20 characters.',
     passwLength: 'The password must be between 6 and 10 characters.',
     wrongEmail: 'This is not a valid email.',
+    forbidToDeleteTask: 'You are not allowed to delete this task',
   },
   buttons: {
     cancel: 'cancel',
