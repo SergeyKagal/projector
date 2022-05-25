@@ -10,10 +10,9 @@ import { IBoard, IColumn } from '../../constants/interfaces';
 import { localizationContent } from '../../localization/types';
 import { notify } from '../Notification/Notification';
 import './AddNewColumnForm.scss';
-import { CompactPicker, TwitterPicker, BlockPicker, SketchPicker, CirclePicker } from 'react-color';
+import { CirclePicker } from 'react-color';
 import { useState } from 'react';
 import theme from '../../constants/theme';
-import { useMediaPredicate } from 'react-media-hook';
 
 interface addNewColumnProps {
   setIsAddColumnFormOpen: (flag: boolean) => void;
@@ -24,7 +23,7 @@ interface addNewColumnProps {
 
 const AddNewColumnForm = (props: addNewColumnProps) => {
   const [color, setColor] = useState(theme.palette.primary.main);
-  const smallerThan480 = useMediaPredicate('(max-width: 480px)');
+
   interface IState {
     title: string;
   }
@@ -93,26 +92,15 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
           />
         </Box>
 
-        <Box sx={{ pb: 2 }}>
+        <Box sx={{ pb: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <p className="color-text">Choose color:</p>
-          {!smallerThan480 && (
-            <SketchPicker
-              disableAlpha
-              width={'75%'}
-              color={color}
-              onChange={(color) => {
-                setColor(color.hex);
-              }}
-            />
-          )}
-          {smallerThan480 && (
-            <CirclePicker
-              color={color}
-              onChange={(color) => {
-                setColor(color.hex);
-              }}
-            />
-          )}
+          <CirclePicker
+            width={'100%'}
+            color={color}
+            onChange={(color) => {
+              setColor(color.hex);
+            }}
+          />
         </Box>
 
         <Box sx={{ width: '75%', px: 0, py: 2, display: 'flex', justifyContent: 'center' }}>
