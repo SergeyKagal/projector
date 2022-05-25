@@ -1,6 +1,5 @@
 import { Button } from '@mui/material';
 import { IError } from '../../constants/errors';
-// import { PATH } from '../../constants/paths';
 
 import './ErrorPage.scss';
 interface IErrorProps {
