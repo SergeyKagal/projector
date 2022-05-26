@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { IColumn, INewTask, ITask } from '../constants/interfaces';
+import { PATH } from '../constants/paths';
 
 const API_URL = 'https://afternoon-hamlet-46054.herokuapp.com';
 
@@ -12,6 +13,19 @@ axios.interceptors.request.use(function (config: AxiosRequestConfig) {
 
   return config;
 });
+
+axios.interceptors.response.use(
+  function (response) {
+    // Any status code that lie within the range of 2xx cause this function to trigger
+    return response;
+  },
+  function (error) {
+    if (error.response.data.statusCode === 401) {
+      localStorage.removeItem('user');
+      window.location.replace(PATH.AUTHORIZATION_ERROR);
+    }
+  }
+);
 
 export const signUp = async (username: string, login: string, password: string) => {
   return await axios
@@ -37,7 +51,7 @@ export const signIn = async (login: string, password: string) => {
     });
 };
 
-export const signOut = async () => {
+export const signOut = () => {
   localStorage.removeItem('user');
 };
 
@@ -88,7 +102,7 @@ export const addBoard = async (title: string, description: string) => {
 };
 
 export const deleteBoard = async (boardId: string) => {
-  return await axios.delete(`${API_URL}/boards/${boardId}`).then((res) => res.data);
+  return await axios.delete(`${API_URL}/boards/${boardId}`);
 };
 
 export const addColumn = async (boardId: string, columnTitle: string) => {
@@ -98,9 +112,7 @@ export const addColumn = async (boardId: string, columnTitle: string) => {
 };
 
 export const deleteColumn = async (boardId: string, columnId: string) => {
-  return await axios
-    .delete(`${API_URL}/boards/${boardId}/columns/${columnId}`)
-    .then((res) => res.data);
+  return await axios.delete(`${API_URL}/boards/${boardId}/columns/${columnId}`);
 };
 
 export const updateColumn = async (boardId: string, column: IColumn, newOrder?: number) => {
@@ -133,9 +145,9 @@ export const addTask = async (boardId: string, columnId: string, task: INewTask)
 };
 
 export const deleteTask = async (task: ITask) => {
-  return await axios
-    .delete(`${API_URL}/boards/${task.boardId}/columns/${task.columnId}/tasks/${task.id}`)
-    .then((res) => res.data);
+  return await axios.delete(
+    `${API_URL}/boards/${task.boardId}/columns/${task.columnId}/tasks/${task.id}`
+  );
 };
 
 export const updateTask = async (task: ITask, newColumnId?: string) => {                            
