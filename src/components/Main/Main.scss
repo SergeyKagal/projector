@@ -5,7 +5,7 @@
   background-repeat: no-repeat;
   background-size: cover;
 
-  .boards__container {
+  &__container {
     width: 100%;
     display: flex;
     flex-wrap: wrap;

@@ -3,7 +3,6 @@ import './Header.scss';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { PATH } from '../../constants/paths';
 import { LangToggler } from './LangToggler/LangToggler';
@@ -31,13 +30,13 @@ export const Header: React.FC<IHeaderProps> = (props) => {
                 ? { height: '50px', transition: '0.5s' }
                 : { height: '77px', transition: '0.5s' }
             }
+            sx={{ justifyContent: 'center' }}
           >
-            <Toolbar style={{ minHeight: '50px' }}>
-              <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>
-                <Button className="logo" color="inherit" component={RouterLink} to={PATH.BASE_URL}>
-                  Projector
-                </Button>
-              </Typography>
+            <Toolbar style={{ minHeight: '50px', justifyContent: 'space-between' }}>
+              <Button component={RouterLink} to={PATH.BASE_URL}>
+                <img className="logo" src="/projector_logo_white.svg" />
+              </Button>
+
               <nav className="headerNav">
                 {window.location.pathname === '/main' && (
                   <Button color="inherit" onClick={props.setMainPageBgr}>

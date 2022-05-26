@@ -17,16 +17,15 @@ import Notification, { notify } from '../Notification/Notification';
 import { Card, Typography, CardContent } from '@mui/material';
 import AddNewTaskForm from '../AddNewTaskForm/AddNewTaskForm';
 import EditTaskForm from '../EditTaskForm/EditTaskForm';
-
 import { localizationContent } from '../../localization/types';
 import Footer from '../Footer/Footer';
 import Column from '../Column/Column';
-
 import './board.scss';
 
 export const Board = () => {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>().id || '';
+
   const [board, setBoard] = useState<IBoard | null>(null);
   const [isAddColumnFormOpen, setIsAddColumnFormOpen] = useState(false);
   const [columnToDelete, setColumnToDelete] = useState<IColumn | null>(null);
@@ -35,6 +34,13 @@ export const Board = () => {
   const [taskToEdit, setTaskToEdit] = useState<ITask | null>(null);
   const [taskToDelete, setTaskToDelete] = useState<ITask | null>(null);
   const { isCreateNewBoardOpen } = useContext(GlobalContext);
+
+  const storedColors = board && window.localStorage.getItem(board.id);
+  const colors: Map<string, string> = storedColors
+    ? new Map(Object.entries(JSON.parse(storedColors)))
+    : getColumnsColor(board);
+
+  board && window.localStorage.setItem(board.id, JSON.stringify(Object.fromEntries(colors)));
 
   useEffect(() => {
     getBoardById(params).then(
@@ -102,8 +108,6 @@ export const Board = () => {
     }
   };
 
-  const colors = getColumnsColor(board);
-
   const columns = board?.columns.map((column, index) => {
     return (
       <Column
@@ -112,7 +116,7 @@ export const Board = () => {
         board={board}
         setBoard={setBoard}
         column={column}
-        color={colors.get(column.id) || '#87A8EC'}
+        color={colors ? (colors.get(column.id) as string) : '#6a93e8'}
         setColumnToDelete={setColumnToDelete}
         setShowConfirmPopUp={setShowConfirmPopUp}
         setColumnToAddTask={setColumnToAddTask}
@@ -166,18 +170,23 @@ export const Board = () => {
           onClick={() => navigate(-1)}
         >
           <KeyboardBackspaceIcon sx={{ fontSize: '66px' }} />
-        </Button>{' '}
-        <h3>Board «{board?.title}»</h3>
-        <Card sx={{ minWidth: 0.8 }}>
+        </Button>
+
+        <Typography variant="h4" align="center" color="text.secondary" sx={{ my: '18px' }}>
+          {localizationContent.board.header} «{board?.title}»
+        </Typography>
+
+        <Card sx={{ minWidth: 0.8, overflow: 'unset' }}>
           <CardContent>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-              Board Description
+              {localizationContent.board.description}
             </Typography>
             <Typography sx={{ fontSize: 18 }} variant="body2" color="text.primary">
               {board?.description}
             </Typography>
           </CardContent>
-        </Card>{' '}
+        </Card>
+
         <div className="columns-container">
           <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="all-columns" direction="horizontal" type="column">
@@ -207,6 +216,7 @@ export const Board = () => {
           setIsAddColumnFormOpen={setIsAddColumnFormOpen}
           board={board}
           setBoard={setBoard}
+          colors={colors}
         />
       )}
       {columnToDelete && (

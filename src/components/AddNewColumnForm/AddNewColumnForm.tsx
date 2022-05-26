@@ -10,14 +10,19 @@ import { IBoard, IColumn } from '../../constants/interfaces';
 import { localizationContent } from '../../localization/types';
 import { notify } from '../Notification/Notification';
 import './AddNewColumnForm.scss';
+import { CompactPicker } from 'react-color';
+import { useState } from 'react';
+import theme from '../../constants/theme';
 
 interface addNewColumnProps {
   setIsAddColumnFormOpen: (flag: boolean) => void;
   setBoard: (board: IBoard) => void;
   board: IBoard;
+  colors: Map<string, string>;
 }
 
 const AddNewColumnForm = (props: addNewColumnProps) => {
+  const [color, setColor] = useState(theme.palette.primary.main);
   interface IState {
     title: string;
   }
@@ -41,8 +46,14 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
         notify(`${localizationContent.column} ${res.data.title} ${localizationContent.added[0]}`);
       });
 
+      const response = await addColumn(props.board.id, title.toUpperCase());
       const newBoard = await getBoardById(props.board.id);
+
       newBoard.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
+
+      const newColors = props.colors.set(response.data.id, color);
+      window.localStorage.setItem(props.board.id, JSON.stringify(Object.fromEntries(newColors)));
+
       if (newBoard) {
         props.setBoard(newBoard);
       }
@@ -68,7 +79,7 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
         <Typography component="h1" variant="h5">
           {localizationContent.addColumn.header}
         </Typography>
-        <Box sx={{ width: '75%', px: 0, py: 2 }}>
+        <Box sx={{ width: '75%', px: 0, pt: 2, pb: 1 }}>
           <TextField
             sx={{ mt: 2 }}
             fullWidth
@@ -81,6 +92,15 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
             error={formik.touched.title && Boolean(formik.errors.title)}
             helperText={formik.touched.title && formik.errors.title}
             autoFocus
+          />
+        </Box>
+        <Box sx={{ pb: 2 }}>
+          <p className="color-text">Choose color:</p>
+          <CompactPicker
+            color={color}
+            onChange={(color) => {
+              setColor(color.hex);
+            }}
           />
         </Box>
         <Box sx={{ width: '75%', px: 0, py: 2, display: 'flex', justifyContent: 'center' }}>
