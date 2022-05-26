@@ -263,12 +263,12 @@ export const Board = () => {
       }
     }
   }
-
+  const bgrUrl = '' || localStorage.getItem('bgrUrl');
   return (
     <>
       <Header />
 
-      <div className="board">
+      <div className="board" style={{ backgroundImage: `url(${bgrUrl})` }}>
         <Button
           sx={{ position: 'absolute', top: '71px', left: '10px' }}
           onClick={() => navigate(-1)}
