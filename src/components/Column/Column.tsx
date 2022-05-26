@@ -2,7 +2,6 @@ import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { IBoard, IColumn, ITask } from '../../constants/interfaces';
@@ -106,8 +105,6 @@ const Column = (props: IColumnProps) => {
       />
     ));
 
-  const columnHeight = document.documentElement.clientHeight - 375;
-
   return (
     <Draggable draggableId={props.column.id} index={props.index}>
       {(provided) => (
@@ -116,7 +113,6 @@ const Column = (props: IColumnProps) => {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          // sx={{ maxHeight: `${columnHeight}px` }}
         >
           <div className="column__header" style={styles}></div>
           <div className="title-container">
