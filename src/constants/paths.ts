@@ -4,8 +4,9 @@ export const PATH = {
   SIGN_UP: '/signup',
   MAIN_ROUTE: '/main',
   BOARD: 'main/board/:id',
-  ERROR_PAGE: '*',
+  NOT_FOUND: '*',
   WELCOME: '/welcome',
   LOGOUT: '/logout',
   EDIT_PROFILE: '/profile',
+  AUTHORIZATION_ERROR: '/unauthorize',
 };

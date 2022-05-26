@@ -3,7 +3,6 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import './App.scss';
 import { defaultGlobalState, GlobalContext, IUser, Localization } from '../../provider/provider';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import EditProfile from '../EditProfile/EditProfile';
 import SignIn from '../SignIn/SignIn';
 import SignUp from '../SignUp/SignUp';
@@ -16,6 +15,8 @@ import { localizationContent } from '../../localization/types';
 import theme from '../../constants/theme';
 import { Board } from '../Board/board';
 import { IBoard } from '../../constants/interfaces';
+import { ErrorPage } from '../ErrorPage/ErrorPage';
+import { errors } from '../../constants/errors';
 
 function App() {
   const [userState, setUserState] = useState<IUser>(defaultGlobalState.userState);
@@ -61,9 +62,12 @@ function App() {
               <Route path={PATH.BOARD} element={<Board />} />
               <Route path={PATH.SIGN_IN} element={<SignIn />} />
               <Route path={PATH.SIGN_UP} element={<SignUp />} />
-
-              <Route path={PATH.ERROR_PAGE} element={<NotFoundPage />} />
+              <Route path={PATH.NOT_FOUND} element={<ErrorPage error={errors['404']} />} />
               <Route path={PATH.EDIT_PROFILE} element={<EditProfile />} />
+              <Route
+                path={PATH.AUTHORIZATION_ERROR}
+                element={<ErrorPage error={errors['401']} />}
+              />
             </Routes>
           </Router>
         </GlobalContext.Provider>
