@@ -35,6 +35,8 @@ export const Board = () => {
   const [taskToDelete, setTaskToDelete] = useState<ITask | null>(null);
   const { isCreateNewBoardOpen } = useContext(GlobalContext);
 
+  const bgrUrl = localStorage.getItem('bgrUrl') || '';
+
   const storedColors = board && window.localStorage.getItem(board.id);
   const colors: Map<string, string> = storedColors
     ? new Map(Object.entries(JSON.parse(storedColors)))
@@ -156,7 +158,7 @@ export const Board = () => {
     <>
       <Header />
 
-      <div className="board">
+      <div className="board" style={{ backgroundImage: `url(${bgrUrl})` }}>
         <Button
           sx={{ position: 'absolute', top: '71px', left: '10px' }}
           onClick={() => navigate(-1)}
@@ -190,8 +192,9 @@ export const Board = () => {
               )}
             </Droppable>
           </DragDropContext>
+
           <Button
-            variant="outlined"
+            variant="contained"
             className="button-add-item"
             startIcon={<AddIcon />}
             onClick={() => setIsAddColumnFormOpen(true)}

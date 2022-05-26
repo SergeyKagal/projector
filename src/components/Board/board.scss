@@ -6,6 +6,8 @@
   flex-direction: column;
   align-items: center;
   overflow-x: auto;
+  background-repeat: no-repeat;
+  background-size: cover;
 
   &__board__header {
     margin-top: 35px;
@@ -27,6 +29,8 @@
     margin: 0 8px;
     justify-content: flex-start;
     padding: 0px 10px;
+    background-color: rgba(240, 240, 241, 0.5);
+    color: #6a93e8;
   }
 
   .all-columns {
