@@ -99,12 +99,12 @@ const Column = (props: IColumnProps) => {
   return (
     <Draggable draggableId={props.column.id} index={props.index}>
       {(provided) => (
-        <Container
+        <div
           className="column"
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          sx={{ maxHeight: `${columnHeight}px` }}
+          // sx={{ maxHeight: `${columnHeight}px` }}
         >
           <div className="column__header" style={styles}></div>
           <div className="title-container">
@@ -193,7 +193,7 @@ const Column = (props: IColumnProps) => {
           >
             {localizationContent.buttons.addTask}
           </Button>
-        </Container>
+        </div>
       )}
     </Draggable>
   );

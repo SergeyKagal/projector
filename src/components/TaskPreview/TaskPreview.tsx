@@ -45,7 +45,7 @@ const TaskPreview = (props: TaskPreviewProps) => {
           className="task"
           sx={{
             p: '10px',
-            width: '100%',
+            width: '93%',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'flex-start',
