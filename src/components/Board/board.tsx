@@ -169,8 +169,12 @@ export const Board = () => {
     });
     // Колонка, куда помещаем таск
     const foreign = board?.columns.find((column) => column.id === destination.droppableId);
+    const foreignOrder = board?.columns.findIndex((obj) => {
+      return obj.id === foreign?.id;
+    });
 
-    if (board && home) {
+    if (board && home && foreign) {
+      // Перемещаем таск в пределах одной коллонки
       if (home === foreign) {
         const reorderedTasks = await reorderTasks(home.tasks, source.index, destination.index);
         const newColumn: IColumn = {
@@ -189,15 +193,62 @@ export const Board = () => {
             columns: result,
           };
           setBoard(newState);
+
+          const updatedTask = {
+            ...home.tasks[source.index],
+            order: destination.index + 1,
+            boardId: board.id,
+            columnId: source.droppableId,
+          };
+          updateTask(updatedTask);
         }
+        // перемещаем таск из одной колонки в другую
+      } else if (home !== foreign) {
+        // Вырезаем таск из старой колонки
+        const homeTasks = Array.from(home.tasks);
+        const [target] = homeTasks.splice(source.index, 1);
+        for (let i = 0; i < homeTasks.length; i++) {
+          homeTasks[i].order = i + 1;
+        }
+        const newHome: IColumn = {
+          ...home,
+          tasks: homeTasks,
+        };
+
+        // Вставляем в новую колонку
+        const foreignTasks = Array.from(foreign.tasks);
+        foreignTasks.splice(destination.index, 0, target);
+        for (let i = 0; i < foreignTasks.length; i++) {
+          foreignTasks[i].order = i + 1;
+        }
+        const newForeign: IColumn = {
+          ...foreign,
+          tasks: foreignTasks,
+        };
+
+        const result = board?.columns;
+
+        if (result) {
+          result[homeOrder!] = newHome;
+          result[foreignOrder!] = newForeign;
+
+          const newState = {
+            id: board.id,
+            description: board.description,
+            title: board.title,
+            columns: result,
+          };
+          setBoard(newState);
+        }
+
+        const updatedTask = {
+          ...home.tasks[source.index],
+          order: destination.index + 1,
+          boardId: board.id,
+          columnId: source.droppableId,
+        };
+        updateTask(updatedTask, destination.droppableId);
       }
-      const updatedTask = {
-        ...home.tasks[source.index],
-        order: destination.index + 1,
-        boardId: board.id,
-        columnId: source.droppableId,
-      };
-      updateTask(updatedTask);
     }
   }
 

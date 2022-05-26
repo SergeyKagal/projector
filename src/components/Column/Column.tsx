@@ -176,7 +176,8 @@ const Column = (props: IColumnProps) => {
                   display: 'flex',
                   flexDirection: 'column',
                   width: '100%',
-                  paddingRight: '19px',
+                  minHeight: '80px'
+                  // paddingRight: '19px',
                 }}
               >
                 {tasks}

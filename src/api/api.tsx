@@ -138,7 +138,7 @@ export const deleteTask = async (task: ITask) => {
     .then((res) => res.data);
 };
 
-export const updateTask = async (task: ITask) => {                            
+export const updateTask = async (task: ITask, newColumnId?: string) => {                            
   return await axios
     .put(`${API_URL}/boards/${task.boardId}/columns/${task.columnId}/tasks/${task.id}`, {
       title: task.title,
@@ -146,7 +146,7 @@ export const updateTask = async (task: ITask) => {
       description: task.description,
       userId: task.userId,
       boardId: task.boardId,
-      columnId: task.columnId,
+      columnId: newColumnId || task.columnId,
     })
     .then((res) => res.data);
 };
