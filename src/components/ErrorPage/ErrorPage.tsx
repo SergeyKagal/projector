@@ -1,4 +1,5 @@
 import { Button } from '@mui/material';
+import { ErrorInfo } from 'react';
 import { IError } from '../../constants/errors';
 
 import './ErrorPage.scss';
