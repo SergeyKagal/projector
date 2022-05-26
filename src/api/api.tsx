@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { IColumn, ITask } from '../constants/interfaces';
+import { IColumn, INewTask, ITask } from '../constants/interfaces';
 import { PATH } from '../constants/paths';
 
 const API_URL = 'https://afternoon-hamlet-46054.herokuapp.com';
@@ -134,7 +134,7 @@ export const getTaskById = async (boardId: string, columnId: string, taskId: str
     .then((res) => res.data);
 };
 
-export const addTask = async (boardId: string, columnId: string, task: ITask) => {
+export const addTask = async (boardId: string, columnId: string, task: INewTask) => {
   return await axios
     .post(`${API_URL}/boards/${boardId}/columns/${columnId}/tasks`, {
       title: task.title,
@@ -150,7 +150,7 @@ export const deleteTask = async (task: ITask) => {
   );
 };
 
-export const updateTask = async (task: ITask) => {
+export const updateTask = async (task: ITask, newColumnId?: string) => {                            
   return await axios
     .put(`${API_URL}/boards/${task.boardId}/columns/${task.columnId}/tasks/${task.id}`, {
       title: task.title,
@@ -158,7 +158,7 @@ export const updateTask = async (task: ITask) => {
       description: task.description,
       userId: task.userId,
       boardId: task.boardId,
-      columnId: task.columnId,
+      columnId: newColumnId || task.columnId,
     })
     .then((res) => res.data);
 };

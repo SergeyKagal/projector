@@ -5,7 +5,7 @@ import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import Button from '@mui/material/Button';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import AddIcon from '@mui/icons-material/Add';
-import { deleteColumn, deleteTask, getBoardById, updateColumn } from '../../api/api';
+import { deleteColumn, deleteTask, getBoardById, updateColumn, updateTask } from '../../api/api';
 import AddNewColumnForm from '../AddNewColumnForm/AddNewColumnForm';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
 import { Header } from '../Header/Header';
@@ -137,7 +137,7 @@ export const Board = () => {
       return;
     }
 
-    const reorder = async (list: IColumn[], startIndex: number, endIndex: number) => {
+    const reorderColumns = async (list: IColumn[], startIndex: number, endIndex: number) => {
       const result = Array.from(list);
       const [removed] = result.splice(startIndex, 1);
       result.splice(endIndex, 0, removed);
@@ -146,16 +146,120 @@ export const Board = () => {
 
     if (type === 'column') {
       if (board) {
-        const reorderedColumns = await reorder(board.columns, source.index, destination.index);
-        if (board) {
-          setBoard({
+        const reorderedColumns = await reorderColumns(
+          board.columns,
+          source.index,
+          destination.index
+        );
+
+        setBoard({
+          id: board.id,
+          description: board.description,
+          title: board.title,
+          columns: reorderedColumns,
+        });
+        updateColumn(board.id, board.columns[source.index], destination.index + 1);
+      }
+    }
+
+    const reorderTasks = async (list: ITask[], startIndex: number, endIndex: number) => {
+      const reorderedTasks = Array.from(list);
+      const [removed] = reorderedTasks.splice(startIndex, 1);
+      removed.order = endIndex + 1;
+      reorderedTasks.splice(endIndex, 0, removed);
+      // Назначаем новый ордер всем таскам в колонке
+      for (let i = 0; i < reorderedTasks.length; i++) {
+        reorderedTasks[i].order = i + 1;
+      }
+      return reorderedTasks;
+    };
+
+    // Колонка, из которой берем таск
+    const home = board?.columns.find((column) => column.id === source.droppableId);
+    const homeOrder = board?.columns.findIndex((obj) => {
+      return obj.id === home?.id;
+    });
+    // Колонка, куда помещаем таск
+    const foreign = board?.columns.find((column) => column.id === destination.droppableId);
+    const foreignOrder = board?.columns.findIndex((obj) => {
+      return obj.id === foreign?.id;
+    });
+
+    if (board && home && foreign) {
+      // Перемещаем таск в пределах одной коллонки
+      if (home === foreign) {
+        const reorderedTasks = await reorderTasks(home.tasks, source.index, destination.index);
+        const newColumn: IColumn = {
+          ...home,
+          tasks: reorderedTasks,
+        };
+        const result = board?.columns;
+
+        if (result && homeOrder !== undefined) {
+          result[homeOrder] = newColumn;
+
+          const newState = {
             id: board.id,
             description: board.description,
             title: board.title,
-            columns: reorderedColumns,
-          });
-          updateColumn(board.id, board.columns[source.index], destination.index + 1);
+            columns: result,
+          };
+          setBoard(newState);
+
+          const updatedTask = {
+            ...home.tasks[source.index],
+            order: destination.index + 1,
+            boardId: board.id,
+            columnId: source.droppableId,
+          };
+          updateTask(updatedTask);
         }
+        // перемещаем таск из одной колонки в другую
+      } else if (home !== foreign) {
+        // Вырезаем таск из старой колонки
+        const homeTasks = Array.from(home.tasks);
+        const [target] = homeTasks.splice(source.index, 1);
+        for (let i = 0; i < homeTasks.length; i++) {
+          homeTasks[i].order = i + 1;
+        }
+        const newHome: IColumn = {
+          ...home,
+          tasks: homeTasks,
+        };
+
+        // Вставляем в новую колонку
+        const foreignTasks = Array.from(foreign.tasks);
+        foreignTasks.splice(destination.index, 0, target);
+        for (let i = 0; i < foreignTasks.length; i++) {
+          foreignTasks[i].order = i + 1;
+        }
+        const newForeign: IColumn = {
+          ...foreign,
+          tasks: foreignTasks,
+        };
+
+        const result = board?.columns;
+
+        if (result && homeOrder !== undefined && foreignOrder !== undefined) {
+          result[homeOrder] = newHome;
+          result[foreignOrder] = newForeign;
+
+          const newState = {
+            id: board.id,
+            description: board.description,
+            title: board.title,
+            columns: result,
+          };
+          setBoard(newState);
+        }
+
+        const updatedTask = {
+          ...home.tasks[source.index],
+          order: destination.index + 1,
+          boardId: board.id,
+          columnId: source.droppableId,
+        };
+        updateTask(updatedTask, destination.droppableId);
       }
     }
   }
