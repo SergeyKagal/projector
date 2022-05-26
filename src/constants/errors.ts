@@ -33,9 +33,7 @@ export const errors: IErrors = {
   Other: {
     title: 'Error',
     description: 'Something went wrong......',
-    buttonTitle: 'welcome page',
-    buttonHandler: () => {
-      window.location.replace(PATH.BASE_URL);
-    },
+    buttonTitle: '',
+    buttonHandler: () => {},
   },
 };

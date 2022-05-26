@@ -1,5 +1,4 @@
 import { Button } from '@mui/material';
-import { ErrorInfo } from 'react';
 import { IError } from '../../constants/errors';
 
 import './ErrorPage.scss';
@@ -12,15 +11,17 @@ export const ErrorPage: React.FC<IErrorProps> = (error) => {
       <h2> {error.error.title}</h2>
       <h3>Whoops!</h3>
       <h4>{error.error.description}</h4>
-      <Button
-        onClick={() => {
-          error.error.buttonHandler();
-        }}
-        variant="contained"
-        color="primary"
-      >
-        {error.error.buttonTitle}
-      </Button>
+      {error.error.buttonTitle && (
+        <Button
+          onClick={() => {
+            error.error.buttonHandler();
+          }}
+          variant="contained"
+          color="primary"
+        >
+          {error.error.buttonTitle}
+        </Button>
+      )}
     </div>
   );
 };
