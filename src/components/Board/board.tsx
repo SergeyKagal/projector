@@ -187,8 +187,8 @@ export const Board = () => {
         };
         const result = board?.columns;
 
-        if (result) {
-          result[homeOrder!] = newColumn;
+        if (result && homeOrder !== undefined) {
+          result[homeOrder] = newColumn;
 
           const newState = {
             id: board.id,
@@ -232,9 +232,9 @@ export const Board = () => {
 
         const result = board?.columns;
 
-        if (result) {
-          result[homeOrder!] = newHome;
-          result[foreignOrder!] = newForeign;
+        if (result && homeOrder !== undefined && foreignOrder !== undefined) {
+          result[homeOrder] = newHome;
+          result[foreignOrder] = newForeign;
 
           const newState = {
             id: board.id,
