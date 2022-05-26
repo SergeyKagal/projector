@@ -23,6 +23,10 @@ export const ru = {
     title: 'заголовок',
     description: 'описание',
   },
+
+  column: 'Колонка',
+  task: 'Задача',
+  added: ['добавлена', 'добавлен'],
   board: {
     header: 'Проект',
     description: 'Описание',
@@ -31,6 +35,7 @@ export const ru = {
     header: 'Добавьте новую колонку',
     title: 'название',
   },
+  deleted: 'Удалено ',
   errors: {
     descriptionLength: 'Описание должно содержать от 3-х до 100 символов.',
     titleLength: 'Заголовок должен содержать от 3-х до 30 символов.',

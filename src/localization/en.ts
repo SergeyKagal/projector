@@ -22,6 +22,10 @@ export const en = {
     title: 'title',
     description: 'description',
   },
+
+  column: 'Column',
+  task: 'Task',
+  added: ['added', 'added'],
   board: {
     header: 'Board',
     description: 'Board Description',
@@ -30,6 +34,7 @@ export const en = {
     header: 'Add new column',
     title: 'title',
   },
+  deleted: 'Deleted successfully',
   errors: {
     descriptionLength: 'The description must be between 3 and 100 characters.',
     titleLength: 'The title must be between 3 and 30 characters.',
