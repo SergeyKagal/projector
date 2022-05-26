@@ -10,11 +10,9 @@ import { addTask, getBoardById, getUsers } from '../../api/api';
 import { IBoard, IColumn } from '../../constants/interfaces';
 import { notify } from '../Notification/Notification';
 import { useEffect, useState } from 'react';
-
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import { localizationContent } from '../../localization/types';
@@ -117,7 +115,7 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
         <Typography component="h1" variant="h5">
           {localizationContent.addNewTask.header}
         </Typography>
-        <Box sx={{ width: '75%', px: 0, py: 2 }}>
+        <Box sx={{ width: '85%', px: 0, py: 2 }}>
           <TextField
             sx={{ mt: 2 }}
             fullWidth

@@ -76,7 +76,7 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
           {localizationContent.addColumn.header}
         </Typography>
 
-        <Box sx={{ width: '75%', px: 0, pt: 2, pb: 1 }}>
+        <Box sx={{ width: '85%', px: 0, pt: 2, pb: 1 }}>
           <TextField
             sx={{ mt: 2 }}
             fullWidth
@@ -92,7 +92,15 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
           />
         </Box>
 
-        <Box sx={{ pb: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Box
+          sx={{
+            pb: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            width: '85%',
+          }}
+        >
           <p className="color-text">Choose color:</p>
           <CirclePicker
             width={'100%'}

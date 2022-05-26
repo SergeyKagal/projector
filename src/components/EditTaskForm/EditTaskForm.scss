@@ -1,4 +1,4 @@
-.addNewTask {
+.editTask {
   &__container {
     background-color: rgba(0, 0, 0, 0.5);
     height: 100%;
@@ -23,5 +23,23 @@
     align-items: center;
     justify-content: space-between;
     padding: 30px;
+    @media screen and (min-width: 901px) and (max-width: 1200px) {
+      width: 40%;
+    }
+    @media screen and (min-width: 769px) and (max-width: 900px) {
+      width: 50%;
+    }
+    @media screen and (min-width: 601px) and (max-width: 768px) {
+      width: 60%;
+    }
+    @media screen and (min-width: 501px) and (max-width: 600px) {
+      width: 70%;
+    }
+    @media screen and (min-width: 401px) and (max-width: 500px) {
+      width: 80%;
+    }
+    @media screen and (max-width: 400px) {
+      width: 90%;
+    }
   }
 }

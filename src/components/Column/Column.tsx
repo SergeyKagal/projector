@@ -120,8 +120,8 @@ const Column = (props: IColumnProps) => {
           <div className="column__header" style={styles}></div>
           <div className="title-container">
             <Typography
-              variant="h5"
-              color="text.primary"
+              variant="h6"
+              color="text.secondary"
               className="column__title"
               onClick={() => handleTitleClick()}
             >

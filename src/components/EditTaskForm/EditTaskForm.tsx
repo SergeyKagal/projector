@@ -110,8 +110,8 @@ const EditTaskForm = (props: EditTaskProps) => {
   });
 
   return (
-    <div className="addNewTask__container">
-      <form onSubmit={formik.handleSubmit} className="addNewTask__form">
+    <div className="editTask__container">
+      <form onSubmit={formik.handleSubmit} className="editTask__form">
         <Typography component="h1" variant="h5">
           {localizationContent.editTask.header}
         </Typography>
