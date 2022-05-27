@@ -105,6 +105,8 @@ const Column = (props: IColumnProps) => {
       />
     ));
 
+  const columnHeight = document.documentElement.clientHeight - 415;
+
   return (
     <Draggable draggableId={props.column.id} index={props.index}>
       {(provided) => (
@@ -178,14 +180,14 @@ const Column = (props: IColumnProps) => {
             {(provided) => (
               <Box
                 className="all-tasks"
+                style={{ maxHeight: columnHeight }}
                 ref={provided.innerRef}
                 {...provided.droppableProps}
                 sx={{
                   display: 'flex',
                   flexDirection: 'column',
                   width: '100%',
-                  minHeight: '80px'
-                  // paddingRight: '19px',
+                  minHeight: '80px',
                 }}
               >
                 {tasks}
