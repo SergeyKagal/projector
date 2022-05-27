@@ -273,10 +273,19 @@ export const Board = () => {
 
       <div className="board" style={{ backgroundImage: `url(${bgrUrl})` }}>
         <Button
-          sx={{ position: 'absolute', top: '100px', left: '10px' }}
+          variant="contained"
+          sx={{
+            position: 'absolute',
+            top: '108px',
+            left: '46px',
+            backgroundColor: 'background.paper',
+            color: 'primary.main',
+            p: '12px',
+            opacity: 0.9,
+          }}
           onClick={() => navigate(-1)}
         >
-          <KeyboardBackspaceIcon sx={{ fontSize: '66px' }} />
+          <KeyboardBackspaceIcon sx={{ fontSize: '42px' }} />
         </Button>
 
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
