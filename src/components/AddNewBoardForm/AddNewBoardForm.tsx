@@ -22,6 +22,7 @@ const AddNewBoardForm = () => {
   const navigate = useNavigate();
   const { setIsCreateNewBoardOpen, setBoardsArray } = useContext(GlobalContext);
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   interface IState {
     title: string;
@@ -46,6 +47,7 @@ const AddNewBoardForm = () => {
 
   const addNewBoard = async (formValue: IState) => {
     const { title, description } = formValue;
+    setIsLoading(true);
 
     try {
       await addBoard(title, description).then((res) => {
@@ -59,13 +61,14 @@ const AddNewBoardForm = () => {
         setShowConfirmPopUp(true);
         return;
       }
-
-      setIsCreateNewBoardOpen(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const resMessage = error.message || error.toString();
         notify(resMessage);
       }
+    } finally {
+      setIsLoading(false);
+      setIsCreateNewBoardOpen(false);
     }
   };
 
@@ -123,7 +126,12 @@ const AddNewBoardForm = () => {
               </Button>
             </Grid>
             <Grid>
-              <Button type="submit" variant="contained" sx={{ margin: '10px' }}>
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{ margin: '10px' }}
+                disabled={isLoading}
+              >
                 {localizationContent.buttons.add}
               </Button>
             </Grid>
