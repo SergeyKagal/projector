@@ -76,12 +76,8 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
   });
 
   const addNewTask = async (formValue: IState) => {
-    const order = props.column.tasks.length
-      ? props.column.tasks[props.column.tasks.length - 1].order + 1
-      : 0;
     const newTask = {
       title: formValue.title,
-      order: order,
       description: formValue.description,
       userId: formValue.user,
       boardId: props.boardId,
@@ -89,7 +85,9 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
     };
 
     try {
-      await addTask(props.boardId, props.column.id, newTask);
+      await addTask(props.boardId, props.column.id, newTask).then((res) => {
+        notify(`${localizationContent.task} ${res.title} ${localizationContent.added[0]}`);
+      });
       const newBoard = await getBoardById(props.boardId);
       newBoard.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
       if (newBoard) {

@@ -48,7 +48,9 @@ const AddNewBoardForm = () => {
     const { title, description } = formValue;
 
     try {
-      await addBoard(title, description);
+      await addBoard(title, description).then((res) => {
+        notify(`${localizationContent.board.header} ${res.title} ${localizationContent.added[1]}`);
+      });
 
       const newArray = await getBoards();
       setBoardsArray(newArray);

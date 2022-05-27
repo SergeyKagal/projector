@@ -44,7 +44,12 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
   const addNewColumn = async (formValue: IState) => {
     try {
       const { title } = formValue;
-      const response = await addColumn(props.board.id, title.toUpperCase());
+
+      const response = await addColumn(props.board.id, title.toUpperCase()).then((res) => {
+        notify(`${localizationContent.column} ${res.data.title} ${localizationContent.added[0]}`);
+        return res;
+      });
+
       const newBoard = await getBoardById(props.board.id);
 
       newBoard.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));

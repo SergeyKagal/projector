@@ -1,8 +1,7 @@
-import { Draggable } from 'react-beautiful-dnd';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { IBoard, IColumn, ITask } from '../../constants/interfaces';
@@ -93,8 +92,9 @@ const Column = (props: IColumnProps) => {
 
   const tasks = props.column.tasks
     .sort((a, b) => (a.order > b.order ? 1 : -1))
-    .map((task) => (
+    .map((task, index) => (
       <TaskPreview
+        index={index}
         key={task.id}
         task={task}
         setTaskToEdit={props.setTaskToEdit}
@@ -105,17 +105,14 @@ const Column = (props: IColumnProps) => {
       />
     ));
 
-  const columnHeight = document.documentElement.clientHeight - 375;
-
   return (
     <Draggable draggableId={props.column.id} index={props.index}>
       {(provided) => (
-        <Container
+        <div
           className="column"
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          sx={{ maxHeight: `${columnHeight}px` }}
         >
           <div className="column__header" style={styles}></div>
           <div className="title-container">
@@ -177,9 +174,25 @@ const Column = (props: IColumnProps) => {
               </div>
             )}
           </div>
-
-          {tasks}
-
+          <Droppable droppableId={props.column.id}>
+            {(provided) => (
+              <Box
+                className="all-tasks"
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '100%',
+                  minHeight: '80px'
+                  // paddingRight: '19px',
+                }}
+              >
+                {tasks}
+                {provided.placeholder}
+              </Box>
+            )}
+          </Droppable>
           <Button
             variant="text"
             className="button-add-item"
@@ -190,7 +203,7 @@ const Column = (props: IColumnProps) => {
           </Button>
 
           <Notification />
-        </Container>
+        </div>
       )}
     </Draggable>
   );

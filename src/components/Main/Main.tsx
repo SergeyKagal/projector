@@ -67,7 +67,11 @@ export const Main = () => {
 
   const handleDeleteBoard = async (boardToDelete: IBoard) => {
     try {
-      await deleteBoard(boardToDelete.id);
+      await deleteBoard(boardToDelete.id).then((res) => {
+        if (res.status === 204) {
+          notify(localizationContent.deleted);
+        }
+      });
       window.localStorage.removeItem(boardToDelete.id);
 
       const newBoardsArray = await getBoards();

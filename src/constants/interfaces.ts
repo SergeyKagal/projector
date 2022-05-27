@@ -12,9 +12,17 @@ export interface IBoard {
 }
 
 export interface ITask {
-  id?: string;
+  id: string;
   title: string;
   order: number;
+  description: string;
+  userId: string;
+  boardId: string;
+  columnId: string;
+}
+
+export interface INewTask {
+  title: string;
   description: string;
   userId: string;
   boardId: string;

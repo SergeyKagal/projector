@@ -14,9 +14,9 @@
   }
 
   .columns-container {
-    box-sizing: border-box;
+    width: inherit;
     display: flex;
-    width: 100%;
+    box-sizing: border-box;
     padding-left: 40px;
     justify-content: flex-start;
     padding-top: 30px;
