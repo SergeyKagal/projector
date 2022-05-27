@@ -1,14 +1,18 @@
-import { Component, ErrorInfo } from 'react';
-import { errors } from '../../constants/errors';
+import React, { Component } from 'react';
+import { ErrorInfo } from 'react';
 import { ErrorPage } from '../ErrorPage/ErrorPage';
-import App from './App';
+import { errors } from '../../constants/errors';
 
 interface IState {
   error: Error | null;
   errorInfo: ErrorInfo | null;
 }
 
-export default class AppContainer extends Component {
+interface IProps {
+  children?: React.ReactNode;
+}
+
+export default class ErrorBoundary extends Component<IProps> {
   state: IState = { error: null, errorInfo: null };
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
@@ -17,12 +21,10 @@ export default class AppContainer extends Component {
       errorInfo: errorInfo,
     });
   }
-
   render() {
     if (this.state.errorInfo) {
       return <ErrorPage error={errors.Other} />;
     }
-
-    return <App />;
+    return this.props.children;
   }
 }
