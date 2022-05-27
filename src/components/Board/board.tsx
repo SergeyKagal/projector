@@ -5,7 +5,13 @@ import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import Button from '@mui/material/Button';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import AddIcon from '@mui/icons-material/Add';
-import { deleteColumn, deleteTask, getBoardById, updateColumn, updateTask } from '../../api/api';
+import {
+  deleteColumn,
+  deleteTask,
+  getBoardById,
+  updateColumn,
+  updateTask,
+} from '../../api/api';
 import AddNewColumnForm from '../AddNewColumnForm/AddNewColumnForm';
 import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
 import { Header } from '../Header/Header';
@@ -43,19 +49,27 @@ export const Board = () => {
     ? new Map(Object.entries(JSON.parse(storedColors)))
     : getColumnsColor(board);
 
-  board && window.localStorage.setItem(board.id, JSON.stringify(Object.fromEntries(colors)));
+  board &&
+    window.localStorage.setItem(
+      board.id,
+      JSON.stringify(Object.fromEntries(colors))
+    );
 
   useEffect(() => {
     getBoardById(params).then(
       (response) => {
         if (response) {
-          response.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
+          response.columns.sort((a: IColumn, b: IColumn) =>
+            a.order > b.order ? 1 : -1
+          );
           setBoard(response);
         }
       },
       (error) => {
         const resMessage =
-          (error.response && error.response.data && error.response.data.message) ||
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
           error.message ||
           error.toString();
 
@@ -74,7 +88,9 @@ export const Board = () => {
       });
 
       const newBoard = await getBoardById(params);
-      newBoard.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
+      newBoard.columns.sort((a: IColumn, b: IColumn) =>
+        a.order > b.order ? 1 : -1
+      );
       setBoard(newBoard);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -98,7 +114,9 @@ export const Board = () => {
       });
 
       const newBoard = await getBoardById(params);
-      newBoard.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
+      newBoard.columns.sort((a: IColumn, b: IColumn) =>
+        a.order > b.order ? 1 : -1
+      );
       setBoard(newBoard);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -136,11 +154,18 @@ export const Board = () => {
       return;
     }
 
-    if (destination.droppableId === source.droppableId && destination.index === source.index) {
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
       return;
     }
 
-    const reorderColumns = async (list: IColumn[], startIndex: number, endIndex: number) => {
+    const reorderColumns = async (
+      list: IColumn[],
+      startIndex: number,
+      endIndex: number
+    ) => {
       const result = Array.from(list);
       const [removed] = result.splice(startIndex, 1);
       result.splice(endIndex, 0, removed);
@@ -161,11 +186,19 @@ export const Board = () => {
           title: board.title,
           columns: reorderedColumns,
         });
-        updateColumn(board.id, board.columns[source.index], destination.index + 1);
+        updateColumn(
+          board.id,
+          board.columns[source.index],
+          destination.index + 1
+        );
       }
     }
 
-    const reorderTasks = async (list: ITask[], startIndex: number, endIndex: number) => {
+    const reorderTasks = async (
+      list: ITask[],
+      startIndex: number,
+      endIndex: number
+    ) => {
       const reorderedTasks = Array.from(list);
       const [removed] = reorderedTasks.splice(startIndex, 1);
       removed.order = endIndex + 1;
@@ -178,12 +211,16 @@ export const Board = () => {
     };
 
     // Колонка, из которой берем таск
-    const home = board?.columns.find((column) => column.id === source.droppableId);
+    const home = board?.columns.find(
+      (column) => column.id === source.droppableId
+    );
     const homeOrder = board?.columns.findIndex((obj) => {
       return obj.id === home?.id;
     });
     // Колонка, куда помещаем таск
-    const foreign = board?.columns.find((column) => column.id === destination.droppableId);
+    const foreign = board?.columns.find(
+      (column) => column.id === destination.droppableId
+    );
     const foreignOrder = board?.columns.findIndex((obj) => {
       return obj.id === foreign?.id;
     });
@@ -191,7 +228,11 @@ export const Board = () => {
     if (board && home && foreign) {
       // Перемещаем таск в пределах одной коллонки
       if (home === foreign) {
-        const reorderedTasks = await reorderTasks(home.tasks, source.index, destination.index);
+        const reorderedTasks = await reorderTasks(
+          home.tasks,
+          source.index,
+          destination.index
+        );
         const newColumn: IColumn = {
           ...home,
           tasks: reorderedTasks,
@@ -266,17 +307,26 @@ export const Board = () => {
       }
     }
   }
-  const bgrUrl = '' || localStorage.getItem('bgrUrl');
+
   return (
     <>
       <Header />
 
-      <div className="board" style={{ backgroundImage: `url(${bgrUrl})` }}>
+      <div className='board' style={{ backgroundImage: `url(${bgrUrl})` }}>
         <Button
-          sx={{ position: 'absolute', top: '100px', left: '10px' }}
+          variant='contained'
+          sx={{
+            position: 'absolute',
+            top: '108px',
+            left: '46px',
+            backgroundColor: 'background.paper',
+            color: 'primary.main',
+            p: '12px',
+            opacity: 0.9,
+          }}
           onClick={() => navigate(-1)}
         >
-          <KeyboardBackspaceIcon sx={{ fontSize: '66px' }} />
+          <KeyboardBackspaceIcon sx={{ fontSize: '42px' }} />
         </Button>
 
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -292,21 +342,33 @@ export const Board = () => {
               alignItems: 'center',
             }}
           >
-            <Typography variant="h4" color="text.secondary" sx={{ mx: '10px' }}>
+            <Typography variant='h4' color='text.secondary' sx={{ mx: '10px' }}>
               {board?.title}:
             </Typography>
 
-            <Typography variant="h5" sx={{ fontSize: 16, pt: '1px' }} color="text.primary">
+            <Typography
+              variant='h5'
+              sx={{ fontSize: 16, pt: '1px' }}
+              color='text.primary'
+            >
               {board?.description}
             </Typography>
           </Card>
         </Box>
 
-        <div className="columns-container">
+        <div className='columns-container'>
           <DragDropContext onDragEnd={handleDragEnd}>
-            <Droppable droppableId="all-columns" direction="horizontal" type="column">
+            <Droppable
+              droppableId='all-columns'
+              direction='horizontal'
+              type='column'
+            >
               {(provided) => (
-                <div className="all-columns" ref={provided.innerRef} {...provided.droppableProps}>
+                <div
+                  className='all-columns'
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
                   {columns}
                   {provided.placeholder}
                 </div>
@@ -315,8 +377,8 @@ export const Board = () => {
           </DragDropContext>
 
           <Button
-            variant="contained"
-            className="button-add-item"
+            variant='contained'
+            className='button-add-item'
             startIcon={<AddIcon />}
             onClick={() => setIsAddColumnFormOpen(true)}
           >
