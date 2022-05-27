@@ -273,7 +273,6 @@ export const Board = () => {
 
       <div className="board" style={{ backgroundImage: `url(${bgrUrl})` }}>
         <Button
-          // size="small"
           variant="contained"
           sx={{
             position: 'absolute',
