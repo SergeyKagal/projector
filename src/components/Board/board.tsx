@@ -266,7 +266,7 @@ export const Board = () => {
       }
     }
   }
-  const bgrUrl = '' || localStorage.getItem('bgrUrl');
+
   return (
     <>
       <Header />
