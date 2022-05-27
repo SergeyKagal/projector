@@ -10,6 +10,7 @@ export interface IError {
 export interface IErrors {
   '401': IError;
   '404': IError;
+  Other: IError;
 }
 
 export const errors: IErrors = {
@@ -27,6 +28,14 @@ export const errors: IErrors = {
     buttonTitle: 'go back',
     buttonHandler: () => {
       window.history.back();
+    },
+  },
+  Other: {
+    title: 'Error',
+    description: 'Something went wrong......',
+    buttonTitle: 'welcome page',
+    buttonHandler: () => {
+      window.location.replace(PATH.BASE_URL);
     },
   },
 };
