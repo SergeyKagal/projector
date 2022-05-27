@@ -38,12 +38,10 @@ export const Board = () => {
 
   const bgrUrl = localStorage.getItem('bgrUrl') || '';
 
-  const storedColors = board && window.localStorage.getItem(board.id);
+  const storedColors = board && window.localStorage.getItem(`ColorsForBoard#${board.id}`);
   const colors: Map<string, string> = storedColors
     ? new Map(Object.entries(JSON.parse(storedColors)))
     : getColumnsColor(board);
-
-  board && window.localStorage.setItem(board.id, JSON.stringify(Object.fromEntries(colors)));
 
   useEffect(() => {
     getBoardById(params).then(
@@ -112,6 +110,12 @@ export const Board = () => {
   };
 
   const columns = board?.columns.map((column, index) => {
+    const currentColor = colors.get(column.id) || '#6a93e8';
+
+    if (!colors.get(column.id)) {
+      colors.set(column.id, currentColor);
+    }
+
     return (
       <Column
         index={index}
@@ -119,7 +123,7 @@ export const Board = () => {
         board={board}
         setBoard={setBoard}
         column={column}
-        color={colors ? (colors.get(column.id) as string) : '#6a93e8'}
+        color={currentColor}
         setColumnToDelete={setColumnToDelete}
         setShowConfirmPopUp={setShowConfirmPopUp}
         setColumnToAddTask={setColumnToAddTask}
@@ -128,6 +132,12 @@ export const Board = () => {
       />
     );
   });
+
+  board &&
+    window.localStorage.setItem(
+      `ColorsForBoard#${board.id}`,
+      JSON.stringify(Object.fromEntries(colors))
+    );
 
   async function handleDragEnd(result: DropResult) {
     const { destination, source, type } = result;

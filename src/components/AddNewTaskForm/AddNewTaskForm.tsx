@@ -34,6 +34,7 @@ interface User {
 
 const AddNewTaskForm = (props: addNewTaskProps) => {
   const [users, setUsers] = useState<User[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getUsers().then(
@@ -84,6 +85,8 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
       columnId: props.column.id,
     };
 
+    setIsLoading(true);
+
     try {
       await addTask(props.boardId, props.column.id, newTask).then((res) => {
         notify(`${localizationContent.task} ${res.title} ${localizationContent.added[0]}`);
@@ -99,6 +102,7 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
         notify(resMessage);
       }
     } finally {
+      setIsLoading(false);
       props.setColumnToAddTask(null);
     }
   };
@@ -179,7 +183,12 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
               </Button>
             </Grid>
             <Grid>
-              <Button type="submit" variant="contained" sx={{ margin: '10px' }}>
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{ margin: '10px' }}
+                disabled={isLoading}
+              >
                 {localizationContent.buttons.add}
               </Button>
             </Grid>

@@ -34,6 +34,7 @@ interface User {
 
 const EditTaskForm = (props: EditTaskProps) => {
   const [users, setUsers] = useState<User[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getUsers().then(
@@ -88,6 +89,8 @@ const EditTaskForm = (props: EditTaskProps) => {
       columnId: props.task.columnId,
     };
 
+    setIsLoading(true);
+
     try {
       await updateTask(newTask);
       const newBoard = await getBoardById(newTask.boardId);
@@ -101,6 +104,7 @@ const EditTaskForm = (props: EditTaskProps) => {
         notify(resMessage);
       }
     } finally {
+      setIsLoading(false);
       props.setTaskToEdit(null);
     }
   };
@@ -191,7 +195,12 @@ const EditTaskForm = (props: EditTaskProps) => {
               </Button>
             </Grid>
             <Grid>
-              <Button type="submit" variant="contained" sx={{ margin: '10px' }}>
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{ margin: '10px' }}
+                disabled={isLoading}
+              >
                 {localizationContent.buttons.save}
               </Button>
             </Grid>
