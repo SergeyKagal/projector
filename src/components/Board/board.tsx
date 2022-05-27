@@ -38,12 +38,10 @@ export const Board = () => {
 
   const bgrUrl = localStorage.getItem('bgrUrl') || '';
 
-  const storedColors = board && window.localStorage.getItem(board.id);
+  const storedColors = board && window.localStorage.getItem(`ColorsForBoard#${board.id}`);
   const colors: Map<string, string> = storedColors
     ? new Map(Object.entries(JSON.parse(storedColors)))
     : getColumnsColor(board);
-
-  board && window.localStorage.setItem(board.id, JSON.stringify(Object.fromEntries(colors)));
 
   useEffect(() => {
     getBoardById(params).then(
@@ -135,7 +133,11 @@ export const Board = () => {
     );
   });
 
-  board && window.localStorage.setItem(board.id, JSON.stringify(Object.fromEntries(colors)));
+  board &&
+    window.localStorage.setItem(
+      `ColorsForBoard#${board.id}`,
+      JSON.stringify(Object.fromEntries(colors))
+    );
 
   async function handleDragEnd(result: DropResult) {
     const { destination, source, type } = result;
