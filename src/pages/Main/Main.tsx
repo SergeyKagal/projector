@@ -68,7 +68,12 @@ export const Main = () => {
 
   const handleDeleteBoard = async (boardToDelete: IBoard) => {
     try {
-      await deleteBoard(boardToDelete.id);
+      await deleteBoard(boardToDelete.id).then((res) => {
+        if (res.status === 204) {
+          notify(localizationContent.deleted);
+        }
+      });
+      window.localStorage.removeItem(boardToDelete.id);
 
       const newBoardsArray = await getBoards();
       setBoardsArray(newBoardsArray);
@@ -113,10 +118,23 @@ export const Main = () => {
     <>
       <Header setMainPageBgr={changeBackground} />
 
-      <div className="boards" style={{ backgroundImage: `url(${bgrUrl})` }}>
-        <Typography variant="h4" align="center" color="text.secondary" paragraph>
-          {localizationContent.boardList}
-        </Typography>
+      <main className="boards" style={{ backgroundImage: `url(${bgrUrl})` }}>
+        <Card
+          sx={{
+            width: '220px',
+            overflow: 'unset',
+            mt: '18px',
+
+            opacity: 0.9,
+            my: '30px',
+            boxShadow: 'none',
+          }}
+        >
+          <Typography variant="h4" align="center" color="text.secondary" sx={{ p: '15px' }}>
+            {localizationContent.boardList}
+          </Typography>
+        </Card>
+
         <div className="boards__container">{boardsToShow}</div>
 
         {boardToDelete && (
@@ -129,7 +147,7 @@ export const Main = () => {
             }}
           />
         )}
-      </div>
+      </main>
 
       <Footer />
       <Notification />

@@ -1,11 +1,15 @@
 .boards {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding-top: 89px;
   width: 100%;
-  min-height: calc(100vh - 168px);
+  min-height: calc(100vh - 170px);
   background-repeat: no-repeat;
   background-size: cover;
+  overflow-y: auto;
 
-  .boards__container {
+  &__container {
     width: 100%;
     display: flex;
     flex-wrap: wrap;

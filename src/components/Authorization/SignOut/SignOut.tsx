@@ -11,23 +11,27 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { signOut } from '../../../api/api';
 import { getUserInformation, GlobalContext } from '../../../provider/provider';
 import { localizationContent } from '../../../localization/types';
+import { PATH } from '../../../constants/paths';
+import { useNavigate } from 'react-router-dom';
 
 const SignOut = () => {
   const { setUserState } = useContext(GlobalContext);
-  const [open, setOpen] = useState(false);
-  const handleClose = () => setOpen(false);
+  const [isModalOpen, setisModalOpen] = useState(false);
+  const handleClose = () => setisModalOpen(false);
+  const navigate = useNavigate();
+
   return (
     <>
       <Button
         color="inherit"
         title={localizationContent.signOut}
         onClick={() => {
-          setOpen(true);
+          setisModalOpen(true);
         }}
       >
         {<LogoutIcon />}
       </Button>
-      <Dialog open={open}>
+      <Dialog open={isModalOpen}>
         <DialogTitle sx={{ textAlign: 'center' }}>
           {localizationContent.signOutPopup.title}
         </DialogTitle>
@@ -40,10 +44,11 @@ const SignOut = () => {
           </Button>
           <Button
             variant="contained"
-            onClick={() => {
+            onClick={async () => {
               handleClose();
               signOut();
               setUserState(getUserInformation());
+              navigate(PATH.BASE_URL);
             }}
           >
             {localizationContent.buttons.signOut}

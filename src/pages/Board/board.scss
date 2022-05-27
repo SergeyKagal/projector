@@ -6,12 +6,18 @@
   flex-direction: column;
   align-items: center;
   overflow-x: auto;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  &__board__header {
+    margin-top: 35px;
+  }
 
   .columns-container {
+    width: inherit;
     display: flex;
-    width: 100%;
+    box-sizing: border-box;
     padding-left: 40px;
-    gap: 25px;
     justify-content: flex-start;
     padding-top: 30px;
   }
@@ -23,6 +29,8 @@
     margin: 0 8px;
     justify-content: flex-start;
     padding: 0px 10px;
+    background-color: #f0f0f1;
+    color: #6a93e8;
   }
 
   .all-columns {

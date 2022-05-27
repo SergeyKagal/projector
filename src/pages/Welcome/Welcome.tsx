@@ -16,6 +16,7 @@ import { GlobalContext } from '../../provider/provider';
 import { Link as RouterLink } from 'react-router-dom';
 import { LangToggler } from '../../components/Header/LangToggler/LangToggler';
 import { localizationContent } from '../../localization/types';
+import { team } from '../../constants/team';
 
 const Welcome = () => {
   const { userState, stickyHeader } = useContext(GlobalContext);
@@ -104,125 +105,46 @@ const Welcome = () => {
             {localizationContent.team}
           </Typography>
           <div className="cards-container">
-            <Card
-              sx={{
-                p: '10px',
-                height: '270px',
-                width: '200px',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                textAlign: 'center',
-                justifyContent: 'space-between',
-              }}
-            >
-              <CardMedia
-                component="img"
-                sx={{
-                  width: 100,
-                  height: 100,
-                  borderRadius: '50%',
-                }}
-                image="./avatar_sergey.png"
-                alt="avatar sergey"
-              />
-              <CardContent sx={{ flexGrow: 1, p: '10px' }}>
-                <Typography gutterBottom variant="h5" component="h2">
-                  {localizationContent.names[0]}
-                </Typography>
-                <Typography variant="h6">{localizationContent.jobs[0]}</Typography>
-              </CardContent>
-              <CardActions>
-                <Button
-                  size="small"
-                  href="https://github.com/SergeyKagal"
-                  target="_blank"
-                  sx={{ p: 0 }}
-                >
-                  {localizationContent.gitHubLink}
-                </Button>
-              </CardActions>
-            </Card>
-
-            <Card
-              sx={{
-                p: '10px',
-                height: '270px',
-                width: '200px',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                textAlign: 'center',
-                justifyContent: 'space-between',
-              }}
-            >
-              <CardMedia
-                component="img"
-                sx={{
-                  width: 100,
-                  height: 100,
-                  borderRadius: '50%',
-                }}
-                image="./avatar_raya.png"
-                alt="avatar raya"
-              />
-              <CardContent sx={{ flexGrow: 1, p: '10px' }}>
-                <Typography gutterBottom variant="h5" component="h2">
-                  {localizationContent.names[1]}
-                </Typography>
-                <Typography>{localizationContent.jobs[1]} </Typography>
-              </CardContent>
-              <CardActions>
-                <Button
-                  size="small"
-                  href="https://github.com/ravgusha"
-                  target="_blank"
-                  sx={{ p: 0 }}
-                >
-                  {localizationContent.gitHubLink}
-                </Button>
-              </CardActions>
-            </Card>
-
-            <Card
-              sx={{
-                p: '10px',
-                height: '270px',
-                width: '200px',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                textAlign: 'center',
-                justifyContent: 'space-between',
-              }}
-            >
-              <CardMedia
-                component="img"
-                sx={{
-                  width: 100,
-                  height: 100,
-                  borderRadius: '50%',
-                }}
-                image="./avatar_elena.png"
-                alt="avatar elena"
-              />
-              <CardContent sx={{ flexGrow: 1, p: '10px' }}>
-                <Typography gutterBottom variant="h5" component="h2">
-                  {localizationContent.names[2]}
-                </Typography>
-                <Typography>{localizationContent.jobs[2]} </Typography>
-              </CardContent>
-              <CardActions>
-                <Button
-                  size="small"
-                  href="https://github.com/elvehnn"
-                  target="_blank"
-                  sx={{ p: 0 }}
-                >
-                  {localizationContent.gitHubLink}
-                </Button>
-              </CardActions>
-            </Card>
+            {team.map((teamMate, i) => {
+              return (
+                <div key={teamMate.id}>
+                  <Card
+                    sx={{
+                      p: '10px',
+                      height: '270px',
+                      width: '200px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      textAlign: 'center',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <CardMedia
+                      component="img"
+                      sx={{
+                        width: 100,
+                        height: 100,
+                        borderRadius: '50%',
+                      }}
+                      image={teamMate.avatarLink}
+                      alt={`avatar ${localizationContent.names[i]}`}
+                    />
+                    <CardContent sx={{ flexGrow: 1, p: '10px' }}>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {localizationContent.names[i]}
+                      </Typography>
+                      <Typography variant="h6">{localizationContent.jobs[i]}</Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button size="small" href={teamMate.gitHubLink} target="_blank" sx={{ p: 0 }}>
+                        {localizationContent.gitHubLink}
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </div>
+              );
+            })}
           </div>
         </Box>
       </main>

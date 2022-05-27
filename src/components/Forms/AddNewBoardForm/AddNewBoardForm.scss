@@ -13,11 +13,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1200;
   }
 
   &__form {
     background-color: #fff;
-    width: 30%;
     display: flex;
     flex-direction: column;
     align-items: center;

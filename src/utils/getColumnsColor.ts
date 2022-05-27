@@ -22,6 +22,7 @@ const getColumnsColor = (board: IBoard | null): Map<string, string> => {
       id = id === 7 ? 0 : id + 1;
     });
   }
+
   return colorMap;
 };
 

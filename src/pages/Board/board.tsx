@@ -5,7 +5,7 @@ import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import Button from '@mui/material/Button';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import AddIcon from '@mui/icons-material/Add';
-import { deleteColumn, deleteTask, getBoardById, updateColumn } from '../../api/api';
+import { deleteColumn, deleteTask, getBoardById, updateColumn, updateTask } from '../../api/api';
 import AddNewColumnForm from '../../components/Forms/AddNewColumnForm/AddNewColumnForm';
 import ConfirmPopUp from '../../components/ConfirmPopUp/ConfirmPopUp';
 import { Header } from '../../components/Header/Header';
@@ -14,19 +14,19 @@ import getColumnsColor from '../../utils/getColumnsColor';
 import { GlobalContext } from '../../provider/provider';
 import AddNewBoardForm from '../../components/Forms/AddNewBoardForm/AddNewBoardForm';
 import Notification, { notify } from '../../components/Notification/Notification';
-import { Card, Typography, CardContent } from '@mui/material';
+import { Card, Typography } from '@mui/material';
 import AddNewTaskForm from '../../components/Forms/AddNewTaskForm/AddNewTaskForm';
 import EditTaskForm from '../../components/Forms/EditTaskForm/EditTaskForm';
-
 import { localizationContent } from '../../localization/types';
 import Footer from '../../components/Footer/Footer';
 import Column from '../../components/Column/Column';
-
 import './board.scss';
+import Box from '@mui/system/Box';
 
 export const Board = () => {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>().id || '';
+
   const [board, setBoard] = useState<IBoard | null>(null);
   const [isAddColumnFormOpen, setIsAddColumnFormOpen] = useState(false);
   const [columnToDelete, setColumnToDelete] = useState<IColumn | null>(null);
@@ -35,6 +35,13 @@ export const Board = () => {
   const [taskToEdit, setTaskToEdit] = useState<ITask | null>(null);
   const [taskToDelete, setTaskToDelete] = useState<ITask | null>(null);
   const { isCreateNewBoardOpen } = useContext(GlobalContext);
+
+  const bgrUrl = localStorage.getItem('bgrUrl') || '';
+
+  const storedColors = board && window.localStorage.getItem(`ColorsForBoard#${board.id}`);
+  const colors: Map<string, string> = storedColors
+    ? new Map(Object.entries(JSON.parse(storedColors)))
+    : getColumnsColor(board);
 
   useEffect(() => {
     getBoardById(params).then(
@@ -58,7 +65,11 @@ export const Board = () => {
   const handleDeleteColumn = async (columnToDelete: IColumn) => {
     if (!board) return;
     try {
-      await deleteColumn(board.id, columnToDelete.id);
+      await deleteColumn(board.id, columnToDelete.id).then((res) => {
+        if (res.status === 204) {
+          notify(localizationContent.deleted);
+        }
+      });
 
       const newBoard = await getBoardById(params);
       newBoard.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
@@ -78,7 +89,11 @@ export const Board = () => {
     if (!board) return;
 
     try {
-      await deleteTask(task);
+      await deleteTask(task).then((res) => {
+        if (res.status === 204) {
+          notify(localizationContent.deleted);
+        }
+      });
 
       const newBoard = await getBoardById(params);
       newBoard.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
@@ -94,9 +109,13 @@ export const Board = () => {
     }
   };
 
-  const colors = getColumnsColor(board);
-
   const columns = board?.columns.map((column, index) => {
+    const currentColor = colors.get(column.id) || '#6a93e8';
+
+    if (!colors.get(column.id)) {
+      colors.set(column.id, currentColor);
+    }
+
     return (
       <Column
         index={index}
@@ -104,7 +123,7 @@ export const Board = () => {
         board={board}
         setBoard={setBoard}
         column={column}
-        color={colors.get(column.id) || '#87A8EC'}
+        color={currentColor}
         setColumnToDelete={setColumnToDelete}
         setShowConfirmPopUp={setShowConfirmPopUp}
         setColumnToAddTask={setColumnToAddTask}
@@ -113,6 +132,12 @@ export const Board = () => {
       />
     );
   });
+
+  board &&
+    window.localStorage.setItem(
+      `ColorsForBoard#${board.id}`,
+      JSON.stringify(Object.fromEntries(colors))
+    );
 
   async function handleDragEnd(result: DropResult) {
     const { destination, source, type } = result;
@@ -125,7 +150,7 @@ export const Board = () => {
       return;
     }
 
-    const reorder = async (list: IColumn[], startIndex: number, endIndex: number) => {
+    const reorderColumns = async (list: IColumn[], startIndex: number, endIndex: number) => {
       const result = Array.from(list);
       const [removed] = result.splice(startIndex, 1);
       result.splice(endIndex, 0, removed);
@@ -134,16 +159,120 @@ export const Board = () => {
 
     if (type === 'column') {
       if (board) {
-        const reorderedColumns = await reorder(board.columns, source.index, destination.index);
-        if (board) {
-          setBoard({
+        const reorderedColumns = await reorderColumns(
+          board.columns,
+          source.index,
+          destination.index
+        );
+
+        setBoard({
+          id: board.id,
+          description: board.description,
+          title: board.title,
+          columns: reorderedColumns,
+        });
+        updateColumn(board.id, board.columns[source.index], destination.index + 1);
+      }
+    }
+
+    const reorderTasks = async (list: ITask[], startIndex: number, endIndex: number) => {
+      const reorderedTasks = Array.from(list);
+      const [removed] = reorderedTasks.splice(startIndex, 1);
+      removed.order = endIndex + 1;
+      reorderedTasks.splice(endIndex, 0, removed);
+      // Назначаем новый ордер всем таскам в колонке
+      for (let i = 0; i < reorderedTasks.length; i++) {
+        reorderedTasks[i].order = i + 1;
+      }
+      return reorderedTasks;
+    };
+
+    // Колонка, из которой берем таск
+    const home = board?.columns.find((column) => column.id === source.droppableId);
+    const homeOrder = board?.columns.findIndex((obj) => {
+      return obj.id === home?.id;
+    });
+    // Колонка, куда помещаем таск
+    const foreign = board?.columns.find((column) => column.id === destination.droppableId);
+    const foreignOrder = board?.columns.findIndex((obj) => {
+      return obj.id === foreign?.id;
+    });
+
+    if (board && home && foreign) {
+      // Перемещаем таск в пределах одной коллонки
+      if (home === foreign) {
+        const reorderedTasks = await reorderTasks(home.tasks, source.index, destination.index);
+        const newColumn: IColumn = {
+          ...home,
+          tasks: reorderedTasks,
+        };
+        const result = board?.columns;
+
+        if (result && homeOrder !== undefined) {
+          result[homeOrder] = newColumn;
+
+          const newState = {
             id: board.id,
             description: board.description,
             title: board.title,
-            columns: reorderedColumns,
-          });
-          updateColumn(board.id, board.columns[source.index], destination.index + 1);
+            columns: result,
+          };
+          setBoard(newState);
+
+          const updatedTask = {
+            ...home.tasks[source.index],
+            order: destination.index + 1,
+            boardId: board.id,
+            columnId: source.droppableId,
+          };
+          updateTask(updatedTask);
         }
+        // перемещаем таск из одной колонки в другую
+      } else if (home !== foreign) {
+        // Вырезаем таск из старой колонки
+        const homeTasks = Array.from(home.tasks);
+        const [target] = homeTasks.splice(source.index, 1);
+        for (let i = 0; i < homeTasks.length; i++) {
+          homeTasks[i].order = i + 1;
+        }
+        const newHome: IColumn = {
+          ...home,
+          tasks: homeTasks,
+        };
+
+        // Вставляем в новую колонку
+        const foreignTasks = Array.from(foreign.tasks);
+        foreignTasks.splice(destination.index, 0, target);
+        for (let i = 0; i < foreignTasks.length; i++) {
+          foreignTasks[i].order = i + 1;
+        }
+        const newForeign: IColumn = {
+          ...foreign,
+          tasks: foreignTasks,
+        };
+
+        const result = board?.columns;
+
+        if (result && homeOrder !== undefined && foreignOrder !== undefined) {
+          result[homeOrder] = newHome;
+          result[foreignOrder] = newForeign;
+
+          const newState = {
+            id: board.id,
+            description: board.description,
+            title: board.title,
+            columns: result,
+          };
+          setBoard(newState);
+        }
+
+        const updatedTask = {
+          ...home.tasks[source.index],
+          order: destination.index + 1,
+          boardId: board.id,
+          columnId: source.droppableId,
+        };
+        updateTask(updatedTask, destination.droppableId);
       }
     }
   }
@@ -152,28 +281,45 @@ export const Board = () => {
     <>
       <Header />
 
-      <div className="board">
+      <div className="board" style={{ backgroundImage: `url(${bgrUrl})` }}>
         <Button
-          sx={{ position: 'absolute', top: '71px', left: '10px' }}
+          variant="contained"
+          sx={{
+            position: 'absolute',
+            top: '108px',
+            left: '46px',
+            backgroundColor: 'background.paper',
+            color: 'primary.main',
+            p: '12px',
+            opacity: 0.9,
+          }}
           onClick={() => navigate(-1)}
         >
-          <KeyboardBackspaceIcon sx={{ fontSize: '66px' }} />
+          <KeyboardBackspaceIcon sx={{ fontSize: '42px' }} />
         </Button>
 
-        <h3>
-          {localizationContent.board.header} «{board?.title}»
-        </h3>
-
-        <Card sx={{ minWidth: 0.8, overflow: 'unset' }}>
-          <CardContent>
-            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-              {localizationContent.board.description}
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Card
+            sx={{
+              minWidth: 0.6,
+              overflow: 'unset',
+              mt: '18px',
+              opacity: 0.9,
+              boxShadow: 'none',
+              p: '16px',
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <Typography variant="h4" color="text.secondary" sx={{ mx: '10px' }}>
+              {board?.title}:
             </Typography>
-            <Typography sx={{ fontSize: 18 }} variant="body2" color="text.primary">
+
+            <Typography variant="h5" sx={{ fontSize: 16, pt: '1px' }} color="text.primary">
               {board?.description}
             </Typography>
-          </CardContent>
-        </Card>
+          </Card>
+        </Box>
 
         <div className="columns-container">
           <DragDropContext onDragEnd={handleDragEnd}>
@@ -186,8 +332,9 @@ export const Board = () => {
               )}
             </Droppable>
           </DragDropContext>
+
           <Button
-            variant="outlined"
+            variant="contained"
             className="button-add-item"
             startIcon={<AddIcon />}
             onClick={() => setIsAddColumnFormOpen(true)}
@@ -204,8 +351,10 @@ export const Board = () => {
           setIsAddColumnFormOpen={setIsAddColumnFormOpen}
           board={board}
           setBoard={setBoard}
+          colors={colors}
         />
       )}
+
       {columnToDelete && (
         <ConfirmPopUp
           description={`${localizationContent.deleteColumn.description} "${columnToDelete.title}"?`}

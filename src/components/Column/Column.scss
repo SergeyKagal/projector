@@ -1,6 +1,7 @@
 div.column {
   width: 267px;
   min-width: 267px;
+  min-height: 190px;
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -14,6 +15,11 @@ div.column {
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
+
+  .all-tasks {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 
   &__header {
     position: absolute;
@@ -42,6 +48,7 @@ div.column {
     border-radius: 5px;
     position: relative;
     height: 40px;
+    font-weight: 600;
 
     .column-edit {
       display: none;
