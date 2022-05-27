@@ -12,7 +12,7 @@ import { notify } from '../../Notification/Notification';
 import './AddNewColumnForm.scss';
 import { CirclePicker } from 'react-color';
 import { useState } from 'react';
-import theme from '../../constants/theme';
+import theme from '../../../constants/theme';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 
