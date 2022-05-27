@@ -16,6 +16,11 @@ div.column {
   overflow-y: auto;
   overflow-x: hidden;
 
+  .all-tasks {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
   &__header {
     position: absolute;
     width: 100%;
