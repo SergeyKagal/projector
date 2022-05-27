@@ -13,6 +13,8 @@ import './AddNewColumnForm.scss';
 import { CirclePicker } from 'react-color';
 import { useState } from 'react';
 import theme from '../../constants/theme';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 
 interface addNewColumnProps {
   setIsAddColumnFormOpen: (flag: boolean) => void;
@@ -71,59 +73,64 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
 
   return (
     <div className="addNewColumn__container">
-      <form onSubmit={formik.handleSubmit} className="addNewColumn__form">
-        <Typography component="h1" variant="h5">
-          {localizationContent.addColumn.header}
-        </Typography>
+      <Container component="main" maxWidth="xs">
+        <Box component="form" onSubmit={formik.handleSubmit} className="addNewColumn__form">
+          <Typography component="h1" variant="h5">
+            {localizationContent.addColumn.header}
+          </Typography>
 
-        <Box sx={{ width: '85%', px: 0, pt: 2, pb: 1 }}>
-          <TextField
-            sx={{ mt: 2 }}
-            fullWidth
-            id="title"
-            name="title"
-            label={localizationContent.addColumn.title}
-            type="title"
-            value={formik.values.title}
-            onChange={formik.handleChange}
-            error={formik.touched.title && Boolean(formik.errors.title)}
-            helperText={formik.touched.title && formik.errors.title}
-            autoFocus
-          />
-        </Box>
+          <Box sx={{ px: 0, pt: 2, pb: 1 }}>
+            <TextField
+              sx={{ mt: 2 }}
+              fullWidth
+              id="title"
+              name="title"
+              label={localizationContent.addColumn.title}
+              type="title"
+              value={formik.values.title}
+              onChange={formik.handleChange}
+              error={formik.touched.title && Boolean(formik.errors.title)}
+              helperText={formik.touched.title && formik.errors.title}
+              autoFocus
+            />
+          </Box>
 
-        <Box
-          sx={{
-            pb: 2,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            width: '85%',
-          }}
-        >
-          <p className="color-text">Choose color:</p>
-          <CirclePicker
-            width={'100%'}
-            color={color}
-            onChange={(color) => {
-              setColor(color.hex);
+          <Box
+            sx={{
+              pb: 2,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
             }}
-          />
-        </Box>
-
-        <Box sx={{ width: '75%', px: 0, py: 2, display: 'flex', justifyContent: 'center' }}>
-          <Button
-            variant="outlined"
-            onClick={() => props.setIsAddColumnFormOpen(false)}
-            sx={{ margin: '0 10px' }}
           >
-            {localizationContent.buttons.cancel}
-          </Button>
-          <Button type="submit" variant="contained" sx={{ margin: '0 10px' }}>
-            {localizationContent.buttons.add}
-          </Button>
+            <p className="color-text">Choose color:</p>
+            <CirclePicker
+              width={'100%'}
+              color={color}
+              onChange={(color) => {
+                setColor(color.hex);
+              }}
+            />
+          </Box>
+
+          <Grid container sx={{ width: 'inherit', mt: 2 }}>
+            <Grid item xs>
+              <Button
+                variant="outlined"
+                onClick={() => props.setIsAddColumnFormOpen(false)}
+                sx={{ margin: '10px' }}
+              >
+                {localizationContent.buttons.cancel}
+              </Button>
+            </Grid>
+            <Grid>
+              <Button type="submit" variant="contained" sx={{ margin: '10px' }}>
+                {localizationContent.buttons.add}
+              </Button>
+            </Grid>
+          </Grid>
         </Box>
-      </form>
+      </Container>
     </div>
   );
 };

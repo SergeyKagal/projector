@@ -16,6 +16,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import { localizationContent } from '../../localization/types';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 
 interface addNewTaskProps {
   setColumnToAddTask: (column: IColumn | null) => void;
@@ -111,75 +113,81 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
 
   return (
     <div className="addNewTask__container">
-      <form onSubmit={formik.handleSubmit} className="addNewTask__form">
-        <Typography component="h1" variant="h5">
-          {localizationContent.addNewTask.header}
-        </Typography>
-        <Box sx={{ width: '85%', px: 0, py: 2 }}>
-          <TextField
-            sx={{ mt: 2 }}
-            fullWidth
-            id="title"
-            name="title"
-            label={localizationContent.addNewTask.title}
-            type="title"
-            value={formik.values.title}
-            onChange={formik.handleChange}
-            error={formik.touched.title && Boolean(formik.errors.title)}
-            helperText={formik.touched.title && formik.errors.title}
-            autoFocus
-          />
-          <TextField
-            sx={{ mt: 2 }}
-            fullWidth
-            id="description"
-            name="description"
-            label={localizationContent.addNewTask.description}
-            type="description"
-            value={formik.values.description}
-            onChange={formik.handleChange}
-            error={formik.touched.description && Boolean(formik.errors.description)}
-            helperText={formik.touched.description && formik.errors.description}
-          />
-          <FormControl
-            fullWidth
-            sx={{ mt: 2 }}
-            error={formik.touched.user && Boolean(formik.errors.user)}
-          >
-            <InputLabel id="demo-simple-select-label">
-              {localizationContent.addNewTask.user}
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              name="user"
-              id="demo-simple-select"
-              value={formik.values.user}
-              label={localizationContent.addNewTask.user}
+      <Container component="main" maxWidth="xs">
+        <Box component="form" onSubmit={formik.handleSubmit} className="addNewTask__form">
+          <Typography component="h1" variant="h5">
+            {localizationContent.addNewTask.header}
+          </Typography>
+          <Box sx={{ px: 0, py: 2 }}>
+            <TextField
+              sx={{ mt: 2 }}
+              fullWidth
+              id="title"
+              name="title"
+              label={localizationContent.addNewTask.title}
+              type="title"
+              value={formik.values.title}
               onChange={formik.handleChange}
+              error={formik.touched.title && Boolean(formik.errors.title)}
+              helperText={formik.touched.title && formik.errors.title}
+              autoFocus
+            />
+            <TextField
+              sx={{ mt: 2 }}
+              fullWidth
+              id="description"
+              name="description"
+              label={localizationContent.addNewTask.description}
+              type="description"
+              value={formik.values.description}
+              onChange={formik.handleChange}
+              error={formik.touched.description && Boolean(formik.errors.description)}
+              helperText={formik.touched.description && formik.errors.description}
+            />
+            <FormControl
+              fullWidth
+              sx={{ mt: 2 }}
+              error={formik.touched.user && Boolean(formik.errors.user)}
             >
-              {users.map((user) => (
-                <MenuItem key={user.id} value={user.id}>
-                  {user.name}
-                </MenuItem>
-              ))}
-              <FormHelperText>{formik.touched.user && formik.errors.user}</FormHelperText>
-            </Select>
-          </FormControl>
-        </Box>
+              <InputLabel id="demo-simple-select-label">
+                {localizationContent.addNewTask.user}
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                name="user"
+                id="demo-simple-select"
+                value={formik.values.user}
+                label={localizationContent.addNewTask.user}
+                onChange={formik.handleChange}
+              >
+                {users.map((user) => (
+                  <MenuItem key={user.id} value={user.id}>
+                    {user.name}
+                  </MenuItem>
+                ))}
+                <FormHelperText>{formik.touched.user && formik.errors.user}</FormHelperText>
+              </Select>
+            </FormControl>
+          </Box>
 
-        <Box sx={{ width: '75%', px: 0, py: 2, display: 'flex', justifyContent: 'center' }}>
-          <Button
-            variant="outlined"
-            onClick={() => props.setColumnToAddTask(null)}
-            sx={{ margin: '0 10px' }}
-          >
-            {localizationContent.buttons.cancel}
-          </Button>
-          <Button type="submit" variant="contained" sx={{ margin: '0 10px' }}>
-            {localizationContent.buttons.add}
-          </Button>
+          <Grid container sx={{ width: 'inherit', mt: 2 }}>
+            <Grid item xs>
+              <Button
+                variant="outlined"
+                onClick={() => props.setColumnToAddTask(null)}
+                sx={{ margin: '10px' }}
+              >
+                {localizationContent.buttons.cancel}
+              </Button>
+            </Grid>
+            <Grid>
+              <Button type="submit" variant="contained" sx={{ margin: '10px' }}>
+                {localizationContent.buttons.add}
+              </Button>
+            </Grid>
+          </Grid>
         </Box>
-      </form>
+      </Container>
     </div>
   );
 };
