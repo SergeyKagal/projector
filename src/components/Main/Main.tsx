@@ -27,7 +27,7 @@ export const Main = () => {
   const [boardToDelete, setBoardToDelete] = useState<IBoard | null>(null);
   const [bgrUrl, setBgrUrl] = useState('' || localStorage.getItem('bgrUrl'));
 
-  const changeBacground = async () => {
+  const changeBackground = async () => {
     const url = `https://api.unsplash.com/photos/random?orientation=landscape&&client_id=nwRpYv6V0PqOKIPPobvCaSByNX5UwvXBsMEfcoi0usE`;
     const res = await axios(url);
     localStorage.setItem('bgrUrl', res.data.urls.regular);
@@ -114,12 +114,24 @@ export const Main = () => {
 
   return (
     <>
-      <Header setMainPageBgr={changeBacground} />
+      <Header setMainPageBgr={changeBackground} />
 
-      <div className="boards" style={{ backgroundImage: `url(${bgrUrl})` }}>
-        <Typography variant="h4" align="center" color="text.secondary" sx={{ my: '20px' }}>
-          {localizationContent.boardList}
-        </Typography>
+      <main className="boards" style={{ backgroundImage: `url(${bgrUrl})` }}>
+        <Card
+          sx={{
+            width: '220px',
+            overflow: 'unset',
+            mt: '18px',
+
+            opacity: 0.9,
+            my: '30px',
+            boxShadow: 'none',
+          }}
+        >
+          <Typography variant="h4" align="center" color="text.secondary" sx={{ p: '15px' }}>
+            {localizationContent.boardList}
+          </Typography>
+        </Card>
 
         <div className="boards__container">{boardsToShow}</div>
 
@@ -133,7 +145,7 @@ export const Main = () => {
             }}
           />
         )}
-      </div>
+      </main>
 
       <Footer />
       <Notification />

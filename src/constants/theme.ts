@@ -4,8 +4,8 @@ const themeOptions = {
   palette: {
     type: 'light',
     text: {
-      primary: 'rgba(0, 0, 0, 0.75)',
-      secondary: 'rgba(0, 0, 0, 0.54)',
+      primary: 'rgba(0, 0, 0, 0.8)',
+      secondary: 'rgba(0, 0, 0, 0.7)',
     },
     primary: {
       main: '#6a93e8',

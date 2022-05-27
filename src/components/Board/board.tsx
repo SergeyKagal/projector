@@ -14,13 +14,14 @@ import getColumnsColor from '../getColumnsColor/getColumnsColor';
 import { GlobalContext } from '../../provider/provider';
 import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
 import Notification, { notify } from '../Notification/Notification';
-import { Card, Typography, CardContent } from '@mui/material';
+import { Card, Typography } from '@mui/material';
 import AddNewTaskForm from '../AddNewTaskForm/AddNewTaskForm';
 import EditTaskForm from '../EditTaskForm/EditTaskForm';
 import { localizationContent } from '../../localization/types';
 import Footer from '../Footer/Footer';
 import Column from '../Column/Column';
 import './board.scss';
+import Box from '@mui/system/Box';
 
 export const Board = () => {
   const navigate = useNavigate();
@@ -34,6 +35,8 @@ export const Board = () => {
   const [taskToEdit, setTaskToEdit] = useState<ITask | null>(null);
   const [taskToDelete, setTaskToDelete] = useState<ITask | null>(null);
   const { isCreateNewBoardOpen } = useContext(GlobalContext);
+
+  const bgrUrl = localStorage.getItem('bgrUrl') || '';
 
   const storedColors = board && window.localStorage.getItem(board.id);
   const colors: Map<string, string> = storedColors
@@ -270,26 +273,34 @@ export const Board = () => {
 
       <div className="board" style={{ backgroundImage: `url(${bgrUrl})` }}>
         <Button
-          sx={{ position: 'absolute', top: '71px', left: '10px' }}
+          sx={{ position: 'absolute', top: '100px', left: '10px' }}
           onClick={() => navigate(-1)}
         >
           <KeyboardBackspaceIcon sx={{ fontSize: '66px' }} />
         </Button>
 
-        <Typography variant="h4" align="center" color="text.secondary" sx={{ my: '18px' }}>
-          {localizationContent.board.header} «{board?.title}»
-        </Typography>
-
-        <Card sx={{ minWidth: 0.8, overflow: 'unset' }}>
-          <CardContent>
-            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-              {localizationContent.board.description}
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Card
+            sx={{
+              minWidth: 0.6,
+              overflow: 'unset',
+              mt: '18px',
+              opacity: 0.9,
+              boxShadow: 'none',
+              p: '16px',
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <Typography variant="h4" color="text.secondary" sx={{ mx: '10px' }}>
+              {board?.title}:
             </Typography>
-            <Typography sx={{ fontSize: 18 }} variant="body2" color="text.primary">
+
+            <Typography variant="h5" sx={{ fontSize: 16, pt: '1px' }} color="text.primary">
               {board?.description}
             </Typography>
-          </CardContent>
-        </Card>
+          </Card>
+        </Box>
 
         <div className="columns-container">
           <DragDropContext onDragEnd={handleDragEnd}>
@@ -302,8 +313,9 @@ export const Board = () => {
               )}
             </Droppable>
           </DragDropContext>
+
           <Button
-            variant="outlined"
+            variant="contained"
             className="button-add-item"
             startIcon={<AddIcon />}
             onClick={() => setIsAddColumnFormOpen(true)}
@@ -323,6 +335,7 @@ export const Board = () => {
           colors={colors}
         />
       )}
+
       {columnToDelete && (
         <ConfirmPopUp
           description={`${localizationContent.deleteColumn.description} "${columnToDelete.title}"?`}
