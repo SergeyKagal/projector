@@ -15,15 +15,14 @@ import {
 } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-
-import { signIn, editProfile, deleteUser, getUserData } from '../../api/api';
-import { getUserInformation, GlobalContext } from '../../provider/provider';
-import Notification, { notify } from '../Notification/Notification';
-import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
-import { signOut } from '../../api/api';
-import { PATH } from '../../constants/paths';
-import theme from '../../constants/theme';
-import { localizationContent } from '../../localization/types';
+import { signIn, editProfile, deleteUser, getUserData } from '../../../api/api';
+import { getUserInformation, GlobalContext } from '../../../provider/provider';
+import Notification, { notify } from '../../Notification/Notification';
+import ConfirmPopUp from '../../ConfirmPopUp/ConfirmPopUp';
+import { signOut } from '../../../api/api';
+import { PATH } from '../../../constants/paths';
+import theme from '../../../constants/theme';
+import { localizationContent } from '../../../localization/types';
 
 export const EditProfile = () => {
   const navigate = useNavigate();

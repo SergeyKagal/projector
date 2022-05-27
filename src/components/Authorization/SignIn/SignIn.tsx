@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
-import Notification, { notify } from '../Notification/Notification';
+import Notification, { notify } from '../../Notification/Notification';
 import {
   Avatar,
   Box,
@@ -15,11 +15,11 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import InputIcon from '@mui/icons-material/Input';
 import * as Yup from 'yup';
 
-import { signIn } from '../../api/api';
-import theme from '../../constants/theme';
-import { PATH } from '../../constants/paths';
-import { getUserInformation, GlobalContext } from '../../provider/provider';
-import { localizationContent } from '../../localization/types';
+import { signIn } from '../../../api/api';
+import theme from '../../../constants/theme';
+import { PATH } from '../../../constants/paths';
+import { getUserInformation, GlobalContext } from '../../../provider/provider';
+import { localizationContent } from '../../../localization/types';
 
 const SignIn = () => {
   const navigate = useNavigate();

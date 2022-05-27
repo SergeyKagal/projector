@@ -9,12 +9,12 @@ import { useFormik } from 'formik';
 import { useContext, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
-import { addBoard, getBoards } from '../../api/api';
-import { PATH } from '../../constants/paths';
-import { localizationContent } from '../../localization/types';
-import { GlobalContext } from '../../provider/provider';
-import ConfirmRedirection from '../ConfirmRedirection/ConfirmRedirection';
-import { notify } from '../Notification/Notification';
+import { addBoard, getBoards } from '../../../api/api';
+import { PATH } from '../../../constants/paths';
+import { localizationContent } from '../../../localization/types';
+import { GlobalContext } from '../../../provider/provider';
+import ConfirmRedirection from '../../ConfirmRedirection/ConfirmRedirection';
+import { notify } from '../../Notification/Notification';
 import './AddNewBoardForm.scss';
 
 const AddNewBoardForm = () => {
