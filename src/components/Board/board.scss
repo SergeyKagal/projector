@@ -6,6 +6,8 @@
   flex-direction: column;
   align-items: center;
   overflow-x: auto;
+  background-repeat: no-repeat;
+  background-size: cover;
 
   &__board__header {
     margin-top: 35px;
