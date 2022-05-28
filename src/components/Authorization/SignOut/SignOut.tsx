@@ -14,10 +14,10 @@ import { localizationContent } from '../../../localization/types';
 import { PATH } from '../../../constants/paths';
 import { useNavigate } from 'react-router-dom';
 
-const SignOut = () => {
+const SignOut = (props: { isDesktopMode: boolean }) => {
   const { setUserState } = useContext(GlobalContext);
-  const [isModalOpen, setisModalOpen] = useState(false);
-  const handleClose = () => setisModalOpen(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleClose = () => setIsModalOpen(false);
   const navigate = useNavigate();
 
   return (
@@ -26,10 +26,13 @@ const SignOut = () => {
         color="inherit"
         title={localizationContent.signOut}
         onClick={() => {
-          setisModalOpen(true);
+          setIsModalOpen(true);
         }}
+        sx={{ gap: '10px' }}
+        fullWidth={!props.isDesktopMode}
       >
         {<LogoutIcon />}
+        {!props.isDesktopMode && localizationContent.signOut}
       </Button>
       <Dialog open={isModalOpen}>
         <DialogTitle sx={{ textAlign: 'center' }}>

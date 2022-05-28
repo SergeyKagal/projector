@@ -48,7 +48,7 @@ const Welcome = () => {
               </Button>
             </Toolbar>
           )}
-          <LangToggler></LangToggler>
+          <LangToggler isDesktopMode={true} />
         </Toolbar>
       </AppBar>
 

@@ -14,7 +14,7 @@ import { localizationContent } from '../../localization/types';
 import theme from '../../constants/theme';
 import { Board } from '../../pages/Board/board';
 import { IBoard } from '../../constants/interfaces';
-import { ErrorPage } from '../ErrorPage/ErrorPage';
+import { ErrorPage } from '../../pages/ErrorPage/ErrorPage';
 
 import { errors } from '../../constants/errors';
 import ErrorBoundary from './ErrorBoundary';

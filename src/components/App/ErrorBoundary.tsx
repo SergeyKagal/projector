@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ErrorInfo } from 'react';
-import { ErrorPage } from '../ErrorPage/ErrorPage';
+import { ErrorPage } from '../../pages/ErrorPage/ErrorPage';
 import { errors } from '../../constants/errors';
 
 interface IState {

@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { localizationContent } from '../../../localization/types';
 import { GlobalContext, Localization } from '../../../provider/provider';
 
-export const LangToggler = () => {
+export const LangToggler = (props: { isDesktopMode: boolean }) => {
   const { localization, setLocalization } = useContext(GlobalContext);
 
   const localHandler = () => {
@@ -17,7 +17,7 @@ export const LangToggler = () => {
   };
   return (
     <>
-      <Button color="inherit" onClick={localHandler}>
+      <Button color="inherit" onClick={localHandler} fullWidth={!props.isDesktopMode}>
         {localization}
       </Button>
     </>

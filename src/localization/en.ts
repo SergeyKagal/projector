@@ -5,6 +5,7 @@ export const en = {
   signin: 'sign in',
   signup: 'sign up',
   changeBgr: 'change wallpaper',
+  editProfile: 'Edit profile',
 
   names: ['Sergey', 'Ravganiyat', 'Elena'],
   jobs: [

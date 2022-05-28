@@ -6,6 +6,7 @@ export const ru = {
   signin: 'вход',
   signup: 'регистрация',
   changeBgr: 'заменить фон',
+  editProfile: 'Редактировать профиль',
 
   names: ['Сергей', 'Равганият', 'Елена'],
   jobs: [
