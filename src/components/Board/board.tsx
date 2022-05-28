@@ -22,6 +22,8 @@ import Footer from '../Footer/Footer';
 import Column from '../Column/Column';
 import './board.scss';
 import Box from '@mui/system/Box';
+import ColumnSkeleton from '../Skeleton/ColumnSkeleton';
+import TitleSkeleton from '../Skeleton/TitleSkeleton';
 
 export const Board = () => {
   const navigate = useNavigate();
@@ -34,6 +36,7 @@ export const Board = () => {
   const [columnToAddTask, setColumnToAddTask] = useState<IColumn | null>(null);
   const [taskToEdit, setTaskToEdit] = useState<ITask | null>(null);
   const [taskToDelete, setTaskToDelete] = useState<ITask | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { isCreateNewBoardOpen } = useContext(GlobalContext);
 
   const bgrUrl = localStorage.getItem('bgrUrl') || '';
@@ -46,11 +49,14 @@ export const Board = () => {
   board && window.localStorage.setItem(board.id, JSON.stringify(Object.fromEntries(colors)));
 
   useEffect(() => {
+    setIsLoading(true);
+
     getBoardById(params).then(
       (response) => {
         if (response) {
           response.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
           setBoard(response);
+          setIsLoading(false);
         }
       },
       (error) => {
@@ -58,7 +64,7 @@ export const Board = () => {
           (error.response && error.response.data && error.response.data.message) ||
           error.message ||
           error.toString();
-
+        setIsLoading(false);
         notify(resMessage);
       }
     );
@@ -280,49 +286,56 @@ export const Board = () => {
         </Button>
 
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Card
-            sx={{
-              minWidth: 0.6,
-              overflow: 'unset',
-              mt: '18px',
-              opacity: 0.9,
-              boxShadow: 'none',
-              p: '16px',
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            <Typography variant="h4" color="text.secondary" sx={{ mx: '10px' }}>
-              {board?.title}:
-            </Typography>
+          {isLoading ? (
+            <TitleSkeleton />
+          ) : (
+            <Card
+              sx={{
+                minWidth: 0.6,
+                overflow: 'unset',
+                mt: '18px',
+                opacity: 0.9,
+                boxShadow: 'none',
+                p: '16px',
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <Typography variant="h4" color="text.secondary" sx={{ mx: '10px' }}>
+                {board?.title}:
+              </Typography>
 
-            <Typography variant="h5" sx={{ fontSize: 16, pt: '1px' }} color="text.primary">
-              {board?.description}
-            </Typography>
-          </Card>
+              <Typography variant="h5" sx={{ fontSize: 16, pt: '1px' }} color="text.primary">
+                {board?.description}
+              </Typography>
+            </Card>
+          )}
         </Box>
+        {isLoading ? (
+          <ColumnSkeleton />
+        ) : (
+          <div className="columns-container">
+            <DragDropContext onDragEnd={handleDragEnd}>
+              <Droppable droppableId="all-columns" direction="horizontal" type="column">
+                {(provided) => (
+                  <div className="all-columns" ref={provided.innerRef} {...provided.droppableProps}>
+                    {columns}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
 
-        <div className="columns-container">
-          <DragDropContext onDragEnd={handleDragEnd}>
-            <Droppable droppableId="all-columns" direction="horizontal" type="column">
-              {(provided) => (
-                <div className="all-columns" ref={provided.innerRef} {...provided.droppableProps}>
-                  {columns}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
-
-          <Button
-            variant="contained"
-            className="button-add-item"
-            startIcon={<AddIcon />}
-            onClick={() => setIsAddColumnFormOpen(true)}
-          >
-            {localizationContent.buttons.addColumn}
-          </Button>
-        </div>
+            <Button
+              variant="contained"
+              className="button-add-item"
+              startIcon={<AddIcon />}
+              onClick={() => setIsAddColumnFormOpen(true)}
+            >
+              {localizationContent.buttons.addColumn}
+            </Button>
+          </div>
+        )}
       </div>
 
       <Footer />
