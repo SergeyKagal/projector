@@ -139,7 +139,7 @@ export const Main = () => {
 
         {boardToDelete && (
           <ConfirmPopUp
-            description={`Are you sure to delete board "${boardToDelete.title}"?`}
+            description={`${localizationContent.deleteBoard.description} "${boardToDelete.title}"?`}
             isOpen={isShowConfirmPopUp}
             toShowPopUp={setShowConfirmPopUp}
             onConfirm={() => {
