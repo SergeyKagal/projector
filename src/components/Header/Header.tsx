@@ -99,8 +99,11 @@ export const Header: React.FC<IHeaderProps> = (props) => {
                     }}
                   >
                     {window.location.pathname === '/main' && (
-                      <MenuItem onClick={handleCloseNavMenu} sx={{ p: 0 }}>
-                        <Button color="inherit" onClick={props.setMainPageBgr}>
+                      <MenuItem
+                        onClick={handleCloseNavMenu}
+                        sx={{ p: 0, justifyContent: 'flex-start' }}
+                      >
+                        <Button color="inherit" onClick={props.setMainPageBgr} fullWidth>
                           {localizationContent.changeBgr}
                         </Button>
                       </MenuItem>

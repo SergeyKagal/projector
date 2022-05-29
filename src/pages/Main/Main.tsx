@@ -115,10 +115,10 @@ export const Main = () => {
   });
 
   return (
-    <>
+    <div className="main-page" style={{ backgroundImage: `url(${bgrUrl})` }}>
       <Header setMainPageBgr={changeBackground} />
 
-      <main className="boards" style={{ backgroundImage: `url(${bgrUrl})` }}>
+      <main className="boards">
         <Card
           sx={{
             width: '220px',
@@ -148,11 +148,11 @@ export const Main = () => {
           />
         )}
       </main>
-
-      <Footer />
       <Notification />
+      <Footer />
+
       {isCreateNewBoardOpen && <AddNewBoardForm />}
-    </>
+    </div>
   );
 };
 
