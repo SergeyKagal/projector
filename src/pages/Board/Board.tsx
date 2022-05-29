@@ -37,7 +37,8 @@ export const Board = () => {
   const [taskToEdit, setTaskToEdit] = useState<ITask | null>(null);
   const [taskToDelete, setTaskToDelete] = useState<ITask | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [isDeleteDisabled, setIsDeleteDisabled] = useState(false);
+
   const { isCreateNewBoardOpen } = useContext(GlobalContext);
 
   const bgrUrl = localStorage.getItem('bgrUrl') || '';
@@ -70,8 +71,8 @@ export const Board = () => {
   }, [params]);
 
   const handleDeleteColumn = async (columnToDelete: IColumn) => {
+    setIsDeleteDisabled(true);
     if (!board) return;
-    setIsDeleting(true);
     try {
       await deleteColumn(board.id, columnToDelete.id).then((res) => {
         if (res.status === 204) {
@@ -90,11 +91,12 @@ export const Board = () => {
     } finally {
       setShowConfirmPopUp(false);
       setColumnToDelete(null);
-      setIsDeleting(false);
+      setIsDeleteDisabled(false);
     }
   };
 
   const handleDeleteTask = async (task: ITask) => {
+    setIsDeleteDisabled(true);
     if (!board) return;
 
     try {
@@ -113,6 +115,7 @@ export const Board = () => {
         notify(resMessage);
       }
     } finally {
+      setIsDeleteDisabled(false);
       setShowConfirmPopUp(false);
       setTaskToDelete(null);
     }
@@ -138,7 +141,6 @@ export const Board = () => {
         setColumnToAddTask={setColumnToAddTask}
         setTaskToEdit={setTaskToEdit}
         setTaskToDelete={setTaskToDelete}
-        disabled={isDeleting}
       />
     );
   });
@@ -385,6 +387,7 @@ export const Board = () => {
             setShowConfirmPopUp(false);
             setColumnToDelete(null);
           }}
+          isDisabled={isDeleteDisabled}
         />
       )}
 
@@ -420,6 +423,7 @@ export const Board = () => {
             setShowConfirmPopUp(false);
             setTaskToDelete(null);
           }}
+          isDisabled={isDeleteDisabled}
         />
       )}
 

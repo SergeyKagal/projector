@@ -30,7 +30,6 @@ interface IColumnProps {
   setColumnToAddTask: (column: IColumn | null) => void;
   setTaskToEdit: (task: ITask | null) => void;
   setTaskToDelete: (task: ITask | null) => void;
-  disabled: boolean;
 }
 
 interface IState {
@@ -130,7 +129,6 @@ const Column = (props: IColumnProps) => {
             </Typography>
 
             <Button
-              disabled={props.disabled}
               sx={{ p: '2px', minWidth: '' }}
               onClick={() => handleClick()}
             >
