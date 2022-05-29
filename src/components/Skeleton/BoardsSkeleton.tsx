@@ -2,11 +2,11 @@ import { Card, CardContent, Skeleton } from '@mui/material';
 import '../../pages/Main/Main.scss';
 
 const BoardsSkeleton = () => {
-  const n = 7;
+  const cardsCount = 7;
 
   return (
     <div className="boards__container">
-      {[...Array(n)].map((e, i) => (
+      {[...Array(cardsCount)].map((e, i) => (
         <Card
           key={i}
           className="boards__card"

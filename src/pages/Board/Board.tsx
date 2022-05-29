@@ -37,6 +37,7 @@ export const Board = () => {
   const [taskToEdit, setTaskToEdit] = useState<ITask | null>(null);
   const [taskToDelete, setTaskToDelete] = useState<ITask | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const { isCreateNewBoardOpen } = useContext(GlobalContext);
 
   const bgrUrl = localStorage.getItem('bgrUrl') || '';
@@ -70,6 +71,7 @@ export const Board = () => {
 
   const handleDeleteColumn = async (columnToDelete: IColumn) => {
     if (!board) return;
+    setIsDeleting(true);
     try {
       await deleteColumn(board.id, columnToDelete.id).then((res) => {
         if (res.status === 204) {
@@ -88,6 +90,7 @@ export const Board = () => {
     } finally {
       setShowConfirmPopUp(false);
       setColumnToDelete(null);
+      setIsDeleting(false);
     }
   };
 
@@ -135,6 +138,7 @@ export const Board = () => {
         setColumnToAddTask={setColumnToAddTask}
         setTaskToEdit={setTaskToEdit}
         setTaskToDelete={setTaskToDelete}
+        disabled={isDeleting}
       />
     );
   });
@@ -308,26 +312,27 @@ export const Board = () => {
           {isLoading ? (
             <TitleSkeleton />
           ) : (
-            <Card
-              sx={{
-                minWidth: 0.6,
-                overflow: 'unset',
-                mt: '18px',
-                opacity: 0.9,
-                boxShadow: 'none',
-                p: '16px',
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              <Typography variant="h4" color="text.secondary" sx={{ mx: '10px' }}>
-                {board?.title}:
-              </Typography>
-
-              <Typography variant="h5" sx={{ fontSize: 16, pt: '1px' }} color="text.primary">
-                {board?.description}
-              </Typography>
-            </Card>
+            board && (
+              <Card
+                sx={{
+                  minWidth: 0.6,
+                  overflow: 'unset',
+                  mt: '18px',
+                  opacity: 0.9,
+                  boxShadow: 'none',
+                  p: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                <Typography variant="h4" color="text.secondary" sx={{ mx: '10px' }}>
+                  {board?.title}:
+                </Typography>
+                <Typography variant="h5" sx={{ fontSize: 16, pt: '1px' }} color="text.primary">
+                  {board?.description}
+                </Typography>
+              </Card>
+            )
           )}
         </Box>
         {isLoading ? (
