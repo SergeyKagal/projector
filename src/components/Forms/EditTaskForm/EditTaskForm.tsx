@@ -1,4 +1,4 @@
-import './AddNewTaskForm.scss';
+import './EditTaskForm.scss';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -6,24 +6,24 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { addTask, getBoardById, getUsers } from '../../api/api';
-import { IBoard, IColumn } from '../../constants/interfaces';
-import { notify } from '../Notification/Notification';
+import { getBoardById, getUsers, updateTask } from '../../../api/api';
+import { IBoard, IColumn, ITask } from '../../../constants/interfaces';
+import { notify } from '../../Notification/Notification';
 import { useEffect, useState } from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
-import { localizationContent } from '../../localization/types';
-import Container from '@mui/material/Container';
+import { localizationContent } from '../../../localization/types';
 import Grid from '@mui/material/Grid';
+import Container from '@mui/material/Container';
 
-interface addNewTaskProps {
-  setColumnToAddTask: (column: IColumn | null) => void;
+interface EditTaskProps {
   setBoard: (board: IBoard) => void;
+  setTaskToEdit: (taskId: ITask | null) => void;
+  task: ITask;
   boardId: string;
-  column: IColumn;
 }
 
 interface User {
@@ -32,8 +32,9 @@ interface User {
   login: string;
 }
 
-const AddNewTaskForm = (props: addNewTaskProps) => {
+const EditTaskForm = (props: EditTaskProps) => {
   const [users, setUsers] = useState<User[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getUsers().then(
@@ -57,10 +58,12 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
     user: string;
   }
 
+  const defaultUser = users.find((user) => user.id === props.task.userId);
+
   const initialState = {
-    title: '',
-    description: '',
-    user: '',
+    title: props.task.title,
+    description: props.task.description,
+    user: defaultUser ? defaultUser.id : '',
   };
 
   const validationSchema = Yup.object({
@@ -75,20 +78,22 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
     user: Yup.string().required('This field is required!'),
   });
 
-  const addNewTask = async (formValue: IState) => {
+  const editTask = async (formValue: IState) => {
     const newTask = {
+      id: props.task.id,
       title: formValue.title,
+      order: props.task.order,
       description: formValue.description,
       userId: formValue.user,
       boardId: props.boardId,
-      columnId: props.column.id,
+      columnId: props.task.columnId,
     };
 
+    setIsLoading(true);
+
     try {
-      await addTask(props.boardId, props.column.id, newTask).then((res) => {
-        notify(`${localizationContent.task} ${res.title} ${localizationContent.added[0]}`);
-      });
-      const newBoard = await getBoardById(props.boardId);
+      await updateTask(newTask);
+      const newBoard = await getBoardById(newTask.boardId);
       newBoard.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
       if (newBoard) {
         props.setBoard(newBoard);
@@ -99,22 +104,23 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
         notify(resMessage);
       }
     } finally {
-      props.setColumnToAddTask(null);
+      setIsLoading(false);
+      props.setTaskToEdit(null);
     }
   };
 
   const formik = useFormik({
     initialValues: initialState,
     validationSchema: validationSchema,
-    onSubmit: addNewTask,
+    onSubmit: editTask,
   });
 
   return (
-    <div className="addNewTask__container">
+    <div className="addNewColumn__container">
       <Container component="main" maxWidth="xs">
-        <Box component="form" onSubmit={formik.handleSubmit} className="addNewTask__form">
+        <Box component="form" onSubmit={formik.handleSubmit} className="editTask__form">
           <Typography component="h1" variant="h5">
-            {localizationContent.addNewTask.header}
+            {localizationContent.editTask.header}
           </Typography>
           <Box sx={{ px: 0, py: 2 }}>
             <TextField
@@ -142,29 +148,39 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
               error={formik.touched.description && Boolean(formik.errors.description)}
               helperText={formik.touched.description && formik.errors.description}
             />
-            <FormControl
-              fullWidth
-              sx={{ mt: 2 }}
-              error={formik.touched.user && Boolean(formik.errors.user)}
-            >
-              <InputLabel id="demo-simple-select-label">
+            <FormControl fullWidth sx={{ mt: 2 }} variant="outlined">
+              <InputLabel
+                id="demo-simple-select-label"
+                sx={{
+                  backgroundColor: '#fff',
+                  padding: '0 5px',
+                  transform: 'translate(14px, -9px) scale(0.75)',
+                }}
+              >
                 {localizationContent.addNewTask.user}
               </InputLabel>
+
               <Select
+                variant="outlined"
                 labelId="demo-simple-select-label"
                 name="user"
-                id="demo-simple-select"
                 value={formik.values.user}
-                label={localizationContent.addNewTask.user}
+                displayEmpty
                 onChange={formik.handleChange}
+                error={formik.touched.user && Boolean(formik.errors.user)}
               >
+                <MenuItem value="" selected={true}>
+                  {defaultUser ? defaultUser.name : ''}
+                </MenuItem>
+
                 {users.map((user) => (
                   <MenuItem key={user.id} value={user.id}>
                     {user.name}
                   </MenuItem>
                 ))}
-                <FormHelperText>{formik.touched.user && formik.errors.user}</FormHelperText>
               </Select>
+
+              <FormHelperText error>{formik.touched.user && formik.errors.user}</FormHelperText>
             </FormControl>
           </Box>
 
@@ -172,15 +188,20 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
             <Grid item xs>
               <Button
                 variant="outlined"
-                onClick={() => props.setColumnToAddTask(null)}
+                onClick={() => props.setTaskToEdit(null)}
                 sx={{ margin: '10px' }}
               >
                 {localizationContent.buttons.cancel}
               </Button>
             </Grid>
             <Grid>
-              <Button type="submit" variant="contained" sx={{ margin: '10px' }}>
-                {localizationContent.buttons.add}
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{ margin: '10px' }}
+                disabled={isLoading}
+              >
+                {localizationContent.buttons.save}
               </Button>
             </Grid>
           </Grid>
@@ -190,4 +211,4 @@ const AddNewTaskForm = (props: addNewTaskProps) => {
   );
 };
 
-export default AddNewTaskForm;
+export default EditTaskForm;

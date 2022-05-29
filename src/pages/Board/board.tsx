@@ -6,20 +6,20 @@ import Button from '@mui/material/Button';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import AddIcon from '@mui/icons-material/Add';
 import { deleteColumn, deleteTask, getBoardById, updateColumn, updateTask } from '../../api/api';
-import AddNewColumnForm from '../AddNewColumnForm/AddNewColumnForm';
-import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
-import { Header } from '../Header/Header';
+import AddNewColumnForm from '../../components/Forms/AddNewColumnForm/AddNewColumnForm';
+import ConfirmPopUp from '../../components/ConfirmPopUp/ConfirmPopUp';
+import { Header } from '../../components/Header/Header';
 import { IBoard, IColumn, ITask } from '../../constants/interfaces';
-import getColumnsColor from '../getColumnsColor/getColumnsColor';
+import getColumnsColor from '../../utils/getColumnsColor';
 import { GlobalContext } from '../../provider/provider';
-import AddNewBoardForm from '../AddNewBoardForm/AddNewBoardForm';
-import Notification, { notify } from '../Notification/Notification';
+import AddNewBoardForm from '../../components/Forms/AddNewBoardForm/AddNewBoardForm';
+import Notification, { notify } from '../../components/Notification/Notification';
 import { Card, Typography } from '@mui/material';
-import AddNewTaskForm from '../AddNewTaskForm/AddNewTaskForm';
-import EditTaskForm from '../EditTaskForm/EditTaskForm';
+import AddNewTaskForm from '../../components/Forms/AddNewTaskForm/AddNewTaskForm';
+import EditTaskForm from '../../components/Forms/EditTaskForm/EditTaskForm';
 import { localizationContent } from '../../localization/types';
-import Footer from '../Footer/Footer';
-import Column from '../Column/Column';
+import Footer from '../../components/Footer/Footer';
+import Column from '../../components/Column/Column';
 import './board.scss';
 import Box from '@mui/system/Box';
 import ColumnSkeleton from '../Skeleton/ColumnSkeleton';
@@ -41,12 +41,10 @@ export const Board = () => {
 
   const bgrUrl = localStorage.getItem('bgrUrl') || '';
 
-  const storedColors = board && window.localStorage.getItem(board.id);
+  const storedColors = board && window.localStorage.getItem(`ColorsForBoard#${board.id}`);
   const colors: Map<string, string> = storedColors
     ? new Map(Object.entries(JSON.parse(storedColors)))
     : getColumnsColor(board);
-
-  board && window.localStorage.setItem(board.id, JSON.stringify(Object.fromEntries(colors)));
 
   useEffect(() => {
     setIsLoading(true);
@@ -118,6 +116,12 @@ export const Board = () => {
   };
 
   const columns = board?.columns.map((column, index) => {
+    const currentColor = colors.get(column.id) || '#6a93e8';
+
+    if (!colors.get(column.id)) {
+      colors.set(column.id, currentColor);
+    }
+
     return (
       <Column
         index={index}
@@ -125,7 +129,7 @@ export const Board = () => {
         board={board}
         setBoard={setBoard}
         column={column}
-        color={colors ? (colors.get(column.id) as string) : '#6a93e8'}
+        color={currentColor}
         setColumnToDelete={setColumnToDelete}
         setShowConfirmPopUp={setShowConfirmPopUp}
         setColumnToAddTask={setColumnToAddTask}
@@ -134,6 +138,12 @@ export const Board = () => {
       />
     );
   });
+
+  board &&
+    window.localStorage.setItem(
+      `ColorsForBoard#${board.id}`,
+      JSON.stringify(Object.fromEntries(colors))
+    );
 
   async function handleDragEnd(result: DropResult) {
     const { destination, source, type } = result;
@@ -279,10 +289,19 @@ export const Board = () => {
 
       <div className="board" style={{ backgroundImage: `url(${bgrUrl})` }}>
         <Button
-          sx={{ position: 'absolute', top: '100px', left: '10px' }}
+          variant="contained"
+          sx={{
+            position: 'absolute',
+            top: '108px',
+            left: '46px',
+            backgroundColor: 'background.paper',
+            color: 'primary.main',
+            p: '12px',
+            opacity: 0.9,
+          }}
           onClick={() => navigate(-1)}
         >
-          <KeyboardBackspaceIcon sx={{ fontSize: '66px' }} />
+          <KeyboardBackspaceIcon sx={{ fontSize: '42px' }} />
         </Button>
 
         <Box sx={{ display: 'flex', alignItems: 'center' }}>

@@ -8,10 +8,10 @@ import {
   DialogActions,
 } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { signOut } from '../../api/api';
-import { getUserInformation, GlobalContext } from '../../provider/provider';
-import { localizationContent } from '../../localization/types';
-import { PATH } from '../../constants/paths';
+import { signOut } from '../../../api/api';
+import { getUserInformation, GlobalContext } from '../../../provider/provider';
+import { localizationContent } from '../../../localization/types';
+import { PATH } from '../../../constants/paths';
 import { useNavigate } from 'react-router-dom';
 
 const SignOut = () => {

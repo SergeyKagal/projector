@@ -15,15 +15,14 @@ import {
 } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-
-import { signIn, editProfile, deleteUser, getUserData } from '../../api/api';
-import { getUserInformation, GlobalContext } from '../../provider/provider';
-import Notification, { notify } from '../Notification/Notification';
-import ConfirmPopUp from '../ConfirmPopUp/ConfirmPopUp';
-import { signOut } from '../../api/api';
-import { PATH } from '../../constants/paths';
-import theme from '../../constants/theme';
-import { localizationContent } from '../../localization/types';
+import { signIn, editProfile, deleteUser, getUserData } from '../../../api/api';
+import { getUserInformation, GlobalContext } from '../../../provider/provider';
+import Notification, { notify } from '../../Notification/Notification';
+import ConfirmPopUp from '../../ConfirmPopUp/ConfirmPopUp';
+import { signOut } from '../../../api/api';
+import { PATH } from '../../../constants/paths';
+import theme from '../../../constants/theme';
+import { localizationContent } from '../../../localization/types';
 
 export const EditProfile = () => {
   const navigate = useNavigate();
@@ -53,6 +52,7 @@ export const EditProfile = () => {
   const [state, setState] = useState<IState>(initialState);
   const [deletePopUp, setDelete] = useState(false);
   const [userData, setUserData] = useState<IUser>();
+  const [isLoading, setIsLoading] = useState(false);
 
   const id = userState.userId || '';
 
@@ -83,6 +83,7 @@ export const EditProfile = () => {
 
     editProfile(username, email, password, id).then(
       () => {
+        setIsLoading(true);
         signIn(email, password);
         setState({
           ...state,
@@ -91,6 +92,7 @@ export const EditProfile = () => {
         setUserState(getUserInformation());
         notify(localizationContent.accSettings.succes);
         formik.resetForm();
+        setIsLoading(false);
       },
       (error) => {
         const resMessage =
@@ -99,6 +101,7 @@ export const EditProfile = () => {
           error.toString();
         setState({ ...state, successful: false });
         notify(resMessage);
+        setIsLoading(false);
       }
     );
   }
@@ -227,7 +230,13 @@ export const EditProfile = () => {
                     helperText={formik.touched.password && formik.errors.password}
                   />
                 </Box>
-                <Button type="submit" variant="contained" fullWidth sx={{ mt: 3, mb: 2 }}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  fullWidth
+                  sx={{ mt: 3, mb: 2 }}
+                  disabled={isLoading}
+                >
                   {localizationContent.buttons.save}
                 </Button>
                 <Button

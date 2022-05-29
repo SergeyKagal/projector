@@ -5,14 +5,14 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { addColumn, getBoardById } from '../../api/api';
-import { IBoard, IColumn } from '../../constants/interfaces';
-import { localizationContent } from '../../localization/types';
-import { notify } from '../Notification/Notification';
+import { addColumn, getBoardById } from '../../../api/api';
+import { IBoard, IColumn } from '../../../constants/interfaces';
+import { localizationContent } from '../../../localization/types';
+import { notify } from '../../Notification/Notification';
 import './AddNewColumnForm.scss';
 import { CirclePicker } from 'react-color';
 import { useState } from 'react';
-import theme from '../../constants/theme';
+import theme from '../../../constants/theme';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 
@@ -25,6 +25,7 @@ interface addNewColumnProps {
 
 const AddNewColumnForm = (props: addNewColumnProps) => {
   const [color, setColor] = useState(theme.palette.primary.main);
+  const [isLoading, setIsLoading] = useState(false);
 
   interface IState {
     title: string;
@@ -42,6 +43,8 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
   });
 
   const addNewColumn = async (formValue: IState) => {
+    setIsLoading(true);
+
     try {
       const { title } = formValue;
 
@@ -55,7 +58,11 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
       newBoard.columns.sort((a: IColumn, b: IColumn) => (a.order > b.order ? 1 : -1));
 
       const newColors = props.colors.set(response.data.id, color);
-      window.localStorage.setItem(props.board.id, JSON.stringify(Object.fromEntries(newColors)));
+
+      window.localStorage.setItem(
+        `ColorsForBoard#${props.board.id}`,
+        JSON.stringify(Object.fromEntries(newColors))
+      );
 
       if (newBoard) {
         props.setBoard(newBoard);
@@ -66,6 +73,7 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
         notify(resMessage);
       }
     } finally {
+      setIsLoading(false);
       props.setIsAddColumnFormOpen(false);
     }
   };
@@ -84,7 +92,7 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
             {localizationContent.addColumn.header}
           </Typography>
 
-          <Box sx={{ px: 0, pt: 2, pb: 1 }}>
+          <Box sx={{ width: '100%', px: 0, pt: 2, pb: 1 }}>
             <TextField
               sx={{ mt: 2 }}
               fullWidth
@@ -129,7 +137,12 @@ const AddNewColumnForm = (props: addNewColumnProps) => {
               </Button>
             </Grid>
             <Grid>
-              <Button type="submit" variant="contained" sx={{ margin: '10px' }}>
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{ margin: '10px' }}
+                disabled={isLoading}
+              >
                 {localizationContent.buttons.add}
               </Button>
             </Grid>

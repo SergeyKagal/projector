@@ -9,7 +9,7 @@ import { LangToggler } from './LangToggler/LangToggler';
 import { CreateNewBoard } from './CreateNewBoard/CreateNewBoard';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { Link as RouterLink } from 'react-router-dom';
-import SignOut from '../SignOut/SignOut';
+import SignOut from '../Authorization/SignOut/SignOut';
 import { GlobalContext } from '../../provider/provider';
 import { useContext } from 'react';
 import { localizationContent } from '../../localization/types';

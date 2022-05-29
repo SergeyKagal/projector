@@ -1,4 +1,4 @@
-.addNewColumn {
+.addNewTask {
   &__container {
     background-color: rgba(0, 0, 0, 0.5);
     height: 100%;
@@ -13,10 +13,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    .color-text {
-      font-size: 1rem;
-      color: #6a93e8;
-    }
+    z-index: 1200;
   }
 
   &__form {
