@@ -121,9 +121,7 @@ export const Main = () => {
   return (
     <>
       <Header setMainPageBgr={changeBackground} />
-      {isLoading ? (
-        <BoardsSkeleton />
-      ) : (
+      
         <main className="boards" style={{ backgroundImage: `url(${bgrUrl})` }}>
           <Card
             sx={{
@@ -140,8 +138,11 @@ export const Main = () => {
               {localizationContent.boardList}
             </Typography>
           </Card>
-
+          {isLoading ? (
+        <BoardsSkeleton />
+      ) : (
           <div className="boards__container">{boardsToShow}</div>
+          )}
 
           {boardToDelete && (
             <ConfirmPopUp
@@ -154,7 +155,6 @@ export const Main = () => {
             />
           )}
         </main>
-      )}
 
       <Footer />
       <Notification />
