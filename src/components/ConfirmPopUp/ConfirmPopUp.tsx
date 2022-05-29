@@ -11,6 +11,7 @@ import { localizationContent } from '../../localization/types';
 
 interface IConfirm {
   isOpen: boolean;
+  isDisabled?: boolean;
   toShowPopUp: (isShow: boolean) => void;
   onConfirm?: () => void;
   child?: JSX.Element;
@@ -44,7 +45,7 @@ const ConfirmPopUp = (props: IConfirm) => {
           >
             {localizationContent.buttons.cancel}
           </Button>
-          <Button color="error" variant="contained" onClick={props.onConfirm}>
+          <Button color="error" variant="contained" onClick={props.onConfirm} disabled={props.isDisabled}>
             {localizationContent.buttons.delete}
           </Button>
         </DialogActions>
