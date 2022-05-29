@@ -128,7 +128,10 @@ const Column = (props: IColumnProps) => {
               {<EditIcon className="column-edit" />}
             </Typography>
 
-            <Button sx={{ p: '2px', minWidth: '' }} onClick={() => handleClick()}>
+            <Button
+              sx={{ p: '2px', minWidth: '' }}
+              onClick={() => handleClick()}
+            >
               {<DeleteIcon />}
             </Button>
 

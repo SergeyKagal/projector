@@ -17,6 +17,7 @@ import { localizationContent } from '../../localization/types';
 import Footer from '../../components/Footer/Footer';
 import Notification, { notify } from '../../components/Notification/Notification';
 import axios from 'axios';
+import BoardsSkeleton from '../../components/Skeleton/BoardsSkeleton';
 
 export const Main = () => {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ export const Main = () => {
     useContext(GlobalContext);
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
   const [boardToDelete, setBoardToDelete] = useState<IBoard | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [bgrUrl, setBgrUrl] = useState('' || localStorage.getItem('bgrUrl'));
 
   const changeBackground = async () => {
@@ -35,10 +37,12 @@ export const Main = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     getBoards().then(
       (response) => {
         if (response) {
           setBoardsArray(response);
+          setIsLoading(false);
         }
       },
       (error) => {
@@ -46,7 +50,7 @@ export const Main = () => {
           (error.response && error.response.data && error.response.data.message) ||
           error.message ||
           error.toString();
-
+        setIsLoading(false);
         notify(resMessage);
       }
     );
@@ -118,7 +122,7 @@ export const Main = () => {
     <div className="main-page" style={{ backgroundImage: `url(${bgrUrl})` }}>
       <Header setMainPageBgr={changeBackground} />
 
-      <main className="boards">
+      <main className="boards" style={{ backgroundImage: `url(${bgrUrl})` }}>
         <Card
           sx={{
             width: '220px',
@@ -134,12 +138,11 @@ export const Main = () => {
             {localizationContent.boardList}
           </Typography>
         </Card>
-
-        <div className="boards__container">{boardsToShow}</div>
+        {isLoading ? <BoardsSkeleton /> : <div className="boards__container">{boardsToShow}</div>}
 
         {boardToDelete && (
           <ConfirmPopUp
-            description={`${localizationContent.deleteBoard.description} "${boardToDelete.title}"?`}
+            description={`Are you sure to delete board "${boardToDelete.title}"?`}
             isOpen={isShowConfirmPopUp}
             toShowPopUp={setShowConfirmPopUp}
             onConfirm={() => {
@@ -148,6 +151,8 @@ export const Main = () => {
           />
         )}
       </main>
+
+      <Footer />
       <Notification />
       <Footer />
 
