@@ -152,7 +152,6 @@ export const Main = () => {
         )}
       </main>
 
-      <Footer />
       <Notification />
       <Footer />
 
