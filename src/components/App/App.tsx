@@ -12,7 +12,7 @@ import { PATH } from '../../constants/paths';
 import './App.scss';
 import { localizationContent } from '../../localization/types';
 import theme from '../../constants/theme';
-import { Board } from '../../pages/Board/Board';
+import { Board } from '../../pages/Board/board';
 import { IBoard } from '../../constants/interfaces';
 import { ErrorPage } from '../ErrorPage/ErrorPage';
 

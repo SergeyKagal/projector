@@ -17,7 +17,6 @@ import { localizationContent } from '../../localization/types';
 import Footer from '../../components/Footer/Footer';
 import Notification, { notify } from '../../components/Notification/Notification';
 import axios from 'axios';
-import BoardsSkeleton from '../../components/Skeleton/BoardsSkeleton';
 
 export const Main = () => {
   const navigate = useNavigate();
@@ -26,7 +25,6 @@ export const Main = () => {
     useContext(GlobalContext);
   const [isShowConfirmPopUp, setShowConfirmPopUp] = useState(false);
   const [boardToDelete, setBoardToDelete] = useState<IBoard | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [bgrUrl, setBgrUrl] = useState('' || localStorage.getItem('bgrUrl'));
 
   const changeBackground = async () => {
@@ -37,12 +35,10 @@ export const Main = () => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
     getBoards().then(
       (response) => {
         if (response) {
           setBoardsArray(response);
-          setIsLoading(false);
         }
       },
       (error) => {
@@ -50,7 +46,7 @@ export const Main = () => {
           (error.response && error.response.data && error.response.data.message) ||
           error.message ||
           error.toString();
-        setIsLoading(false);
+
         notify(resMessage);
       }
     );
@@ -121,40 +117,37 @@ export const Main = () => {
   return (
     <>
       <Header setMainPageBgr={changeBackground} />
-      {isLoading ? (
-        <BoardsSkeleton />
-      ) : (
-        <main className="boards" style={{ backgroundImage: `url(${bgrUrl})` }}>
-          <Card
-            sx={{
-              width: '220px',
-              overflow: 'unset',
-              mt: '18px',
 
-              opacity: 0.9,
-              my: '30px',
-              boxShadow: 'none',
+      <main className="boards" style={{ backgroundImage: `url(${bgrUrl})` }}>
+        <Card
+          sx={{
+            width: '220px',
+            overflow: 'unset',
+            mt: '18px',
+
+            opacity: 0.9,
+            my: '30px',
+            boxShadow: 'none',
+          }}
+        >
+          <Typography variant="h4" align="center" color="text.secondary" sx={{ p: '15px' }}>
+            {localizationContent.boardList}
+          </Typography>
+        </Card>
+
+        <div className="boards__container">{boardsToShow}</div>
+
+        {boardToDelete && (
+          <ConfirmPopUp
+            description={`Are you sure to delete board "${boardToDelete.title}"?`}
+            isOpen={isShowConfirmPopUp}
+            toShowPopUp={setShowConfirmPopUp}
+            onConfirm={() => {
+              handleDeleteBoard(boardToDelete);
             }}
-          >
-            <Typography variant="h4" align="center" color="text.secondary" sx={{ p: '15px' }}>
-              {localizationContent.boardList}
-            </Typography>
-          </Card>
-
-          <div className="boards__container">{boardsToShow}</div>
-
-          {boardToDelete && (
-            <ConfirmPopUp
-              description={`Are you sure to delete board "${boardToDelete.title}"?`}
-              isOpen={isShowConfirmPopUp}
-              toShowPopUp={setShowConfirmPopUp}
-              onConfirm={() => {
-                handleDeleteBoard(boardToDelete);
-              }}
-            />
-          )}
-        </main>
-      )}
+          />
+        )}
+      </main>
 
       <Footer />
       <Notification />
