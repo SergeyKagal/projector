@@ -20,10 +20,10 @@ import EditTaskForm from '../../components/Forms/EditTaskForm/EditTaskForm';
 import { localizationContent } from '../../localization/types';
 import Footer from '../../components/Footer/Footer';
 import Column from '../../components/Column/Column';
-import './board.scss';
+import './Board.scss';
 import Box from '@mui/system/Box';
-import ColumnSkeleton from '../Skeleton/ColumnSkeleton';
-import TitleSkeleton from '../Skeleton/TitleSkeleton';
+import TitleSkeleton from '../../components/Skeleton/TitleSkeleton';
+import ColumnSkeleton from '../../components/Skeleton/ColumnSkeleton';
 
 export const Board = () => {
   const navigate = useNavigate();

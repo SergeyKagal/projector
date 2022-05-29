@@ -17,7 +17,7 @@ import { localizationContent } from '../../localization/types';
 import Footer from '../../components/Footer/Footer';
 import Notification, { notify } from '../../components/Notification/Notification';
 import axios from 'axios';
-import BoardsSkeleton from '../Skeleton/BoardsSkeleton';
+import BoardsSkeleton from '../../components/Skeleton/BoardsSkeleton';
 
 export const Main = () => {
   const navigate = useNavigate();

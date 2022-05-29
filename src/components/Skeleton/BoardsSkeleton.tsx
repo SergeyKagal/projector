@@ -1,5 +1,5 @@
 import { Card, CardContent, Skeleton } from '@mui/material';
-import '../Main/Main.scss';
+import '../../pages/Main/Main.scss';
 
 const BoardsSkeleton = () => {
   return (
