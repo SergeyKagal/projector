@@ -30,7 +30,7 @@ function App() {
   const [stickyHeader, setStickyHeader] = useState(false);
 
   const scrollHandler = () => {
-    if (window.scrollY >= 5) {
+    if (userState.isUserSignIn && window.scrollY >= 5) {
       setStickyHeader(true);
     } else {
       setStickyHeader(false);
