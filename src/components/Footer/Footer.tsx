@@ -7,30 +7,31 @@ import Copyright from '../Copyright/Copyright';
 const Footer = () => {
   return (
     <Box className="footer" component="footer">
-      <div className="footer__container">
+      <Box className="footer__container">
         <div className="footer__side">
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            align="left"
-            sx={{ display: 'flex', alignItems: 'center' }}
+          <Link
+            color="inherit"
+            href="https://rs.school/react/"
+            target="_blank"
+            className="footer__RS-link"
+            sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}
           >
-            <Link
-              color="inherit"
-              href="https://rs.school/react/"
-              target="_blank"
-              className="footer__RS-link"
+            <img className="rs-logo" src="/rs_school_js.svg" alt="rs logo" />
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              align="left"
+              sx={{ display: { xs: 'none', md: 'flex' } }}
             >
-              <img className="rs-logo" src="/rs_school_js.svg" alt="rs logo" />
               Online course «React developing»
-            </Link>
-          </Typography>
+            </Typography>
+          </Link>
         </div>
 
         <div className="footer__side">
           <Copyright />
         </div>
-      </div>
+      </Box>
     </Box>
   );
 };

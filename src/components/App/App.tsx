@@ -14,7 +14,7 @@ import { localizationContent } from '../../localization/types';
 import theme from '../../constants/theme';
 import { Board } from '../../pages/Board/Board';
 import { IBoard } from '../../constants/interfaces';
-import { ErrorPage } from '../ErrorPage/ErrorPage';
+import { ErrorPage } from '../../pages/ErrorPage/ErrorPage';
 
 import { errors } from '../../constants/errors';
 import ErrorBoundary from './ErrorBoundary';
@@ -30,7 +30,7 @@ function App() {
   const [stickyHeader, setStickyHeader] = useState(false);
 
   const scrollHandler = () => {
-    if (window.scrollY >= 5) {
+    if (userState.isUserSignIn && window.scrollY >= 5) {
       setStickyHeader(true);
     } else {
       setStickyHeader(false);

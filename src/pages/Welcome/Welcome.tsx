@@ -48,7 +48,7 @@ const Welcome = () => {
               </Button>
             </Toolbar>
           )}
-          <LangToggler></LangToggler>
+          <LangToggler isDesktopMode={true} />
         </Toolbar>
       </AppBar>
 
@@ -60,7 +60,7 @@ const Welcome = () => {
           }}
         >
           <Container
-            maxWidth="sm"
+            maxWidth="md"
             sx={{ display: 'flex', flexDirection: 'column', alignContent: 'center' }}
           >
             <Typography
@@ -111,8 +111,8 @@ const Welcome = () => {
                   <Card
                     sx={{
                       p: '10px',
-                      height: '270px',
-                      width: '200px',
+                      height: '290px',
+                      width: '190px',
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
@@ -137,7 +137,11 @@ const Welcome = () => {
                       <Typography variant="h6">{localizationContent.jobs[i]}</Typography>
                     </CardContent>
                     <CardActions>
-                      <Button size="small" href={teamMate.gitHubLink} target="_blank" sx={{ p: 0 }}>
+                      <Button
+                        href={teamMate.gitHubLink}
+                        target="_blank"
+                        sx={{ p: 0, height: '18px' }}
+                      >
                         {localizationContent.gitHubLink}
                       </Button>
                     </CardActions>

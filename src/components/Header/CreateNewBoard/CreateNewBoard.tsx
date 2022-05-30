@@ -4,7 +4,7 @@ import { localizationContent } from '../../../localization/types';
 import { useContext } from 'react';
 import { GlobalContext } from '../../../provider/provider';
 
-export const CreateNewBoard = () => {
+export const CreateNewBoard = (props: { isDesktopMode: boolean }) => {
   const { setIsCreateNewBoardOpen } = useContext(GlobalContext);
 
   return (
@@ -13,6 +13,7 @@ export const CreateNewBoard = () => {
       onClick={() => {
         setIsCreateNewBoardOpen(true);
       }}
+      fullWidth={!props.isDesktopMode}
     >
       <AddIcon />
       {localizationContent.addBoard}

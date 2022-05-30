@@ -5,12 +5,13 @@ export const en = {
   signin: 'sign in',
   signup: 'sign up',
   changeBgr: 'change wallpaper',
+  editProfile: 'Edit profile',
 
   names: ['Sergey', 'Ravganiyat', 'Elena'],
   jobs: [
     'Project build. CI/CD. Routing. Localization. Header. Styles.',
-    `Authorization. Drag'n'drop. User profile.`,
-    'Welcome page. Board page. Styles.',
+    `Authorization. Drag'n'drop. User profile. Preloader.`,
+    'Welcome and board pages.  Styles, adaptive. Add functionality.',
   ],
   gitHubLink: 'View Github',
   addBoard: 'Add new board',
@@ -70,6 +71,10 @@ export const en = {
   deleteTask: {
     title: 'Delete Confirmation',
     description: 'Are you sure to delete task',
+  },
+  deleteBoard: {
+    title: 'Delete Confirmation',
+    description: 'Are you sure to delete board',
   },
   redirectionPopup: {
     title: 'Redirect Confirmation',

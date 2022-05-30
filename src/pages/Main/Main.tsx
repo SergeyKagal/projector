@@ -119,47 +119,44 @@ export const Main = () => {
   });
 
   return (
-    <>
+    <div className="main-page" style={{ backgroundImage: `url(${bgrUrl})` }}>
       <Header setMainPageBgr={changeBackground} />
-      
-        <main className="boards" style={{ backgroundImage: `url(${bgrUrl})` }}>
-          <Card
-            sx={{
-              width: '220px',
-              overflow: 'unset',
-              mt: '18px',
 
-              opacity: 0.9,
-              my: '30px',
-              boxShadow: 'none',
+      <main className="boards" style={{ backgroundImage: `url(${bgrUrl})` }}>
+        <Card
+          sx={{
+            width: '220px',
+            overflow: 'unset',
+            mt: '18px',
+
+            opacity: 0.9,
+            my: '30px',
+            boxShadow: 'none',
+          }}
+        >
+          <Typography variant="h4" align="center" color="text.secondary" sx={{ p: '15px' }}>
+            {localizationContent.boardList}
+          </Typography>
+        </Card>
+        {isLoading ? <BoardsSkeleton /> : <div className="boards__container">{boardsToShow}</div>}
+
+        {boardToDelete && (
+          <ConfirmPopUp
+            description={`Are you sure to delete board "${boardToDelete.title}"?`}
+            isOpen={isShowConfirmPopUp}
+            toShowPopUp={setShowConfirmPopUp}
+            onConfirm={() => {
+              handleDeleteBoard(boardToDelete);
             }}
-          >
-            <Typography variant="h4" align="center" color="text.secondary" sx={{ p: '15px' }}>
-              {localizationContent.boardList}
-            </Typography>
-          </Card>
-          {isLoading ? (
-        <BoardsSkeleton />
-      ) : (
-          <div className="boards__container">{boardsToShow}</div>
-          )}
+          />
+        )}
+      </main>
 
-          {boardToDelete && (
-            <ConfirmPopUp
-              description={`Are you sure to delete board "${boardToDelete.title}"?`}
-              isOpen={isShowConfirmPopUp}
-              toShowPopUp={setShowConfirmPopUp}
-              onConfirm={() => {
-                handleDeleteBoard(boardToDelete);
-              }}
-            />
-          )}
-        </main>
-
-      <Footer />
       <Notification />
+      <Footer />
+
       {isCreateNewBoardOpen && <AddNewBoardForm />}
-    </>
+    </div>
   );
 };
 
